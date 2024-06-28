@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 문서양 식(DocumentTypes) 엔티티 : 문서양식명, 문서설명, 문서 권한, 문서파일명
+ * 문서양식(DocumentType) 엔티티 : 문서양식명, 문서설명, 문서 권한, 문서파일명
  * @author 원치호
  * @version 1.0
  * 2024-06-27
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "DocumentTypes")
+@Table(name = "DocumentType")
 @NoArgsConstructor
 @AllArgsConstructor
 public class DocumentType {
@@ -28,18 +28,18 @@ public class DocumentType {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "document_type_seq")
     @SequenceGenerator(name = "document_type_seq", sequenceName = "document_type_seq", allocationSize = 1)
     @Column(name = "document_type_id")
-    private Long documentTypeId;
+    private Long documentTypeId; // 문서 양식 ID
 
     @Column(name = "document_type_name", length = 100)
-    private String documentTypeName;
+    private String documentTypeName; // 문서 양식 이름
 
     @Column(name = "document_type_content", length = 255)
-    private String documentTypeContent;
+    private String documentTypeContent; // 문서 양식 내용
 
     @Column(name = "document_authority", length = 255)
-    private String documentAuthority;
+    private String documentAuthority; // 권한
 
     @Column(name = "document_form_name", length = 100)
-    private String documentFormName;
+    private String documentFormName; // 첨부 양식
 
 }
