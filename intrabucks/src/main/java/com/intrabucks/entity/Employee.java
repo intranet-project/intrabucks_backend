@@ -17,7 +17,12 @@ import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * 사원 테이블(Employee) 엔티티로, 사원 테이블에 대한 내용을 담고 있음
+ * @author 구은재
+ * @version 1.0
+ * 2024-06-26
+ * **/
 @Entity
 @Data
 @Table(name = "Employee")
@@ -30,7 +35,7 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_seq")
 	@SequenceGenerator(name = "emp_seq", sequenceName = "emp_seq", allocationSize = 1)
 	@Column(name = "emp_id")
-	private Long empId;
+	private Long empId; // 사원 ID
 	
 	@Column(name = "emp_name")
     private String empName; // 이름

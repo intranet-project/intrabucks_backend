@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 전자결재 테이블(AttachedFiles ) 엔티티로, 첨부파일 테이블에 대한 내용을 담고 있음
+ * 전자결재 테이블(AttachedFile) 엔티티로, 첨부파일 테이블에 대한 내용을 담고 있음
  * @author 구은재
  * @version 1.0
  * 2024-06-27
