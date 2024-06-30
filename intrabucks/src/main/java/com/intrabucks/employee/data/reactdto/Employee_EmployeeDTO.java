@@ -6,6 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 직원(Employee) DTO
+ * @author 구은재
+ * @version 1.0 
+ * 2024-06-30
+ **/
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +26,6 @@ public class Employee_EmployeeDTO {
     private String empAddress; // 주소
     private Date empJoinDate; // 입사일
     private String empPosition; // 직책
-    //private String deptCode; // 부서 이름
+    private String deptCode; // 부서 이름
     private String workState; // 재직 상태 (Y/N)
 }

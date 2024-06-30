@@ -1,11 +1,8 @@
 package com.intrabucks.employee.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,8 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.intrabucks.employee.data.reactdto.Employee_EmployeeDTO;
 import com.intrabucks.employee.service.EmployeeService;
 
+/**
+ * 직원(Employee) Controller : CRUD 직원등록, 직원전체조회, 직원ID조회, 직원정보수정, 직원정보삭제 (Talend완료)
+ * @author 구은재
+ * @version 1.0 
+ * 2024-06-30
+**/
+
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/api/employee")
 public class EmployeeController {
 
 	private final EmployeeService employeeService;
@@ -32,15 +36,14 @@ public class EmployeeController {
 		this.employeeService = employeeService;
 	}
 
-	// 직원신규등록
+	/**직원등록*/
 	@PostMapping("/create")
 	public ResponseEntity<Long> createEmployee(@RequestBody Employee_EmployeeDTO employeeDTO) {
 		Long empId = employeeService.createEmployee(employeeDTO);
-		// return new ResponseEntity<>(empId, HttpStatus.CREATED);
 		return ResponseEntity.ok().body(empId);
 	}
 
-	// 직원전체조회
+	/**직원전체조회*/
 	@GetMapping("/select")
 	public ResponseEntity<Page<Employee_EmployeeDTO>> getAllEmployees(@RequestParam(required = false) String empName,
 			@RequestParam(required = false) Integer page, @RequestParam(defaultValue = "10") int size) {
@@ -51,7 +54,7 @@ public class EmployeeController {
 		return ResponseEntity.ok().body(employees);
 	}
 
-	// 직원ID조회
+	/**직원ID조회*/
 	@GetMapping("/{empId}")
 	public ResponseEntity<Employee_EmployeeDTO> selectOneEmployee(@PathVariable Long empId) {
 		Employee_EmployeeDTO employeeDTO = employeeService.selectOneEmployee(empId);
@@ -63,15 +66,14 @@ public class EmployeeController {
 		}
 	}
 
-	// 직원정보수정
-	@PutMapping("/update")
+	/**직원정보수정*/
+	@PutMapping("/update/{empId}")
 	public ResponseEntity<Long> updateEmployee(@RequestBody Employee_EmployeeDTO employeeDTO) {
-		Long empId = employeeService.createEmployee(employeeDTO);
-		// return new ResponseEntity<>(empId, HttpStatus.update);
+		Long empId = employeeService.updateEmployee(employeeDTO);
 		return ResponseEntity.ok().body(empId);
 	}
 
-	// 직원정보삭제
+	/**직원정보삭제*/
 	@DeleteMapping("/delete/{empId}")
 	public ResponseEntity<Long> deleteEmployee(@PathVariable Long empId) {
 		Long deletedempId = employeeService.deleteEmpoyee(empId);

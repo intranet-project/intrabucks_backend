@@ -14,6 +14,13 @@ import com.intrabucks.employee.data.repository.EmployeeRepository;
 import com.intrabucks.entity.Department;
 import com.intrabucks.entity.Employee;
 
+/**
+ * 직원(Employee) ServiceImpl : CRUD
+ * @author 구은재
+ * @version 1.0 
+ * 2024-06-30
+ **/
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -23,25 +30,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
 		this.employeeRepository = employeeRepository;
 		this.departmentRepository = departmentRepository;
-		
 	}
 
 	/**직원신규등록*/
 	@Override
 	public Long createEmployee(Employee_EmployeeDTO employeeDTO) {
-		// Department department = DepartmentRepository.findById(employeeDTO.getDeptCode())
-		//	        .orElseThrow(() -> new IllegalArgumentException("Invalid Department Code: " + employeeDTO.getDeptCode()));
+		String deptCode = employeeDTO.getDeptCode(); // 수정된 부분: deptCode 추출
+        Department department = departmentRepository.findByDeptCode(deptCode)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Department Code: " + deptCode));
 		 
 		Employee employee = new Employee();
-		//DTO로 받아서 엔티티에 추가해서 DB 저장
         employee.setEmpName(employeeDTO.getEmpName());
         employee.setEmpPassword(employeeDTO.getEmpPassword());
         employee.setEmpEmail(employeeDTO.getEmpEmail());
         employee.setEmpPhone(employeeDTO.getEmpPhone());
         employee.setEmpAddress(employeeDTO.getEmpAddress());
-        employee.setEmpJoinDate(employeeDTO.getEmpJoinDate());
+        employee.setEmpJoinDate((Date)employeeDTO.getEmpJoinDate());
         employee.setEmpPosition(employeeDTO.getEmpPosition());
-      //employee.setDepartment(department);
+        employee.setDepartment(department);
         employee.setWorkState(employeeDTO.getWorkState());
 
         employeeRepository.save(employee);
@@ -82,10 +88,10 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employee.getEmpAddress(), 
                 (Date) employee.getEmpJoinDate(),
                 employee.getEmpPosition(),  
+                employee.getDepartment().getDeptCode(),
                 employee.getWorkState()
             )
     	);
-    	//employee.getDepartment().getDeptCode(),
     }
 	
 	/**직원ID조회*/
@@ -95,33 +101,39 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(empId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Employee ID: " + empId));
        
-        return new Employee_EmployeeDTO(employee.getEmpId(), employee.getEmpName(), employee.getEmpPassword(),
-                employee.getEmpEmail(), employee.getEmpPhone(), employee.getEmpAddress(), (Date) employee.getEmpJoinDate(),
-                employee.getEmpPosition(),  employee.getWorkState());
+        return new Employee_EmployeeDTO(
+        		employee.getEmpId(),
+        		employee.getEmpName(),
+        		employee.getEmpPassword(),
+                employee.getEmpEmail(), 
+                employee.getEmpPhone(),
+                employee.getEmpAddress(),
+                (Date) employee.getEmpJoinDate(),
+                employee.getEmpPosition(),
+                employee.getDepartment().getDeptCode(),
+                employee.getWorkState());
 	}
-	
     
 	/**직원정보수정*/
 	@Override
-	public Long updatedEmpolyee(Employee_EmployeeDTO employeeDTO) {
+	public Long updateEmployee(Employee_EmployeeDTO employeeDTO) {
 		Employee employee = employeeRepository.findById(employeeDTO.getEmpId())
 				.orElseThrow(()-> new IllegalArgumentException("Invalid Employee ID:" + employeeDTO.getEmpId()));
 		
-		//Department department = DepartmentRepository.findById(employeeDTO.getDeptCode())
-		//        .orElseThrow(() -> new IllegalArgumentException("Invalid Department Code: " + employeeDTO.getDeptCode()));
+		String deptCode = employeeDTO.getDeptCode(); // 수정된 부분: deptCode 추출
+        Department department = departmentRepository.findByDeptCode(deptCode)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Department Code: " + deptCode));
 		
-		 // 직원 정보 업데이트
         employee.setEmpName(employeeDTO.getEmpName());
         employee.setEmpPassword(employeeDTO.getEmpPassword());
         employee.setEmpEmail(employeeDTO.getEmpEmail());
         employee.setEmpPhone(employeeDTO.getEmpPhone());
         employee.setEmpAddress(employeeDTO.getEmpAddress());
-        employee.setEmpJoinDate(employeeDTO.getEmpJoinDate());
+        employee.setEmpJoinDate((Date)employeeDTO.getEmpJoinDate());
         employee.setEmpPosition(employeeDTO.getEmpPosition());
-        //employee.setDepartment(department);
+        employee.setDepartment(department);
         employee.setWorkState(employeeDTO.getWorkState());
 
-        // 직원 정보 저장
         employeeRepository.save(employee);
 
         return employee.getEmpId();
@@ -130,17 +142,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/**직원정보삭제*/
 	@Override
 	public Long deleteEmpoyee(Long empId) {
-		// 직원 ID로 직원 정보를 조회합니다.
         Employee employee = employeeRepository.findById(empId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Employee ID: " + empId));
        
-        // 직원 정보를 삭제합니다.
         employeeRepository.delete(employee);
 
-        // 삭제된 직원의 ID를 반환합니다.
         return employee.getEmpId();
 	}
-
-
-
 }
