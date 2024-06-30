@@ -1,20 +1,22 @@
 package com.intrabucks.entity;
+import java.io.Serializable;
+
 import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 부서 테이블(Department) 엔티티 : 부서명, 부서코드
- * @author 원치호
+ * 부서 테이블(Department) 엔티티 : implements Serializable 추가
+ * @author 구은재
  * @version 1.0
- * 2024-06-27
+ * 2024-06-30
  * **/
 
 @Entity
 @Table(name = "Department")
 @Data
 @NoArgsConstructor
-public class Department {
+public class Department implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dept_seq")

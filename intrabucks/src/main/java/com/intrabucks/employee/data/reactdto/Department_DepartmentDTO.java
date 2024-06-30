@@ -4,6 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 부서(Department)의 DTO
+ * @author 구은재
+ * @version 1.0 
+ * 2024-06-30
+**/
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
