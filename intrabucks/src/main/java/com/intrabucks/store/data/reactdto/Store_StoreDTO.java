@@ -1,4 +1,4 @@
-package com.intrabucks.store.data.dto;
+package com.intrabucks.store.data.reactdto;
 
 import com.intrabucks.entity.Store;
 
