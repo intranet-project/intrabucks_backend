@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
  * @author 구은재
  * @version 1.0
  * 2024-06-26
- * **/
+ **/
 @Entity
 @Table(name = "Customer")
 @Data

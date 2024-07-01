@@ -14,9 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 /**
  * 사원 테이블(Employee) 엔티티로, 사원 테이블에 대한 내용을 담고 있음
  * @author 구은재
@@ -26,9 +24,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @Table(name = "Employee")
-@NoArgsConstructor
-@AllArgsConstructor
-
 public class Employee {
 
 	@Id
@@ -62,7 +57,8 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "dept_code", referencedColumnName = "dept_code")
     private Department department; // 부서 외래 키
-
+    
     @Column(name = "work_state")
     private String workState; // 재직 상태 (Y/N)
+
 }
