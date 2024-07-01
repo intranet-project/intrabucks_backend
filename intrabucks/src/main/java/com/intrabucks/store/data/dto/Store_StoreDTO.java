@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StoreDTO {
+public class Store_StoreDTO {
 	private String storeName; // 매장 이름
 
     private String storeAddress; // 매장 주소
@@ -20,7 +20,7 @@ public class StoreDTO {
     
     private String storeClose; // 폐점여부
     
-    public StoreDTO newStore(Store store) {
+    public Store_StoreDTO newStore(Store store) {
 		this.storeName = store.getStoreName();
 		this.storeAddress = store.getStoreAddress();
 		this.storeCreatedAt = store.getStoreCreatedAt();

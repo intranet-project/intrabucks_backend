@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.intrabucks.entity.Store;
-import com.intrabucks.store.data.dto.StoreDTO;
+import com.intrabucks.store.data.dto.Store_StoreDTO;
 import com.intrabucks.store.service.StoreService;
 /**
  * 매장 관리 기능(Store) 컨트롤러로, 매장에 대한 내용을 담고 있음
@@ -37,19 +37,19 @@ public class StoreController {
 	} // 매장 내역 (get)
 	
 	@GetMapping("/read/{id}")
-	public StoreDTO getStoreById(@PathVariable("id") Long id) {
-		StoreDTO storeDto = this.storeService.readStore(id);
+	public Store_StoreDTO getStoreById(@PathVariable("id") Long id) {
+		Store_StoreDTO storeDto = this.storeService.readStore(id);
 		return storeDto;
 	} // 매장 상세 조회 (get)
 	
 	@PostMapping("/create")
-	public StoreDTO create(StoreDTO storeDto) {
+	public Store_StoreDTO create(Store_StoreDTO storeDto) {
 		Long storeId = this.storeService.regStore(storeDto);
 		return this.storeService.readStore(storeId);
 	} // 매장 등록 (post)
 	
-	@PutMapping("/update/{id}")
-	public StoreDTO update(@PathVariable("id") Integer id) {
-		Integer storeId = this.storeService.update();
-	} // 매장 정보 수정 (put)
-}
+	/*
+	 * @PutMapping("/update/{id}") public StoreDTO update(@PathVariable("id")
+	 * Integer id) { Integer storeId = this.storeService.update(); } // 매장 정보 수정
+	 * (put)
+	 */}
