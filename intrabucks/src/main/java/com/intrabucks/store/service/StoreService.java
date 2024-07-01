@@ -10,5 +10,5 @@ public interface StoreService {
 	public List<Store> getStoreList(); // 전체조회
 	public Store_StoreDTO readStore(Long id) throws NoSuchElementException ;// 상세조회
 	public Long regStore(Store_StoreDTO storeDto); // 등록
-	public Store_StoreDTO editStore(Store store);// 수정
+	public Long editStore(Store_StoreDTO storeDto);// 수정
 }

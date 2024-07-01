@@ -36,18 +36,23 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public Long regStore(Store_StoreDTO storeDto) {
 		Store store = Store.builder()
+				.storeId(storeDto.getStoreId())
 				.storeName(storeDto.getStoreName())
 				.storeAddress(storeDto.getStoreAddress())
-				.storeCreatedAt(storeDto.getStoreCreatedAt())
 				.storeClose(storeDto.getStoreClose()).build();
 		this.storeRepository.save(store);
 		return store.getStoreId();
 	}
 
 	@Override
-	public Store_StoreDTO editStore(Store store) {
+	public Long editStore(Store_StoreDTO storeDto) {
 		// TODO Auto-generated method stub
-		return null;
+		Store store = this.storeRepository.findById(storeDto.getStoreId()).orElseThrow();
+		store.setStoreName(storeDto.getStoreName());
+		store.setStoreAddress(storeDto.getStoreAddress());
+		store.setStoreClose(storeDto.getStoreClose());
+		this.storeRepository.save(store);
+		return store.getStoreId();
 	}
 
 }
