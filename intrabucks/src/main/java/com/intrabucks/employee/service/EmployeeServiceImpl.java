@@ -1,6 +1,9 @@
 package com.intrabucks.employee.service;
 
 import java.sql.Date;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,9 +16,11 @@ import com.intrabucks.employee.data.repository.DepartmentRepository;
 import com.intrabucks.employee.data.repository.EmployeeRepository;
 import com.intrabucks.entity.Department;
 import com.intrabucks.entity.Employee;
+import com.intrabucks.entity.Quitter;
+import com.intrabucks.quitter.data.repository.QuitterRepository;
 
 /**
- * 직원(Employee) ServiceImpl : CRUD
+ * 직원(Employee) ServiceImpl : deleteEmployeeAndMoveToQuitter 추가
  * @author 구은재
  * @version 1.0 
  * 2024-06-30
@@ -26,10 +31,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	public final EmployeeRepository employeeRepository;
 	public final DepartmentRepository departmentRepository;
+	public final QuitterRepository quitterRepository;
 
-	public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
+	public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, QuitterRepository quitterRepository ) {
 		this.employeeRepository = employeeRepository;
 		this.departmentRepository = departmentRepository;
+		this.quitterRepository = quitterRepository;
+		
 	}
 
 	/**직원신규등록*/
@@ -139,14 +147,45 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee.getEmpId();
 	}
 
-	/**직원정보삭제*/
+	
+	/**직원목록을 퇴사자목록으로 옮긴 후 삭제*/
 	@Override
-	public Long deleteEmpoyee(Long empId) {
-        Employee employee = employeeRepository.findById(empId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid Employee ID: " + empId));
-       
+	@Transactional
+	public boolean deleteEmployeeAndMoveToQuitter(Long empId) {
+		
+		 // 직원 정보 조회
+        Optional<Employee> optionalEmployee = employeeRepository.findById(empId);
+        if (!optionalEmployee.isPresent()) {
+            return false; // 직원이 존재하지 않는 경우 처리 실패
+        }
+        
+        Employee employee = optionalEmployee.get();
+        
+     // 부서 정보 조회
+        Department department = employee.getDepartment();
+        if (department == null) {
+            throw new IllegalStateException("Employee does not have a department assigned.");
+        }
+
+        // 직원 정보를 퇴사자 DTO로 변환
+        Quitter quitter = new Quitter();
+        quitter.setQuitName(employee.getEmpName());
+        quitter.setQuitEmail(employee.getEmpEmail());
+        quitter.setQuitPhone(employee.getEmpPhone());
+        quitter.setQuitAddress(employee.getEmpAddress());
+        quitter.setQuitJoindate(employee.getEmpJoinDate());
+        quitter.setQuitPosition(employee.getEmpPosition());
+        quitter.setDepartment(department); // 퇴사자에 부서 정보 설정
+        quitter.setQuitLeavingdate(new Date(System.currentTimeMillis()));
+
+     // 퇴사자 정보 저장
+        quitterRepository.save(quitter);
+
+        // 직원 정보 삭제
         employeeRepository.delete(employee);
 
-        return employee.getEmpId();
-	}
+        return true; // 성공적으로 처리됨
+    }
+
+	
 }

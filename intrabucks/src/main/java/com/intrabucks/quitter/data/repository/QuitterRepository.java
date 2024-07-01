@@ -12,4 +12,6 @@ public interface QuitterRepository extends JpaRepository<Quitter, Long> {
 	@Query("SELECT q FROM Quitter q WHERE LOWER(q.quitName) LIKE LOWER(CONCAT('%', :quitName, '%'))")
 	Page<Quitter> findByQuitNameContainingIgnoreCase(String quitName, Pageable pageable);
 
+	
+	
 }

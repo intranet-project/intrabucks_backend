@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.intrabucks.entity.Employee;
 import com.intrabucks.quitter.data.reactdto.Quitter_QuitterDTO;
 import com.intrabucks.quitter.service.QuitterService;
 
@@ -39,9 +40,11 @@ public class QuitterController {
 	/**퇴사자등록*/
 	@PostMapping("/create")
 	public ResponseEntity<Long> createQuitter(@RequestBody Quitter_QuitterDTO QuitterDTO){
-		Long quitId = quitterService.createQuitter(QuitterDTO);
-		return ResponseEntity.ok().body(quitId);
-	}
+	 // 직원이 존재하는 경우 퇴사자 정보를 생성
+				Long quitId = quitterService.createQuitter(QuitterDTO);
+				return ResponseEntity.ok().body(quitId);
+
+}
 	
 	/**퇴사자전체조회*/
 	@GetMapping("/select")
