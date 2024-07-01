@@ -27,7 +27,7 @@ public class StockServiceImpl implements StockService{
 		//DTO 객체 엔티티로 변경
 		Stock addStock = new Stock();
 		
-		addStock.setStockId(stock_StockDTO.getStockId());
+		//addStock.setStockId(stock_StockDTO.getStockId());
 		addStock.setStockCount(stock_StockDTO.getStockCount());
 		addStock.setStore(stock_StockDTO.getStore());
 		addStock.setMaterial(stock_StockDTO.getMaterial());
@@ -37,7 +37,7 @@ public class StockServiceImpl implements StockService{
 
 		//엔티티 객체 DTO로 변경
 		Stock_StockDTO addStockDTO = new Stock_StockDTO();
-		addStockDTO.setStockId(stock.getStockId());
+		//addStockDTO.setStockId(stock.getStockId());
 		addStockDTO.setStockCount(stock.getStockCount());
 		addStockDTO.setStore(stock.getStore());
 		addStockDTO.setMaterial(stock.getMaterial());
@@ -66,7 +66,7 @@ public class StockServiceImpl implements StockService{
 			Stock stock = stockRepository.save(updateStock);
 
 			//엔티티 객체 DTO로 변경
-			updateStockDTO.setStockId(stock.getStockId());
+			//updateStockDTO.setStockId(stock.getStockId());
 			updateStockDTO.setStockCount(stock.getStockCount());
 			updateStockDTO.setStore(stock.getStore());
 			updateStockDTO.setMaterial(stock.getMaterial());
@@ -94,7 +94,7 @@ public class StockServiceImpl implements StockService{
 		
 		Stock_StockDTO stockOneItem = new Stock_StockDTO();
 		
-		stockOneItem.setStockId(selectOneStock.getStockId());
+		//stockOneItem.setStockId(selectOneStock.getStockId());
 		stockOneItem.setStockCount(selectOneStock.getStockCount());
 		stockOneItem.setStore(selectOneStock.getStore());
 		stockOneItem.setMaterial(selectOneStock.getMaterial());

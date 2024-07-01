@@ -48,8 +48,9 @@ public class StoreController {
 		return this.storeService.readStore(storeId);
 	} // 매장 등록 (post)
 	
-	@PutMapping("/update/{id}")
+	/**@PutMapping("/update/{id}")
 	public StoreDTO update(@PathVariable("id") Integer id) {
 		Integer storeId = this.storeService.update();
-	} // 매장 정보 수정 (put)
+	} // 매장 정보 수정 (put)*/
+	
 }

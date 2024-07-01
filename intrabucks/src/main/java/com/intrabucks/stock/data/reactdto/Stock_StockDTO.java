@@ -3,7 +3,6 @@ package com.intrabucks.stock.data.reactdto;
 import com.intrabucks.entity.Material;
 import com.intrabucks.entity.Store;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +17,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Stock_StockDTO {
-
-	private Long stockId; // 재고 ID
-    
+	
+	private Long stockId;
+	
 	private Material material; // 원자재 ID
 
     private Integer stockCount; // 재고수량
