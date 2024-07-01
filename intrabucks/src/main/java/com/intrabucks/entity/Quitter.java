@@ -11,10 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 /**
  * 퇴사자 테이블(Quitter) 엔티티로, 퇴사자에 관한 내용을 담고 있음
  * @author 이정윤
@@ -25,8 +26,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Quitter")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Quitter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quit_seq")
@@ -47,12 +46,14 @@ public class Quitter {
     private String quitAddress; // 주소
 	
 	@Column(name = "quit_joindate")
+	@Temporal(TemporalType.DATE)
 	private Date quitJoindate; // 입사일
 	
 	@Column(name = "quit_position")
 	private String quitPosition; // 직책
 	
 	@Column(name = "quit_leavingdate")
+	@Temporal(TemporalType.DATE)
 	private Date quitLeavingdate; // 퇴사일
 	
 	@ManyToOne
