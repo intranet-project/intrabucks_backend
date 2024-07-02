@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.intrabucks.employee.data.reactdto.Employee_EmployeeDTO;
 import com.intrabucks.employee.service.EmployeeService;
+import com.intrabucks.quitter.service.QuitterService;
 
 /**
- * 직원(Employee) Controller : CRUD 직원등록, 직원전체조회, 직원ID조회, 직원정보수정, 직원정보삭제 (Talend완료)
+ * 직원(Employee) Controller : deleteEmployeeAndMoveToQuitter 추가(Talend완료)
  * @author 구은재
  * @version 1.0 
- * 2024-06-30
+ * 2024-07-01
 **/
 
 @RestController
@@ -30,10 +31,13 @@ import com.intrabucks.employee.service.EmployeeService;
 public class EmployeeController {
 
 	private final EmployeeService employeeService;
+	private final QuitterService quitterService;
+	
 
 	@Autowired
-	public EmployeeController(EmployeeService employeeService) {
+	public EmployeeController(EmployeeService employeeService, QuitterService quitterService) {
 		this.employeeService = employeeService;
+		this.quitterService = quitterService;
 	}
 
 	/**직원등록*/
@@ -73,11 +77,21 @@ public class EmployeeController {
 		return ResponseEntity.ok().body(empId);
 	}
 
-	/**직원정보삭제*/
+	/**직원목록을 퇴사자목록으로 저장 후 삭제*/
 	@DeleteMapping("/delete/{empId}")
-	public ResponseEntity<Long> deleteEmployee(@PathVariable Long empId) {
-		Long deletedempId = employeeService.deleteEmpoyee(empId);
-		return ResponseEntity.ok().body(deletedempId);
-	}
+    public ResponseEntity<Void> deleteEmployeeAndMoveToQuitter(@PathVariable Long empId) {
+		// 직원 서비스를 통해 empId에 해당하는 직원 데이터를 삭제하고, 퇴직자 데이터로 이동시키는 작업을 수행
+		boolean success = employeeService.deleteEmployeeAndMoveToQuitter(empId);
+        
+		// 삭제 작업이 성공하면 HTTP 상태 코드 200(OK)을 응답
+		if (success) {
+            return ResponseEntity.ok().build();
 
+            
+        } else {
+        	// 삭제할 직원 데이터가 존재하지 않는 경우 HTTP 상태 코드 404(NOT FOUND)을 응답
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
 }

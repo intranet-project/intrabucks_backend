@@ -17,6 +17,6 @@ import com.intrabucks.entity.Employee;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	 @Query("SELECT e FROM Employee e WHERE LOWER(e.empName) LIKE LOWER(CONCAT('%', :empName, '%'))")
 	 Page<Employee> findByEmpNameContainingIgnoreCase(String empName, Pageable pageable);
-	
+	 
 }
 
