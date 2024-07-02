@@ -64,7 +64,7 @@ public class StockController {
     
     // 재고 Item 조회
     @GetMapping("/selectOneStock/{stock_id}")
-    public ResponseEntity<Stock_StockDTO> selectOneStock(@RequestParam Long stock_id) {
+    public ResponseEntity<Stock_StockDTO> selectOneStock(@PathVariable Long stock_id) {
     	Stock_StockDTO stockItem = stockService.selectOneStock(stock_id);
         if (stockItem != null) {
             return ResponseEntity.ok(stockItem);
@@ -75,7 +75,7 @@ public class StockController {
     
     // 재고 Item 삭제 
     @DeleteMapping("/deleteOneStock/{stock_id}")
-    public ResponseEntity<String> deleteOneStock(@RequestParam Long stock_id) {
+    public ResponseEntity<String> deleteOneStock(@PathVariable Long stock_id) {
     	
     	String result = stockService.deleteOneStock(stock_id);
     	
