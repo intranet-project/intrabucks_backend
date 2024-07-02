@@ -26,7 +26,7 @@ public interface StockService {
 	List<Stock> selectStockList();
 
 	//재고 item 고르기
-	Stock_StockDTO selectOneStock(Long stock_id);
+	Stock_StockDTO selectOneStock(Long stockId);
 	
 	//재고 item 삭제 
 	String deleteOneStock(Long stock_id);
