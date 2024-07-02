@@ -30,7 +30,7 @@ public class StoreServiceImpl implements StoreService {
 		// TODO Auto-generated method stub
 		return this.storeRepository.findAll();
 	}
-	
+  
 	@Override
 	public Store_StoreDTO readStore(Long id) throws NoSuchElementException {
 		// 구현방식: id로 Store를 받아오고 그것을 StoreDTO로 변환
