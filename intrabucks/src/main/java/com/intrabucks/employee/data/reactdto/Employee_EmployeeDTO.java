@@ -26,6 +26,6 @@ public class Employee_EmployeeDTO {
     private String empAddress; // 주소
     private Date empJoinDate; // 입사일
     private String empPosition; // 직책
-    private String deptCode; // 부서 이름
+    private String deptCode; // 부서 코드
     private String workState; // 재직 상태 (Y/N)
 }
