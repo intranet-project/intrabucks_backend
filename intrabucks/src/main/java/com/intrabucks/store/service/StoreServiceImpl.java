@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.intrabucks.entity.Manager;
 import com.intrabucks.entity.Store;
 import com.intrabucks.store.data.dto.ManagerRequestStoreDTO;
-import com.intrabucks.store.data.reactdto.Manager_ManagerDTO;
 import com.intrabucks.store.data.reactdto.Store_StoreDTO;
 import com.intrabucks.store.data.repository.ManagerRepository;
 import com.intrabucks.store.data.repository.StoreRepository;
@@ -45,23 +44,13 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public Long regStore(ManagerRequestStoreDTO managerStoreDto) {
-		Store store = Store.builder()
-				.storeId(managerStoreDto.getStoreId())
-				.storeName(managerStoreDto.getStoreName())
-				.storeAddress(managerStoreDto.getStoreAddress())
-				.storeClose(managerStoreDto.getStoreClose()).build();
-		this.storeRepository.save(store);
-		Manager_ManagerDTO managerDto = managerStoreDto.getManagerDto();
 		Manager manager = Manager.builder()
-				.managerId(managerDto.getManagerId())
-				.managerName(managerDto.getManagerName())
-				.managerPassword(managerDto.getManagerPassword())
-				.managerEmail(managerDto.getManagerEmail())
-				.store(store)
-				.managerCreatedAt(managerDto.getManagerCreatedAt())
-				.employee(managerDto.getEmployee()).build();
+				.managerId(managerStoreDto.getManagerId())
+				.managerName(managerStoreDto.getManagerName())
+				.managerPassword(managerStoreDto.getManagerPassword())
+				.managerEmail(managerStoreDto.getManagerEmail()).build();
 		this.managerRepository.save(manager);
-		return store.getStoreId();
+		return manager.getManagerId();
 	}
 
 	@Override
