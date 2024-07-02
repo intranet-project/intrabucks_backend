@@ -54,8 +54,8 @@ public class Employee {
     @Column(name = "emp_position")
     private String empPosition; // 직책
 
-    @ManyToOne
-    @JoinColumn(name = "dept_code", referencedColumnName = "dept_code")
+   @ManyToOne
+   @JoinColumn(name = "dept_code", referencedColumnName = "dept_code")
     private Department department; // 부서 외래 키
     
     @Column(name = "work_state")
