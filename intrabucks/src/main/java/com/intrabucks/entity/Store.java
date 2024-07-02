@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,6 +53,7 @@ public class Store {
 
     @Column(name = "store_created_at")
     @Temporal(TemporalType.DATE)
+    @CreationTimestamp
     private Date storeCreatedAt; // 매장 등록 일자
     
     @Column(name = "store_close")
