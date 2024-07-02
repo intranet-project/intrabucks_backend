@@ -89,12 +89,11 @@ public class StockServiceImpl implements StockService{
 	@Override
 	public Stock_StockDTO selectOneStock(Long stock_id) {
 		
-		
 		Stock selectOneStock = stockRepository.getById(stock_id);
 		
 		Stock_StockDTO stockOneItem = new Stock_StockDTO();
 		
-		//stockOneItem.setStockId(selectOneStock.getStockId());
+		stockOneItem.setStockId(selectOneStock.getStockId());
 		stockOneItem.setStockCount(selectOneStock.getStockCount());
 		stockOneItem.setStore(selectOneStock.getStore());
 		stockOneItem.setMaterial(selectOneStock.getMaterial());
