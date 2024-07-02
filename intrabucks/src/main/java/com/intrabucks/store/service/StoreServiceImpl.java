@@ -6,15 +6,25 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.intrabucks.entity.Manager;
 import com.intrabucks.entity.Store;
-import com.intrabucks.store.data.dto.StoreDTO;
+import com.intrabucks.store.data.dto.ManagerRequestStoreDTO;
+import com.intrabucks.store.data.reactdto.Manager_ManagerDTO;
+import com.intrabucks.store.data.reactdto.Store_StoreDTO;
+import com.intrabucks.store.data.repository.ManagerRepository;
 import com.intrabucks.store.data.repository.StoreRepository;
 
 @Service
 public class StoreServiceImpl implements StoreService {
 
+	private final StoreRepository storeRepository;
+	private final ManagerRepository managerRepository;
+	
 	@Autowired
-	private StoreRepository storeRepository;
+	public StoreServiceImpl(StoreRepository storeRepository, ManagerRepository managerRepository) {
+		this.storeRepository = storeRepository;
+		this.managerRepository = managerRepository;
+	}
 	
 	@Override
 	public List<Store> getStoreList() {
@@ -23,31 +33,46 @@ public class StoreServiceImpl implements StoreService {
 	}
 	
 	@Override
-	public StoreDTO readStore(Long id) throws NoSuchElementException {
+	public Store_StoreDTO readStore(Long id) throws NoSuchElementException {
 		// 구현방식: id로 Store를 받아오고 그것을 StoreDTO로 변환
 		// 그리고 리턴
 		Store store = this.storeRepository.findById(id).orElseThrow();
-		StoreDTO storeDto = new StoreDTO();
+		Store_StoreDTO storeDto = new Store_StoreDTO();
 		storeDto.newStore(store);
 		return storeDto;
 	}
 	
 
 	@Override
-	public Long regStore(StoreDTO storeDto) {
+	public Long regStore(ManagerRequestStoreDTO managerStoreDto) {
 		Store store = Store.builder()
-				.storeName(storeDto.getStoreName())
-				.storeAddress(storeDto.getStoreAddress())
-				.storeCreatedAt(storeDto.getStoreCreatedAt())
-				.storeClose(storeDto.getStoreClose()).build();
+				.storeId(managerStoreDto.getStoreId())
+				.storeName(managerStoreDto.getStoreName())
+				.storeAddress(managerStoreDto.getStoreAddress())
+				.storeClose(managerStoreDto.getStoreClose()).build();
 		this.storeRepository.save(store);
+		Manager_ManagerDTO managerDto = managerStoreDto.getManagerDto();
+		Manager manager = Manager.builder()
+				.managerId(managerDto.getManagerId())
+				.managerName(managerDto.getManagerName())
+				.managerPassword(managerDto.getManagerPassword())
+				.managerEmail(managerDto.getManagerEmail())
+				.store(store)
+				.managerCreatedAt(managerDto.getManagerCreatedAt())
+				.employee(managerDto.getEmployee()).build();
+		this.managerRepository.save(manager);
 		return store.getStoreId();
 	}
 
 	@Override
-	public StoreDTO editStore(Store store) {
+	public Long editStore(Store_StoreDTO storeDto) {
 		// TODO Auto-generated method stub
-		return null;
+		Store store = this.storeRepository.findById(storeDto.getStoreId()).orElseThrow();
+		store.setStoreName(storeDto.getStoreName());
+		store.setStoreAddress(storeDto.getStoreAddress());
+		store.setStoreClose(storeDto.getStoreClose());
+		this.storeRepository.save(store);
+		return store.getStoreId();
 	}
 
 }
