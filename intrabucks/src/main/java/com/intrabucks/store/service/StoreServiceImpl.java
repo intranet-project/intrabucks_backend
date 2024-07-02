@@ -1,17 +1,14 @@
 package com.intrabucks.store.service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.intrabucks.entity.Manager;
 import com.intrabucks.entity.Store;
-import com.intrabucks.store.data.dto.ManagerRequestStoreDTO;
 import com.intrabucks.store.data.reactdto.Store_StoreDTO;
 import com.intrabucks.store.data.repository.ManagerRepository;
 import com.intrabucks.store.data.repository.StoreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -42,16 +39,16 @@ public class StoreServiceImpl implements StoreService {
 	}
 	
 
-	@Override
-	public Long regStore(ManagerRequestStoreDTO managerStoreDto) {
-		Manager manager = Manager.builder()
-				.managerId(managerStoreDto.getManagerId())
-				.managerName(managerStoreDto.getManagerName())
-				.managerPassword(managerStoreDto.getManagerPassword())
-				.managerEmail(managerStoreDto.getManagerEmail()).build();
-		this.managerRepository.save(manager);
-		return manager.getManagerId();
-	}
+//	@Override
+//	public Long regStore(ManagerRequestStoreDTO managerStoreDto) {
+//		Manager manager = Manager.builder()
+//				.managerId(managerStoreDto.getManagerId())
+//				.managerName(managerStoreDto.getManagerName())
+//				.managerPassword(managerStoreDto.getManagerPassword())
+//				.managerEmail(managerStoreDto.getManagerEmail()).build();
+//		this.managerRepository.save(manager);
+//		return manager.getManagerId();
+//	}
 
 	@Override
 	public Long editStore(Store_StoreDTO storeDto) {
