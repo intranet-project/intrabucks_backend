@@ -8,13 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +26,7 @@ import lombok.NoArgsConstructor;
  * 2024-06-27
  * **/
 
+@Builder
 @Entity
 @Data
 @Table(name = "Manager")
@@ -47,7 +49,7 @@ public class Manager {
     @Column(name = "manager_email")
     private String managerEmail; // 관리자 이메일
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
     private Store store; // 매장 ID
 
@@ -55,7 +57,7 @@ public class Manager {
     @Temporal(TemporalType.DATE)
     private Date managerCreatedAt; // 가입 일자
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "emp_id", referencedColumnName = "emp_id")
     private Employee employee; // 직원 ID
 }

@@ -19,11 +19,11 @@ public class Sales {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sales_seq")
     @SequenceGenerator(name = "sales_seq", sequenceName = "sales_seq", allocationSize = 1)
-    @Column(name = "sales_no")
-    private Long salesNo; //매출 ID
+    @Column(name = "sales_id")
+    private Long salesId; //매출 ID
     
-   @ManyToOne
-   @JoinColumn(name = "store_id", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "store_id", nullable = false)
     private Store store; // 매장 ID
    
     @Column(name = "sales_total_amount", nullable = false, precision = 10, scale = 2)

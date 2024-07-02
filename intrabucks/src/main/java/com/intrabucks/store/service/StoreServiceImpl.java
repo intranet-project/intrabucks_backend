@@ -31,38 +31,6 @@ public class StoreServiceImpl implements StoreService {
 		// TODO Auto-generated method stub
 		return this.storeRepository.findAll();
 	}
-	
-	@Override
-	public Store_StoreDTO readStore(Long id) throws NoSuchElementException {
-		// 구현방식: id로 Store를 받아오고 그것을 StoreDTO로 변환
-		// 그리고 리턴
-		Store store = this.storeRepository.findById(id).orElseThrow();
-		Store_StoreDTO storeDto = new Store_StoreDTO();
-		storeDto.newStore(store);
-		return storeDto;
-	}
-	
-
-	@Override
-	public Long regStore(ManagerRequestStoreDTO managerStoreDto) {
-		Store store = Store.builder()
-				.storeId(managerStoreDto.getStoreId())
-				.storeName(managerStoreDto.getStoreName())
-				.storeAddress(managerStoreDto.getStoreAddress())
-				.storeClose(managerStoreDto.getStoreClose()).build();
-		this.storeRepository.save(store);
-		Manager_ManagerDTO managerDto = managerStoreDto.getManagerDto();
-		Manager manager = Manager.builder()
-				.managerId(managerDto.getManagerId())
-				.managerName(managerDto.getManagerName())
-				.managerPassword(managerDto.getManagerPassword())
-				.managerEmail(managerDto.getManagerEmail())
-				.store(store)
-				.managerCreatedAt(managerDto.getManagerCreatedAt())
-				.employee(managerDto.getEmployee()).build();
-		this.managerRepository.save(manager);
-		return store.getStoreId();
-	}
 
 	@Override
 	public Long editStore(Store_StoreDTO storeDto) {
