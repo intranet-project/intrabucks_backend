@@ -18,19 +18,19 @@ public class StoreServiceImpl implements StoreService {
 
 	private final StoreRepository storeRepository;
 	private final ManagerRepository managerRepository;
-	
+
 	@Autowired
 	public StoreServiceImpl(StoreRepository storeRepository, ManagerRepository managerRepository) {
 		this.storeRepository = storeRepository;
 		this.managerRepository = managerRepository;
 	}
-	
+
 	@Override
 	public List<Store> getStoreList() {
 		// TODO Auto-generated method stub
 		return this.storeRepository.findAll();
 	}
-	
+
 	@Override
 	public Store_StoreDTO readStore(Long id) throws NoSuchElementException {
 		// 구현방식: id로 Store를 받아오고 그것을 StoreDTO로 변환
@@ -40,7 +40,7 @@ public class StoreServiceImpl implements StoreService {
 		storeDto.newStore(store);
 		return storeDto;
 	}
-	
+
 
 	@Override
 	public Long regStore(ManagerRequestStoreDTO managerStoreDto) {
