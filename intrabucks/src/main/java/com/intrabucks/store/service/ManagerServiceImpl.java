@@ -26,7 +26,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public Manager_ManagerDTO readManager(Long storeId) throws NoSuchElementException {
 		// 구현방식: id로 Store를 받아오고 그것을 StoreDTO로 변환
 		// 그리고 리턴
-		Manager manager = this.managerRepository.findByStoreId(storeId);
+		Manager manager = this.managerRepository.findByStoreStoreId(storeId).orElseThrow();
 		Manager_ManagerDTO managerDto = new Manager_ManagerDTO();
 		managerDto.newManager(manager);
 		return managerDto;
@@ -34,20 +34,22 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Override
 	public Long createStore(ManagerRequestStoreDTO managerStoreDto) throws NoSuchElementException {
+		Long id = managerStoreDto.getEmployeeId();
+		String name = managerStoreDto.getManagerName();
+		String password = managerStoreDto.getManagerPassword();
+		String email = managerStoreDto.getManagerEmail();
+		Employee employee = this.employeeRepository.findByEmpIdAndEmpNameAndEmpPasswordAndEmpEmail(id, name, password, email).orElseThrow();
 		Store store = Store.builder()
 				.storeId(managerStoreDto.getStoreId())
 				.storeName(managerStoreDto.getStoreName())
 				.storeAddress(managerStoreDto.getStoreAddress())
 				.storeClose(managerStoreDto.getStoreClose()).build();
 		this.storeRepository.save(store);
-		
-		Employee employee = this.employeeRepository.findById(managerStoreDto.getEmployeeId()).orElseThrow();
-		
 		Manager manager = Manager.builder()
 				.managerId(managerStoreDto.getManagerId())
-				.managerName(employee.getEmpName())
-				.managerPassword(employee.getEmpPassword())
-				.managerEmail(employee.getEmpEmail())
+				.managerName(name)
+				.managerPassword(password)
+				.managerEmail(email)
 				.store(store)
 				.managerCreatedAt(managerStoreDto.getManagerCreatedAt())
 				.employee(employee).build();
@@ -66,7 +68,7 @@ public class ManagerServiceImpl implements ManagerService {
 		this.storeRepository.save(store);
 		
 		Employee employee = this.employeeRepository.findById(managerStoreDto.getEmployeeId()).orElseThrow();
-		Manager manager = this.managerRepository.findByEmployeeId(managerStoreDto.getEmployeeId());
+		Manager manager = this.managerRepository.findByEmployeeEmpId(managerStoreDto.getEmployeeId()).orElseThrow();
 		
 		manager.setManagerName(null);
 		
