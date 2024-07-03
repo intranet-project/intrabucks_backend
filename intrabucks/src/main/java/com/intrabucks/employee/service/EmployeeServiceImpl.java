@@ -169,6 +169,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // 직원 정보를 퇴사자 DTO로 변환
         Quitter quitter = new Quitter();
+        quitter.setQuitId(employee.getEmpId());
         quitter.setQuitName(employee.getEmpName());
         quitter.setQuitEmail(employee.getEmpEmail());
         quitter.setQuitPhone(employee.getEmpPhone());

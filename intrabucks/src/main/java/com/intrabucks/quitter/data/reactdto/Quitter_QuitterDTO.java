@@ -28,5 +28,8 @@ public class Quitter_QuitterDTO {
     private String quitPosition; // 직책
     private Date quitLeavingdate; // 퇴사일
     private String deptCode; // 부서 코드
+    
+    
+	
 	
 }

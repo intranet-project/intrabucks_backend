@@ -1,8 +1,10 @@
 package com.intrabucks.store.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,28 +43,4 @@ public class StoreController {
 		return ResponseEntity.ok().body(storeList);
 //		return storeList;
 	} // 매장 내역 (get)
-
-	@GetMapping("/read/{id}")
-	public ResponseEntity<Store_StoreDTO> getStoreById(@PathVariable("id") Long id) {
-		Store_StoreDTO storeDto = this.storeService.readStore(id);
-		if (storeDto != null) {
-			return ResponseEntity.ok().body(storeDto);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	} // 매장 상세 조회 (get)
-	
-	@PostMapping("/create")
-	public ResponseEntity<Long> createStore(@RequestBody ManagerRequestStoreDTO managerStoreDto) {
-		Long storeId = this.storeService.regStore(managerStoreDto);
-		return ResponseEntity.ok().body(storeId);
-		// return this.storeService.readStore(storeId);
-	} // 매장 등록 (post)
-
-	
-	@PutMapping("/update/{id}")
-	public ResponseEntity<Long> updateStore(@RequestBody Store_StoreDTO storeDto) {
-		Long storeId = this.storeService.editStore(storeDto);
-		return ResponseEntity.ok().body(storeId);
-	} // 매장 정보 수정 (put)
 }
