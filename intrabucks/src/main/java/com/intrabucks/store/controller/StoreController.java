@@ -43,10 +43,4 @@ public class StoreController {
 		return ResponseEntity.ok().body(storeList);
 //		return storeList;
 	} // 매장 내역 (get)
-	
-	@PutMapping("/update/{id}")
-	public ResponseEntity<Long> updateStore(@RequestBody Store_StoreDTO storeDto) {
-		Long storeId = this.storeService.editStore(storeDto);
-		return ResponseEntity.ok().body(storeId);
-	} // 매장 정보 수정 (put)
 }
