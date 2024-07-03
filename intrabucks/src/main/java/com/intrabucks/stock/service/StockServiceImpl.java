@@ -66,7 +66,7 @@ public class StockServiceImpl implements StockService{
 			Stock stock = stockRepository.save(updateStock);
 
 			//엔티티 객체 DTO로 변경
-			//updateStockDTO.setStockId(stock.getStockId());
+			updateStockDTO.setStockId(stock.getStockId());
 			updateStockDTO.setStockCount(stock.getStockCount());
 			updateStockDTO.setStore(stock.getStore());
 			updateStockDTO.setMaterial(stock.getMaterial());
