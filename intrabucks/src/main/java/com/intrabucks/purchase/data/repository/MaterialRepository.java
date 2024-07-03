@@ -6,4 +6,6 @@ import com.intrabucks.entity.Material;
 
 public interface MaterialRepository extends JpaRepository<Material, Long> {
 
+	Double findByMaterialPrice(Long id);
+
 }

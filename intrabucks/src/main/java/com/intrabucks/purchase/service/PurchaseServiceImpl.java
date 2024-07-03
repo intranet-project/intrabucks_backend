@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.intrabucks.entity.Material;
 import com.intrabucks.entity.Purchase;
 import com.intrabucks.purchase.data.reactdto.Purchase_PurchaseDTO;
+import com.intrabucks.purchase.data.repository.MaterialRepository;
 import com.intrabucks.purchase.data.repository.PurchaseRepository;
 
 /**
@@ -19,12 +21,11 @@ import com.intrabucks.purchase.data.repository.PurchaseRepository;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService{
+	@Autowired
 	private PurchaseRepository purchaseRepository;
 	
 	@Autowired
-	public PurchaseServiceImpl(PurchaseRepository purchaseRepository) {
-		this.purchaseRepository = purchaseRepository;
-	}
+	private MaterialRepository materialRepository;
 
 	//발주 내역 생성
 	@Override
@@ -32,15 +33,35 @@ public class PurchaseServiceImpl implements PurchaseService{
 		//DTO 객체 엔티티로 변경
 		Purchase addPurchase = new Purchase();
 		
+		//가격 처리
+		Double price = 0.0;
+		if (purchase_PurchaseDTO.getMaterial() != null) {
+			Material material = materialRepository.getById(purchase_PurchaseDTO.getMaterial().getMaterialId());
+		
+			if (material != null) {
+				price = material.getMaterialPrice();
+			}else{
+				System.out.println("material이 null이라 오류 발생");
+			}
+				
+		}
+		
+		//상태 처리
+		String state = null;
+		if (purchase_PurchaseDTO.getPurchaseRequireDate() != null && purchase_PurchaseDTO.getPurchaseAcceptDate() == null) {
+			state = "처리중";
+		}else if (purchase_PurchaseDTO.getPurchaseRequireDate() != null && purchase_PurchaseDTO.getPurchaseAcceptDate() != null) {
+			state = "처리완료";
+		}
+		
 		addPurchase.setManager(purchase_PurchaseDTO.getManager());
 		addPurchase.setMaterial(purchase_PurchaseDTO.getMaterial());
 		addPurchase.setPurchaseAcceptDate(purchase_PurchaseDTO.getPurchaseAcceptDate());;
 		addPurchase.setPurchaseCount(purchase_PurchaseDTO.getPurchaseCount());
 		addPurchase.setPurchaseId(purchase_PurchaseDTO.getPurchaseId());
-		addPurchase.setPurchasePrice(purchase_PurchaseDTO.getPurchasePrice());
 		addPurchase.setPurchaseRequireDate(purchase_PurchaseDTO.getPurchaseRequireDate());
-		addPurchase.setPurchaseState(purchase_PurchaseDTO.getPurchaseState());
-		addPurchase.setPurchaseTotalPrice(purchase_PurchaseDTO.getPurchaseTotalPrice());
+		addPurchase.setPurchaseState(state);
+		addPurchase.setPurchaseTotalPrice(price * purchase_PurchaseDTO.getPurchaseCount());
 		
 		//레포지터리 적용
 		Purchase purchase = purchaseRepository.save(addPurchase);
@@ -53,10 +74,8 @@ public class PurchaseServiceImpl implements PurchaseService{
 		addPurchaseDTO.setPurchaseAcceptDate(purchase.getPurchaseAcceptDate());
 		addPurchaseDTO.setPurchaseCount(purchase.getPurchaseCount());
 		addPurchaseDTO.setPurchaseId(purchase.getPurchaseId());
-		addPurchaseDTO.setPurchasePrice(purchase.getPurchasePrice());
 		addPurchaseDTO.setPurchaseRequireDate(purchase.getPurchaseRequireDate());
-		addPurchaseDTO.setPurchaseState(purchase.getPurchaseState());
-		addPurchaseDTO.setPurchaseTotalPrice(purchase.getPurchaseTotalPrice());
+	
 		
 		return addPurchaseDTO;
 	}
@@ -64,6 +83,29 @@ public class PurchaseServiceImpl implements PurchaseService{
 	//발주 수량 업데이트
 	@Override
 	public Purchase_PurchaseDTO updatePurchaseItem(Purchase_PurchaseDTO purchase_PurchaseDTO) {
+		
+		//가격 처리
+		Double price = 0.0;
+		if (purchase_PurchaseDTO.getMaterial() != null) {
+			Material material = materialRepository.getById(purchase_PurchaseDTO.getMaterial().getMaterialId());
+		
+			if (material != null) {
+				price = material.getMaterialPrice();
+			}else{
+				System.out.println("material이 null이라 오류 발생");
+			}
+				
+		}
+				
+		//상태 처리
+		String state = null;
+		if (purchase_PurchaseDTO.getPurchaseRequireDate() != null && purchase_PurchaseDTO.getPurchaseAcceptDate() == null) {
+			state = "처리중";
+		}else if (purchase_PurchaseDTO.getPurchaseRequireDate() != null && purchase_PurchaseDTO.getPurchaseAcceptDate() != null) {
+			state = "처리완료";
+		}
+				
+		
 		//해당 발주 정보 조회
 		Optional<Purchase> existPurchase = purchaseRepository.findById(purchase_PurchaseDTO.getPurchaseId());
 
@@ -81,10 +123,9 @@ public class PurchaseServiceImpl implements PurchaseService{
 			updatePurchase.setPurchaseAcceptDate(purchase_PurchaseDTO.getPurchaseAcceptDate());
 			updatePurchase.setPurchaseCount(purchase_PurchaseDTO.getPurchaseCount());
 			updatePurchase.setPurchaseId(purchase_PurchaseDTO.getPurchaseId());
-			updatePurchase.setPurchasePrice(purchase_PurchaseDTO.getPurchasePrice());
 			updatePurchase.setPurchaseRequireDate(purchase_PurchaseDTO.getPurchaseRequireDate());
-			updatePurchase.setPurchaseState(purchase_PurchaseDTO.getPurchaseState());
-			updatePurchase.setPurchaseTotalPrice(purchase_PurchaseDTO.getPurchaseTotalPrice());
+			updatePurchase.setPurchaseState(state);
+			updatePurchase.setPurchaseTotalPrice(price * purchase_PurchaseDTO.getPurchaseCount());
 			
 			//레포지터리 적용
 			Purchase purchase = purchaseRepository.save(updatePurchase);
@@ -95,11 +136,9 @@ public class PurchaseServiceImpl implements PurchaseService{
 			updatePurchaseDTO.setPurchaseAcceptDate(purchase.getPurchaseAcceptDate());
 			updatePurchaseDTO.setPurchaseCount(purchase.getPurchaseCount());
 			updatePurchaseDTO.setPurchaseId(purchase.getPurchaseId());
-			updatePurchaseDTO.setPurchasePrice(purchase.getPurchasePrice());
 			updatePurchaseDTO.setPurchaseRequireDate(purchase.getPurchaseRequireDate());
-			updatePurchaseDTO.setPurchaseState(purchase.getPurchaseState());
-			updatePurchaseDTO.setPurchaseTotalPrice(purchase.getPurchaseTotalPrice());
-			
+			updatePurchaseDTO.setPurchaseState(state);
+			updatePurchaseDTO.setPurchaseTotalPrice(price);
 			}
 		
 		
@@ -131,7 +170,6 @@ public class PurchaseServiceImpl implements PurchaseService{
 		purchaseOneItem.setPurchaseAcceptDate(selectOnePurchasse.getPurchaseAcceptDate());
 		purchaseOneItem.setPurchaseCount(selectOnePurchasse.getPurchaseCount());
 		purchaseOneItem.setPurchaseId(selectOnePurchasse.getPurchaseId());
-		purchaseOneItem.setPurchasePrice(selectOnePurchasse.getPurchasePrice());
 		purchaseOneItem.setPurchaseRequireDate(selectOnePurchasse.getPurchaseRequireDate());
 		purchaseOneItem.setPurchaseState(selectOnePurchasse.getPurchaseState());
 		purchaseOneItem.setPurchaseTotalPrice(selectOnePurchasse.getPurchaseTotalPrice());

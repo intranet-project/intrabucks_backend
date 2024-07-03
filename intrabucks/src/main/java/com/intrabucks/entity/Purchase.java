@@ -22,11 +22,11 @@ public class Purchase {
     private Long purchaseId; // 발주 ID
     
     @ManyToOne
-    @JoinColumn(name = "manager_id", nullable = false)
+    @JoinColumn(name = "manager_id", referencedColumnName = "manager_id")
     private Manager manager; // 지점관리자 ID FK
     
     @ManyToOne
-    @JoinColumn(name = "material_id", nullable = false)
+    @JoinColumn(name = "material_id", referencedColumnName = "material_id")
     private Material material; // 원자재 ID FK
     
     @Column(name = "purchase_count", nullable = false)
@@ -38,13 +38,10 @@ public class Purchase {
     @Column(name = "purchase_accept_date", nullable = true)
     private Date purchaseAcceptDate; // 발주 승인 날짜
     
-    @Column(name = "purchase_state", nullable = false, length = 20)
+    @Column(name = "purchase_state", nullable = true, length = 20)
     private String purchaseState; // 발주 상태
     
-    @Column(name = "purchase_price", nullable = false)
-    private Double purchasePrice; // 단가
-    
-    @Column(name = "purchase_totalprice", nullable = false)
+    @Column(name = "purchase_totalprice", nullable = true)
     private Double purchaseTotalPrice; // 총 가격
     
 }

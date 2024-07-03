@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,8 +49,13 @@ public class PurchaseController {
     }
     
     // 발주 item 수정
-    @PutMapping("/updatePurchaseItem")
-    public ResponseEntity<Purchase_PurchaseDTO> updatePurchaseItem(@RequestBody Purchase_PurchaseDTO purchase_PurchaseDTO) {
+    @PutMapping("/updatePurchaseItem/{purchase_id}")
+    public ResponseEntity<Purchase_PurchaseDTO> updatePurchaseItem(@PathVariable Long purchase_id, @RequestBody Purchase_PurchaseDTO purchase_PurchaseDTO) {
+    	
+    	System.out.println("purchase_id : " + purchase_id);
+    	System.out.println("purchase_PurchaseDTO.getPurchaseState() : " + purchase_PurchaseDTO.getPurchaseState());
+    	System.out.println("purchase_PurchaseDTO : " + purchase_PurchaseDTO);
+    	
     	Purchase_PurchaseDTO purchaseItem = purchaseService.updatePurchaseItem(purchase_PurchaseDTO);
         if (purchaseItem != null) {
             return ResponseEntity.ok(purchaseItem);
@@ -66,8 +72,8 @@ public class PurchaseController {
     }
     
     // 발주 Item 조회 
-    @GetMapping("/selectOnePurchase")
-    public ResponseEntity<Purchase_PurchaseDTO> selectOnePurchase(@RequestParam Long purchase_id) {
+    @GetMapping("/selectOnePurchase/{purchase_id}")
+    public ResponseEntity<Purchase_PurchaseDTO> selectOnePurchase(@PathVariable Long purchase_id) {
     	Purchase_PurchaseDTO purchaseItem = purchaseService.selectOneselectPurchaseList(purchase_id);
         if (purchaseItem != null) {
             return ResponseEntity.ok(purchaseItem);
@@ -77,8 +83,8 @@ public class PurchaseController {
     }
     
     // 발주 Item 삭제 
-    @DeleteMapping("/deleteOnePurchase")
-    public ResponseEntity<String> deleteOneStock(@RequestParam Long purchase_id) {
+    @DeleteMapping("/deleteOnePurchase/{purchase_id}")
+    public ResponseEntity<String> deleteOneStock(@PathVariable Long purchase_id) {
     	
     	String result = purchaseService.deleteOnePurchase(purchase_id);
     	

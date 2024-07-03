@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
  * 2024.06.28
  * **/
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,7 +34,7 @@ public class Purchase_PurchaseDTO {
 	    
 	    private String purchaseState; // 발주 상태
 	
-	    private Double purchasePrice; // 단가
+	    //private Double purchasePrice; // 
 	 
 	    private Double purchaseTotalPrice; // 총 가격
 }
