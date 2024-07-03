@@ -14,29 +14,16 @@ import com.intrabucks.store.data.repository.StoreRepository;
 public class StoreServiceImpl implements StoreService {
 
 	private final StoreRepository storeRepository;
-	private final ManagerRepository managerRepository;
 
 	@Autowired
-	public StoreServiceImpl(StoreRepository storeRepository, ManagerRepository managerRepository) {
+	public StoreServiceImpl(StoreRepository storeRepository) {
 		this.storeRepository = storeRepository;
-		this.managerRepository = managerRepository;
 	}
 
 	@Override
 	public List<Store> getStoreList() {
 		// TODO Auto-generated method stub
 		return this.storeRepository.findAll();
-	}
-  
-	@Override
-	public Long editStore(Store_StoreDTO storeDto) {
-		// TODO Auto-generated method stub
-		Store store = this.storeRepository.findById(storeDto.getStoreId()).orElseThrow();
-		store.setStoreName(storeDto.getStoreName());
-		store.setStoreAddress(storeDto.getStoreAddress());
-		store.setStoreClose(storeDto.getStoreClose());
-		this.storeRepository.save(store);
-		return store.getStoreId();
 	}
 
 }

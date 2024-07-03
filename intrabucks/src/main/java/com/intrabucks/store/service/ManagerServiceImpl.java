@@ -22,6 +22,13 @@ public class ManagerServiceImpl implements ManagerService {
 	private StoreRepository storeRepository;
 	private EmployeeRepository employeeRepository;
 	
+	@Autowired
+	public ManagerServiceImpl(StoreRepository storeRepository, ManagerRepository managerRepository, EmployeeRepository employeeRepository) {
+		this.storeRepository = storeRepository;
+		this.managerRepository = managerRepository;
+		this.employeeRepository = employeeRepository;
+	}
+	
 	@Override
 	public Manager_ManagerDTO readManager(Long storeId) throws NoSuchElementException {
 		// 구현방식: id로 Store를 받아오고 그것을 StoreDTO로 변환
@@ -39,12 +46,14 @@ public class ManagerServiceImpl implements ManagerService {
 		String password = managerStoreDto.getManagerPassword();
 		String email = managerStoreDto.getManagerEmail();
 		Employee employee = this.employeeRepository.findByEmpIdAndEmpNameAndEmpPasswordAndEmpEmail(id, name, password, email).orElseThrow();
+		
 		Store store = Store.builder()
 				.storeId(managerStoreDto.getStoreId())
 				.storeName(managerStoreDto.getStoreName())
 				.storeAddress(managerStoreDto.getStoreAddress())
 				.storeClose(managerStoreDto.getStoreClose()).build();
 		this.storeRepository.save(store);
+		
 		Manager manager = Manager.builder()
 				.managerId(managerStoreDto.getManagerId())
 				.managerName(name)
@@ -60,20 +69,29 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Override
 	public Long editStore(ManagerRequestStoreDTO managerStoreDto) throws NoSuchElementException {
-		// TODO Auto-generated method stub
 		Store store = this.storeRepository.findById(managerStoreDto.getStoreId()).orElseThrow();
 		store.setStoreName(managerStoreDto.getStoreName());
 		store.setStoreAddress(managerStoreDto.getStoreAddress());
 		store.setStoreClose(managerStoreDto.getStoreClose());
 		this.storeRepository.save(store);
 		
-		Employee employee = this.employeeRepository.findById(managerStoreDto.getEmployeeId()).orElseThrow();
-		Manager manager = this.managerRepository.findByEmployeeEmpId(managerStoreDto.getEmployeeId()).orElseThrow();
+		Manager manager = this.managerRepository.findById(managerStoreDto.getManagerId()).orElseThrow();
+
+		Long id = managerStoreDto.getEmployeeId();
+		String name = managerStoreDto.getManagerName();
+		String password = managerStoreDto.getManagerPassword();
+		String email = managerStoreDto.getManagerEmail();
+		Employee employee = this.employeeRepository.findByEmpIdAndEmpNameAndEmpPasswordAndEmpEmail(id, name, password, email).orElseThrow();
 		
-		manager.setManagerName(null);
+		manager.setManagerName(name);
+		manager.setManagerPassword(password);
+		manager.setManagerEmail(email);
+		manager.setStore(store);
+		manager.setManagerCreatedAt(managerStoreDto.getManagerCreatedAt());
+		manager.setEmployee(employee);
+		this.managerRepository.save(manager);
 		
 		return store.getStoreId();
-		// 지점 쪽 말고 관리자 쪽 데이터가 바뀐다면 원래의 관리자 record 를 없애고 다른 걸 집어넣는 방식
 	}
 
 }
