@@ -38,7 +38,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	/**부서정보수정*/
 	@Override
 	public Long updateDepartment(Department_DepartmentDTO departmentDTO) {
-		Department department = departmentRepository.findByDeptCode(departmentDTO.getDeptId())
+		Department department = departmentRepository.findById(departmentDTO.getDeptId())
 				.orElseThrow(()-> new IllegalArgumentException("Invalid Department ID:" + departmentDTO.getDeptId()));
 		
 		department.setDeptCode(departmentDTO.getDeptCode());
@@ -48,4 +48,18 @@ public class DepartmentServiceImpl implements DepartmentService{
 		
 		return department.getDeptId();
 	}
+
+	/**부서ID조회*/
+	@Override
+	public Department_DepartmentDTO selectOneDepartment(Long deptId) {
+		Department department = departmentRepository.findById(deptId)
+	            .orElseThrow(() -> new IllegalArgumentException("Invalid Department ID: " + deptId));
+	    
+		return new Department_DepartmentDTO(
+			department.getDeptId(),
+            department.getDeptCode(),
+            department.getDeptName()
+			);
+	}
+
 }
