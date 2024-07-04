@@ -8,6 +8,6 @@ import java.util.List;
 public interface VoiceService {
     public String getVoice();
     List<Voice> selectAllVoice();
-    String saveAnswer(AnswerRequestDto voice);// 답변 저장
+    String saveAnswer(AnswerRequestDto answer);// 답변 저장
     Voice getAnswer(int voiceId);
 }
