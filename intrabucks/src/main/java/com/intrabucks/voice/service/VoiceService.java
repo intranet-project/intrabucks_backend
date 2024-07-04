@@ -6,7 +6,7 @@ import com.intrabucks.voice.dto.AnswerRequestDto;
 import java.util.List;
 
 public interface VoiceService {
-    public String getVoice(int voiceId);
+    public String getVoice();
     List<Voice> selectAllVoice();
     String saveAnswer(AnswerRequestDto voice);// 답변 저장
     Voice getAnswer(int voiceId);

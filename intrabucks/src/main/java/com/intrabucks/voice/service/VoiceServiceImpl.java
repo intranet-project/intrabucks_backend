@@ -8,9 +8,13 @@ import com.intrabucks.store.data.repository.StoreRepository;
 import com.intrabucks.voice.data.repository.VoiceRepository;
 import com.intrabucks.voice.dto.AnswerRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -35,10 +39,17 @@ public class VoiceServiceImpl implements VoiceService {
     /** Voice 고객의 소리 */
     /*공홈에서 정보를 가져와서 저장*/
     @Override
-    public String getVoice(int voiceId) {
-        String url = "http://localhost:8000/api/customer/getvoice?id="+voiceId;
-        Voice voice = restTemplate.getForObject(url, Voice.class);
-        voiceRepository.save(voice);
+    public String getVoice() {
+        String url = "http://localhost:8000/api/customer/getvoice";
+        ResponseEntity<List<Voice>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Voice>>() {}
+        );
+        List<Voice> voices = response.getBody();
+        voiceRepository.saveAll(voices);
+
         return "Success";
     }
 

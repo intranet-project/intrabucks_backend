@@ -21,8 +21,8 @@ public class VoiceController {
      */
     /* 공홈에서 받은 voice를 가져오고 service에서 저장 */
     @GetMapping("/voice")
-    public List<Voice> voice(@RequestParam int voiceId) {
-        voiceService.getVoice(voiceId);
+    public List<Voice> voice() {
+        voiceService.getVoice();
         return voiceService.selectAllVoice();
 
     }
