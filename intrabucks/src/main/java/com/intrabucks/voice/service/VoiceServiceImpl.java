@@ -84,8 +84,8 @@ public class VoiceServiceImpl implements VoiceService {
 // ------------------------------
 
     @Override
-    public Voice getAnswer(int voiceId) {
-        return null;
+    public List<Voice> getAnswer(long custId) {
+        return voiceRepository.findByCustomerCustId(custId);
     }
 
 

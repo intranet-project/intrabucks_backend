@@ -22,15 +22,13 @@ public class VoiceController {
     @Autowired
     private VoiceService voiceService;
 
-    /**
-     * 고객의 소리 (공홈 -> 인트라넷)
-     */
+    /** 고객의 소리 (공홈 -> 인트라넷) */
+
     /* 공홈에서 받은 voice를 가져오고 service에서 저장 */
     @GetMapping("/voice")
     public List<Voice> voice() {
         voiceService.getVoice();
         return voiceService.selectAllVoice();
-
     }
 
     // 인트라넷 리액트에서 고객의 소리 조회
@@ -39,15 +37,10 @@ public class VoiceController {
         return voiceService.selectAllVoice();
     }
 
-//--------------------
 
-    /**
-     * 고객의 소리 답변(인트라넷 -> 공홈)
-     */
+    /** 고객의 소리 답변(인트라넷 -> 공홈) */
 
-    /* 리액트에서 받은 답변 저장 */
 
-//---------------------
     /* 리액트에서 받은 답변 저장 */
     @PostMapping("/answer")
     public String saveAnswer(@RequestBody AnswerRequestDto answer) {
@@ -55,7 +48,8 @@ public class VoiceController {
 
         return voiceService.saveAnswer(answer);
     }
-//
+//---------------------
+
     /* 공홈에서 요청이 들어왔을때*/
 //    @GetMapping("/getanswer")
 //    public List<AnswerResponseDto> getAnswer() {
@@ -64,8 +58,8 @@ public class VoiceController {
 //        }
 //}
     @GetMapping("/getanswer")
-    public Voice getAnswer(@RequestParam("id") long voiceId) {
-    return voiceService.getAnswer((int) voiceId);
+    public List<Voice> getAnswer(@RequestParam("custId") long custId) {
+    return voiceService.getAnswer(custId);
 }
     /* 공홈으로 답변 전송 */
 //    @GetMapping("/voiceAnswer/{voiceId}")
