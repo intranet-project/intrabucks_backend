@@ -42,7 +42,7 @@ public class BoardController {
    }
    
    //게시판 수정
-   @PutMapping("/updateBoard/${board_id}")
+   @PutMapping("/updateBoard/{board_id}")
    public ResponseEntity<Board_BoardDTO> updateBoard(@PathVariable Long board_id, @RequestBody Board_BoardDTO board_BoardDTO){
 	   Board_BoardDTO board = boardService.updateBoard(board_id, board_BoardDTO);			   
 	   return ResponseEntity.ok(board);
@@ -56,28 +56,28 @@ public class BoardController {
    }
    
    //게시판 하나만 조회
-   @PostMapping("/selectOneBoard/${board_id}")
+   @PostMapping("/selectOneBoard/{board_id}")
    public ResponseEntity<Board_BoardDTO> selectOneBoard(@PathVariable Long board_id){
 	   Board_BoardDTO board = boardService.selectOneBoard(board_id);   
 	   return ResponseEntity.ok(board);
    }
    
    //게시판 부서별 리스트 조회   
-   @PostMapping("/selectBoardOfDepartment/${dept_id}")
+   @PostMapping("/selectBoardOfDepartment/{dept_id}")
    public ResponseEntity<Board_BoardDTO> selectBoardOfDepartment(@PathVariable Long dept_id){
 	   Board_BoardDTO board = boardService.selectBoardOfDepartment(dept_id);
 	   return ResponseEntity.ok(board);
    }
    
    //게시판 제목 검색
-   @PostMapping("/searchBoard/${keyword}")
+   @PostMapping("/searchBoard/{keyword}")
    public ResponseEntity<Board_BoardDTO> searchBoard(@PathVariable String keyword){
 	   Board_BoardDTO board = boardService.searchBoard(keyword);
 	   return ResponseEntity.ok(board);
    }
    
    //게시판 삭제 
-   @DeleteMapping("/deleteBoard/${board_id}")
+   @DeleteMapping("/deleteBoard/{board_id}")
    public ResponseEntity<String> deleteBoard(@PathVariable Long board_id){
 	   String result = boardService.deleteBoard(board_id);
 	   return ResponseEntity.ok(result);
