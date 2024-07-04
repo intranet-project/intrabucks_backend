@@ -9,5 +9,5 @@ public interface VoiceService {
     public String getVoice();
     List<Voice> selectAllVoice();
     String saveAnswer(AnswerRequestDto answer);// 답변 저장
-    Voice getAnswer(int voiceId);
+    List<Voice> getAnswer(long custId);
 }
