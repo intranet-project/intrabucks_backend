@@ -6,4 +6,5 @@ import com.intrabucks.entity.Voice;
 
 public interface VoiceRepository extends JpaRepository<Voice, Long> {
 
+    Voice findByVoiceId(int voiceId);
 }
