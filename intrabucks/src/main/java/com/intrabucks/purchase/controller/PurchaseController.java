@@ -28,7 +28,7 @@ import com.intrabucks.purchase.service.PurchaseService;
  * 2024-06-28
  **/
 
-@CrossOrigin(origins  = "http://localhost:3000")
+@CrossOrigin(origins  = "http://localhost:3001")
 @RestController
 @RequestMapping(value = "/api/v1/intrabucks/purchase")
 public class PurchaseController {
@@ -51,10 +51,6 @@ public class PurchaseController {
     // 발주 item 수정
     @PutMapping("/updatePurchaseItem/{purchase_id}")
     public ResponseEntity<Purchase_PurchaseDTO> updatePurchaseItem(@PathVariable Long purchase_id, @RequestBody Purchase_PurchaseDTO purchase_PurchaseDTO) {
-    	
-    	System.out.println("purchase_id : " + purchase_id);
-    	System.out.println("purchase_PurchaseDTO.getPurchaseState() : " + purchase_PurchaseDTO.getPurchaseState());
-    	System.out.println("purchase_PurchaseDTO : " + purchase_PurchaseDTO);
     	
     	Purchase_PurchaseDTO purchaseItem = purchaseService.updatePurchaseItem(purchase_PurchaseDTO);
         if (purchaseItem != null) {
