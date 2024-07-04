@@ -22,10 +22,19 @@ import com.intrabucks.entity.Employee;
  * 2024-07-03
  **/
 
+/**
+ * 직원(Employee) Repository - 조건에 맞는 Employee 찾는 method 만듦
+ * @author 최유빈
+ * @version 1.2
+ * 2024-07-04
+ **/
+
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	 @Query("SELECT e FROM Employee e WHERE LOWER(e.empName) LIKE LOWER(CONCAT('%', :empName, '%'))")
 	 Page<Employee> findByEmpNameContainingIgnoreCase(String empName, Pageable pageable);
 	 Optional<Employee> findByEmpIdAndEmpNameAndEmpPasswordAndEmpEmail(Long empId, String empName, String empPassword, String empEmail);
+	 //Find Emp
+	 Employee findByEmpId(Long empId);
 	 
 }
 

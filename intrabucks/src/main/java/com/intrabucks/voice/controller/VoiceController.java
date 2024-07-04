@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * VoiceController
+ * @author 최유빈
+ * @version 1.2
+ * 2024-07-04
+ **/
 @RestController
 @RequestMapping("/api/v1/intrabucks/customer")
 public class VoiceController {
@@ -28,8 +34,8 @@ public class VoiceController {
     }
 
     // 인트라넷 리액트에서 고객의 소리 조회
-    @GetMapping("/getvoice")
-    public List<Voice> getVoice() {
+    @GetMapping("/voiceList")
+    public List<Voice> voiceList() {
         return voiceService.selectAllVoice();
     }
 
@@ -40,11 +46,7 @@ public class VoiceController {
      */
 
     /* 리액트에서 받은 답변 저장 */
-    // 인트라넷 리액트에서 고객의 소리 조회
-    @GetMapping("/voiceList")
-    public List<Voice> voiceList() {
-        return voiceService.selectAllVoice();
-    }
+
 //---------------------
     /* 리액트에서 받은 답변 저장 */
     @PostMapping("/answer")
