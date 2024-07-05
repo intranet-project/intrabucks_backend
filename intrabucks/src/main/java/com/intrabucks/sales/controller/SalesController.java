@@ -27,7 +27,7 @@ public class SalesController {
 	@GetMapping("/list")
 	public ResponseEntity<List<Sales>> getSalesList() {
 		List<Sales> salesList = this.salesService.getSalesList();
-		return ResponseEntity.ok().body(salesList);
+		return ResponseEntity.ok(salesList);
 	}
 	
 	@PostMapping("/create")
