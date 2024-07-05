@@ -33,7 +33,6 @@ public class SalesServiceImpl implements SalesService {
 	// 매출 등록
 	@Override
 	public Long createSales(Sales_SalesDTO salesDto) throws NoSuchElementException {
-		System.out.println("============");
 		Long storeId = salesDto.getStore().getStoreId();
 		Store store = this.storeRepository.findById(storeId)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid Store Id: " + storeId));
