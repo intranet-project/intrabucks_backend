@@ -48,14 +48,12 @@ public class ManagerServiceImpl implements ManagerService {
 		Employee employee = this.employeeRepository.findByEmpIdAndEmpNameAndEmpPasswordAndEmpEmail(id, name, password, email).orElseThrow();
 		
 		Store store = Store.builder()
-				.storeId(managerStoreDto.getStoreId())
 				.storeName(managerStoreDto.getStoreName())
 				.storeAddress(managerStoreDto.getStoreAddress())
 				.storeClose(managerStoreDto.getStoreClose()).build();
 		this.storeRepository.save(store);
 		
 		Manager manager = Manager.builder()
-				.managerId(managerStoreDto.getManagerId())
 				.managerName(name)
 				.managerPassword(password)
 				.managerEmail(email)
