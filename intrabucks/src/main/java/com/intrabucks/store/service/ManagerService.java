@@ -6,7 +6,7 @@ import com.intrabucks.store.data.dto.ManagerRequestStoreDTO;
 import com.intrabucks.store.data.reactdto.Manager_ManagerDTO;
 
 public interface ManagerService {
-	public Manager_ManagerDTO readManager(Long storeId) throws NoSuchElementException;// 상세조회
+	public Manager_ManagerDTO readStore(Long storeId) throws NoSuchElementException;// 상세조회
 	public Long createStore(ManagerRequestStoreDTO managerStoreDto) throws NoSuchElementException; // 등록
-	public Long editStore(ManagerRequestStoreDTO managerStoreDto) throws NoSuchElementException;// 수정
+	public Long editManager(Manager_ManagerDTO managerDto) throws NoSuchElementException;// 수정
 }

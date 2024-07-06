@@ -36,7 +36,7 @@ public class ManagerController {
 
 	@GetMapping("/storemanage/read/{id}")
 	public ResponseEntity<Manager_ManagerDTO> getManagerByStoreId(@PathVariable("id") Long storeId) {
-		Manager_ManagerDTO managerDto = this.managerService.readManager(storeId);
+		Manager_ManagerDTO managerDto = this.managerService.readStore(storeId);
 		if (managerDto != null) {
 			return ResponseEntity.ok().body(managerDto);
 		} else {
@@ -52,9 +52,9 @@ public class ManagerController {
 	} // 매장 등록 (post)
 
 	
-	@PutMapping("/storemanage/update/{id}")
-	public ResponseEntity<Long> updateStore(@RequestBody ManagerRequestStoreDTO managerStoreDto) {
-		Long storeId = this.managerService.editStore(managerStoreDto);
-		return ResponseEntity.ok().body(storeId);
-	} // 매장 정보 수정 (put)
+	@PutMapping("/storemanage/update/{managerId}")
+	public ResponseEntity<Long> updateStore(@RequestBody Manager_ManagerDTO managerDto) {
+		Long managerId = this.managerService.editManager(managerDto);
+		return ResponseEntity.ok().body(managerId);
+	} // 관리자 정보 수정 (put)
 }

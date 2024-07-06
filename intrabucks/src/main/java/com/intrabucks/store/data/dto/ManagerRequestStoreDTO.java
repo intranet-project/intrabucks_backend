@@ -2,6 +2,8 @@ package com.intrabucks.store.data.dto;
 
 import java.util.Date;
 
+import com.intrabucks.entity.Employee;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +20,7 @@ public class ManagerRequestStoreDTO {
     
     private String storeClose; // 폐점여부
     // 매장의 column
-	private Long employeeId; // 직원 ID
+	private Employee employee; // 직원 ID
 	// 직원의 column
 	
     private Long managerId; // 관리자 ID
