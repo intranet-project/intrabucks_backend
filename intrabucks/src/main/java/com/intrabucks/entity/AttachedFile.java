@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -45,9 +44,4 @@ public class AttachedFile {
 	@ManyToOne
     @JoinColumn(name = "document_id", referencedColumnName = "document_id")
     private ApprovalDocument document;	//문서ID
-	
-	//추가
-	@Column
-	@Lob
-	private byte[] fileData; // 파일 데이터
 }

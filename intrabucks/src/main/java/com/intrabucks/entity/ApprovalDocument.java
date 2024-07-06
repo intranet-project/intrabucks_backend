@@ -1,5 +1,4 @@
 package com.intrabucks.entity;
-import java.sql.Clob;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -39,10 +37,8 @@ public class ApprovalDocument {
 	@Column(name = "title")
     private String title;	// 제목
     
-	//수정
-	@Lob
 	@Column(name = "content")
-	private String content; 
+    private String content;	// 문서내용
     
 	@Column(name = "approval_stage")
     private String approvalStage;	// 문서상태
