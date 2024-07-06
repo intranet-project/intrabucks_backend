@@ -1,5 +1,7 @@
 package com.intrabucks.employee.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,7 +51,7 @@ public class EmployeeController {
 		return ResponseEntity.ok().body(empId);
 	}
 
-	/**직원전체조회*/
+	/**직원전체조회 페이징*/
 	@GetMapping("/select")
 	public ResponseEntity<Page<Employee_EmployeeDTO>> getAllEmployees(@RequestParam(required = false) String empName,
 			@RequestParam(required = false) Integer page, @RequestParam(defaultValue = "10") int size) {
@@ -95,6 +97,13 @@ public class EmployeeController {
             return ResponseEntity.notFound().build();
         }
     }
+	
+	/**직원전체조회*/
+	@GetMapping("selectOnly")
+	public ResponseEntity<List<Employee_EmployeeDTO>> getAllEmployees() {
+	    List<Employee_EmployeeDTO> employees = employeeService.listAllEmployees();
+	    return ResponseEntity.ok().body(employees);
+	}
 	
 	
     

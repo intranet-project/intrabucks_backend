@@ -30,11 +30,17 @@ import com.intrabucks.entity.Employee;
  **/
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-	 @Query("SELECT e FROM Employee e WHERE LOWER(e.empName) LIKE LOWER(CONCAT('%', :empName, '%'))")
+	 
+	@Query("SELECT e FROM Employee e WHERE LOWER(e.empName) LIKE LOWER(CONCAT('%', :empName, '%'))")
 	 Page<Employee> findByEmpNameContainingIgnoreCase(String empName, Pageable pageable);
+	 
 	 Optional<Employee> findByEmpIdAndEmpNameAndEmpPasswordAndEmpEmail(Long empId, String empName, String empPassword, String empEmail);
-	 //Find Emp
-	 Employee findByEmpId(Long empId);
+	 
+	//Find Emp
+	Employee findByEmpId(Long empId);
+	 
+	 //empid로 직원 1명 조회
+	 Employee findByEmpEmail(String emp_email);
 	 
 }
 

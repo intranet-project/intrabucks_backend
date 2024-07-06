@@ -1,7 +1,9 @@
 package com.intrabucks.employee.service;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -63,7 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee.getEmpId();
 	}
 	
-	/**직원전체조회*/
+	/**직원전체&페이징조회*/
 	@Override
 	public Page<Employee_EmployeeDTO> ListEmployee(String empName, Pageable pageable) {
 
@@ -187,6 +189,31 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return true; // 성공적으로 처리됨
     }
+	
+	/**직원전체조회*/
+	@Override
+	public List<Employee_EmployeeDTO> listAllEmployees() {
+		// 모든 직원 정보를 조회합니다.
+		List<Employee> employees = employeeRepository.findAll();
+		
+		// Employee 엔티티 리스트를 Employee_EmployeeDTO 리스트로 변환합니다.
+		   List<Employee_EmployeeDTO> employeeDTO = employees.stream().map(employee ->
+           new Employee_EmployeeDTO(
+           		employee.getEmpId(), 
+       			employee.getEmpName(), 
+       			employee.getEmpPassword(),
+                   employee.getEmpEmail(), 
+                   employee.getEmpPhone(), 
+                   employee.getEmpAddress(), 
+                   (Date) employee.getEmpJoinDate(),
+                   employee.getEmpPosition(),  
+                   employee.getDepartment().getDeptCode(),
+                   employee.getWorkState()
+           )
+       ).collect(Collectors.toList());
+
+        return employeeDTO;
+	}
 
 	
 }
