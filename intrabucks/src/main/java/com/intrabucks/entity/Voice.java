@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
  * 고객의 소리 테이블(Voice) 엔티티로, 고객의 소리에 대한정보를 담고 있음
  * @author 최유빈
  * @version 1.0
+ * @version 1.1 crm-공홈,인트라넷DB동기화 (자동증가값 삭제)
  * 2024-06-27
  * **/
 @Entity
@@ -27,9 +28,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Voice {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "voice_seq")
-	@SequenceGenerator(name = "voice_seq", sequenceName = "voice_seq", allocationSize = 1)
+	@Id //v1.1
 	@Column(name = "voice_id")
     private Integer voiceId; // 고객의 소리 ID
 	
