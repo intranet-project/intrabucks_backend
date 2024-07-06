@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- * 결재라인 Controller :  결재라인 생성
+ * 결재라인 Controller : 결재라인 생성 및 세션 요청
  * @author 구은재
  * @version 1.0 
  * 2024-07-06
@@ -39,6 +39,7 @@ public class Approval1Controller {
 	@PostMapping("/create")
 	//DTO로 결재자, 결재상태를 받아서 엔티티에 ID값으로 저장 
 	public ResponseEntity<String> createApproval1(@RequestBody Approval1_Approval1DTO Approval1DTO) {
+		System.out.println(Approval1DTO);
 		System.out.println(Approval1DTO.getApprovalSteps()[0].getDeptCode());
 		String  approvalLine = approval1Service.createApproval1(Approval1DTO);
 		
@@ -48,7 +49,14 @@ public class Approval1Controller {
 	/*세션 요청*/
 	 @GetMapping("/session")
 	  public ResponseEntity<Employee_EmployeeDTO> getSession(HttpServletRequest request) {
-	        HttpSession session = request.getSession(false);
+	        System.out.println("***********************************************************************");
+		// 세션 없이 "id", "jisoo@example.com"으로만 테스트
+		    String id = "seongjin@example.com";
+		    Employee_EmployeeDTO employee = approval1Service.sessionEmployee(id);
+		    return ResponseEntity.ok(employee);
+		  
+		  /**
+		  HttpSession session = request.getSession(false);
 	        if (session != null) {
 	            session.setAttribute("id", "jisoo@example.com");
 	            String id = (String) session.getAttribute("id");
@@ -57,5 +65,6 @@ public class Approval1Controller {
 	        } else {
 	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	        }
+	        */
 	    }
 }

@@ -3,11 +3,12 @@ package com.intrabucks.approval.service;
 import com.intrabucks.approval.data.reactdto.Approval1_Approval1DTO;
 import com.intrabucks.employee.data.reactdto.Employee_EmployeeDTO;
 
+
 /**
  * 결재라인 Approval1Service :  결재라인 생성
  * @author 구은재
- * @version 1.0 
- * 2024-06-30
+ * @version 2.0 
+ * 2024-07-06
 **/
 
 public interface Approval1Service {
