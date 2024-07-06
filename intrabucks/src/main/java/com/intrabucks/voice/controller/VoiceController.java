@@ -40,7 +40,6 @@ public class VoiceController {
 
     /** 고객의 소리 답변(인트라넷 -> 공홈) */
 
-
     /* 리액트에서 받은 답변 저장 */
     @PostMapping("/answer")
     public String saveAnswer(@RequestBody AnswerRequestDto answer) {
@@ -48,25 +47,16 @@ public class VoiceController {
 
         return voiceService.saveAnswer(answer);
     }
-//---------------------
 
     /* 공홈에서 요청이 들어왔을때*/
-//    @GetMapping("/getanswer")
-//    public List<AnswerResponseDto> getAnswer() {
-//        public Voice getAnswer(@RequestParam("id") int voiceId) {
-//            return voiceService.getAnswer(voiceId);
-//        }
-//}
     @GetMapping("/getanswer")
     public List<Voice> getAnswer(@RequestParam("custId") long custId) {
     return voiceService.getAnswer(custId);
 }
-    /* 공홈으로 답변 전송 */
-//    @GetMapping("/voiceAnswer/{voiceId}")
-////    public ResponseEntity<String> saveAnswer(@RequestBody voiceResponseDto voiceResponseDto) {
-////        String result = voiceService.saveAnswer(voiceResponseDto);
-////        return ResponseEntity.ok(result);
-//    public AnswerResponseDto getAnswer(@RequestParam("id") long voiceId) {
-//        return voiceService.getAnswer(voiceId);
-//    }
+    /* 공홈 DB에 변경값 저장을 위해 공홈 서버 호출*/
+    @GetMapping("/getanswer2")
+    public List<Voice> getAnswer2() {
+        return voiceService.getAnswer2();
+    }
+
 }

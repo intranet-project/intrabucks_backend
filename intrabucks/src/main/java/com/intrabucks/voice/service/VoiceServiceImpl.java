@@ -39,8 +39,17 @@ public class VoiceServiceImpl implements VoiceService {
     /** Voice 고객의 소리 */
     /*공홈에서 정보를 가져와서 저장*/
     @Override
-    public String getVoice() {
-        String url = "http://localhost:8000/api/customer/getvoice";
+    public List<Voice> getVoice() {
+        String url2= "http://localhost:8000/api/v1/webbucks/customer/answer2";
+        // GET 요청 보내기
+        ResponseEntity<Void> response2 = restTemplate.exchange(
+                url2,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Void>() {}
+        );
+
+        String url = "http://localhost:8000/api/v1/webbucks/customer/getvoice";
         ResponseEntity<List<Voice>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
@@ -48,9 +57,11 @@ public class VoiceServiceImpl implements VoiceService {
                 new ParameterizedTypeReference<List<Voice>>() {}
         );
         List<Voice> voices = response.getBody();
-        voiceRepository.saveAll(voices);
 
-        return "Success";
+
+        voiceRepository.saveAll(voices);
+       return voiceRepository.findAll();
+        //return "Success";
     }
 
     /*리액트로 보내는 고객의 소리*/
@@ -86,6 +97,10 @@ public class VoiceServiceImpl implements VoiceService {
     @Override
     public List<Voice> getAnswer(long custId) {
         return voiceRepository.findByCustomerCustId(custId);
+    }
+    @Override
+    public List<Voice> getAnswer2() {
+        return voiceRepository.findAll();
     }
 
 
