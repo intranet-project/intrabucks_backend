@@ -1,5 +1,12 @@
 package com.intrabucks.approval.data.dto.reactdto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DocumentType_DocumentTypeDTO {
 	
 		private Long documentTypeId; // 문서 양식 ID
