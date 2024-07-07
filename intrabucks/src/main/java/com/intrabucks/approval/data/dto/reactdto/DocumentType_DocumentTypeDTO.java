@@ -4,13 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * 결재문서함(DocumentType) DTO : 어노테이션 추가
- * @author 구은재
- * @version 1.0 
- * 2024-07-07
- **/
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
