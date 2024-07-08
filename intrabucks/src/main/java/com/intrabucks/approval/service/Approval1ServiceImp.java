@@ -100,28 +100,35 @@ public class Approval1ServiceImp implements Approval1Service {
 		return employeeDTO;
 	}
 
+	
+	
 	/**문서ID조회*/
 	@Override
 	public ApprovalDocument_ApprovalDocumentDTO selectOneApproval(Long documentId) {
 		ApprovalDocument approvalDocument = approvalDocumentRepository.findById(documentId)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid document ID: " + documentId));
-		
+	
 		return new ApprovalDocument_ApprovalDocumentDTO(
-				approvalDocument.getDocumentId(),
-				approvalDocument.getTitle(),
-				approvalDocument.getContent(),
-				approvalDocument.getApprovalStage(),
-				approvalDocument.getDocumentType().getDocumentTypeId(),
-				approvalDocument.getCreatedAt(),
-				approvalDocument.getUpdatedAt(),
-				approvalDocument.getEmployee().getEmpId(),
-				approvalDocument.getDepartmentName(),
-				approvalDocument.getApprovalPathString());
+				approvalDocument.getAppDocId(),
+				approvalDocument.getDocumentType(),
+				approvalDocument.getAppDocTitle(),
+				approvalDocument.getAppDocDepartment(),
+				approvalDocument.getEmployee(),
+				approvalDocument.getAppDocDepartmentGrade(),
+				approvalDocument.getAppDocContent(),
+				approvalDocument.getAppDocStage(),
+				approvalDocument.getAppDocCreatedAt(),
+				approvalDocument.getAppDocUpdatedAt(),	
+				approvalDocument.getAppDocPathString()
+				);
+				
 	}
 
 	/**문서전체조회*/
 	@Override
 	public Page<ApprovalDocument_ApprovalDocumentDTO> ListApproval(String title, PageRequest pageable) {
+	
+
 		int page = pageable.getPageNumber();
 	    if (page < 0) {
 	        page = 0;
@@ -137,51 +144,61 @@ public class Approval1ServiceImp implements Approval1Service {
             // empName이 null이거나 빈 문자열인 경우 모든 직원을 조회
     		approvalPage = approvalDocumentRepository.findAll(pageable);
         } else {
-            // empName이 주어진 경우 해당 이름을 포함하는 직원을 조회
-        	approvalPage = approvalDocumentRepository.findByTitleContainingIgnoreCase(title, pageable);
+            // 문서 제목으로 페이징 하는 것 
+        	approvalPage = approvalDocumentRepository.findByAppDocTitleContainingIgnoreCase(title, pageable);
         }   
     	
     	return approvalPage.map(approval ->
     	new ApprovalDocument_ApprovalDocumentDTO(
-    			approval.getDocumentId(),
-				approval.getTitle(),
-				approval.getContent(),
-				approval.getApprovalStage(),
-				approval.getDocumentType().getDocumentTypeId(),
-				approval.getCreatedAt(),
-				approval.getUpdatedAt(),
-				approval.getEmployee().getEmpId(),
-				approval.getDepartmentName(),
-				approval.getApprovalPathString()
-            )
+    			approval.getAppDocId(),
+    			approval.getDocumentType(),
+    			approval.getAppDocTitle(),
+    			approval.getAppDocDepartment(),
+    			approval.getEmployee(),
+    			approval.getAppDocDepartmentGrade(),
+    			approval.getAppDocContent(),
+    			approval.getAppDocStage(),
+    			approval.getAppDocCreatedAt(),
+    			approval.getAppDocUpdatedAt(),	
+    			approval.getAppDocPathString()
+				)
     	);
+    	
+		
 	}
 
+	
 	/**문서반려(수정)*/
 	@Override
 	public Long updateApproval(ApprovalDocument_ApprovalDocumentDTO approvalDocumentDTO) {
-		ApprovalDocument approvalDocument = approvalDocumentRepository.findById(approvalDocumentDTO.getDocumentId())
-	            .orElseThrow(() -> new IllegalArgumentException("Invalid approvalDocument ID:" + approvalDocumentDTO.getDocumentId()));
+		
+		ApprovalDocument approvalDocument = approvalDocumentRepository.findById(approvalDocumentDTO.getAppDocId())
+	            .orElseThrow(() -> new IllegalArgumentException("Invalid approvalDocument ID:" + approvalDocumentDTO.getAppDocId()));
+		
+	    DocumentType documentType = documentTypeRepository.findById(approvalDocumentDTO.getDocTypeId().getDocumentTypeId())
+	            .orElseThrow(() -> new IllegalArgumentException("Invalid Document Type ID: " + approvalDocumentDTO.getDocTypeId().getDocumentTypeId()));
 
-	    DocumentType documentType = documentTypeRepository.findById(approvalDocumentDTO.getDocumentTypeId())
-	            .orElseThrow(() -> new IllegalArgumentException("Invalid Document Type ID: " + approvalDocumentDTO.getDocumentTypeId()));
+	    Employee employee = employeeRepository.findById(approvalDocumentDTO.getEmpId().getEmpId())
+	            .orElseThrow(() -> new IllegalArgumentException("Invalid Employee ID: " + approvalDocumentDTO.getEmpId().getEmpId()));
 
-	    Employee employee = employeeRepository.findById(approvalDocumentDTO.getEmpId())
-	            .orElseThrow(() -> new IllegalArgumentException("Invalid Employee ID: " + approvalDocumentDTO.getEmpId()));
-
-	    approvalDocument.setTitle(approvalDocumentDTO.getTitle());
-	    approvalDocument.setContent(approvalDocumentDTO.getContent());
-	    approvalDocument.setApprovalStage(approvalDocumentDTO.getApprovalStage());
+	    approvalDocument.setAppDocTitle(approvalDocumentDTO.getAppDocTitle());
+	    approvalDocument.setAppDocContent(approvalDocumentDTO.getAppDocContent());
+	    approvalDocument.setAppDocStage(approvalDocumentDTO.getAppDocStage());
 	    approvalDocument.setDocumentType(documentType); // 외래키 설정
-	    approvalDocument.setCreatedAt(approvalDocumentDTO.getCreatedAt());
-	    approvalDocument.setUpdatedAt(approvalDocumentDTO.getUpdatedAt());
+	    approvalDocument.setAppDocCreatedAt(approvalDocumentDTO.getAppDocCreatedAt());
+	    approvalDocument.setAppDocUpdatedAt(approvalDocumentDTO.getAppDocUpdatedAt());
 	    approvalDocument.setEmployee(employee); // 외래키 설정
-	    approvalDocument.setDepartmentName(approvalDocumentDTO.getDepartmentName());
-	    approvalDocument.setApprovalPathString(approvalDocumentDTO.getApprovalPathString());
-
-	    approvalDocumentRepository.save(approvalDocument);
+	    approvalDocument.setAppDocDepartment(approvalDocumentDTO.getAppDocDepartment());
+	    approvalDocument.setAppDocPathString(approvalDocumentDTO.getAppDocPathString());
+	    approvalDocument.setAppDocDepartment(approvalDocumentDTO.getAppDocDepartmentGrade());
 	    
-	    return approvalDocument.getDocumentId();
+	    approvalDocumentRepository.save(approvalDocument);
+	
+	    return approvalDocument.getAppDocId();
+	  
+	
 	}
+
+	
 	    
 }

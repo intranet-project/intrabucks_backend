@@ -43,7 +43,7 @@ public class AttachedFile {
     private Long fileSize;	//파일크기
     
 	@ManyToOne
-    @JoinColumn(name = "document_id", referencedColumnName = "document_id")
+    @JoinColumn(name = "approval_doc_id", referencedColumnName = "approval_doc_id")
     private ApprovalDocument document;	//문서ID
 	
 	//추가

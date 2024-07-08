@@ -36,9 +36,8 @@ public class DocumentType {
     @Column(name = "document_type_name")
     private String documentTypeName; // 문서 양식 이름
 
-    
+    @Lob
     @Column(name = "document_type_content")
-    @Lob // 추가
     private String documentTypeContent; // 문서내용
 
     @Column(name = "document_authority")
