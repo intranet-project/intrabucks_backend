@@ -3,6 +3,7 @@ package com.intrabucks.menu.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.intrabucks.store.data.repository.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +16,24 @@ import com.intrabucks.menu.data.reactdto.Menu_MenuDTO;
 import com.intrabucks.menu.data.repository.CategoryRepository;
 import com.intrabucks.menu.data.repository.MenuRepository;
 import com.intrabucks.store.data.reactdto.Manager_ManagerDTO;
+import org.springframework.web.client.RestTemplate;
 
+/**
+ * @author 최유빈
+ * @version 1.1 인트라넷 - 공홈 통신
+ * @since 2024-07-08
+ * */
 @Service
 public class MenuServiceImpl implements MenuService {
 	private final MenuRepository menuRepository;
 	private final CategoryRepository categoryRepository;
+	private final RestTemplate restTemplate; // 1.1
 	
 	@Autowired
-	public MenuServiceImpl(MenuRepository menuRepository, CategoryRepository categoryRepository) {
+	public MenuServiceImpl(MenuRepository menuRepository, CategoryRepository categoryRepository, RestTemplate restTemplate) {
 		this.menuRepository = menuRepository;
 		this.categoryRepository = categoryRepository;
+		this.restTemplate = restTemplate; // 1.1
 	}
 	
 	// 전체조회
