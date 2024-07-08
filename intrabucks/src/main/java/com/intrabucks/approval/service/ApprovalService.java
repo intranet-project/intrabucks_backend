@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovlaDocumentDTO;
+import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovalDocumentDTO;
 import com.intrabucks.approval.data.dto.reactdto.AttachedFile_AttachedFileDTO;
 import com.intrabucks.approval.data.dto.reactdto.DocumentType_DocumentTypeDTO;
 import com.intrabucks.entity.ApprovalDocument;
@@ -25,16 +25,16 @@ public interface ApprovalService {
 	String deleteFile(Long approvalID);
 	
 	//결재
-	ApprovalDocument_ApprovlaDocumentDTO saveApproval(ApprovalDocument_ApprovlaDocumentDTO approvalDocumentDTO);
+	ApprovalDocument_ApprovalDocumentDTO saveApproval(ApprovalDocument_ApprovalDocumentDTO approvalDocumentDTO);
 	
 	//결재 문서 리스트
 	List<ApprovalDocument> selectApprovalList();
 	
 	//결재 문서 하나 확인하기
-	ApprovalDocument_ApprovlaDocumentDTO checkApproval(Long approval_id);
+	ApprovalDocument_ApprovalDocumentDTO checkApproval(Long approval_id);
 	
 	//결재 문서 수정하기
-	ApprovalDocument_ApprovlaDocumentDTO updateApproval(Long approval_id, ApprovalDocument_ApprovlaDocumentDTO approvalDocumentDTO);
+	ApprovalDocument_ApprovalDocumentDTO updateApproval(Long approval_id, ApprovalDocument_ApprovalDocumentDTO approvalDocumentDTO);
 	
 	//결재 문서 삭제하기 
 	

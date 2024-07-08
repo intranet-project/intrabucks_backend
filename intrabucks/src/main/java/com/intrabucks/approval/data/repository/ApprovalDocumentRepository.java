@@ -16,6 +16,8 @@ import com.intrabucks.entity.Employee;
  * **/
 
 public interface ApprovalDocumentRepository extends JpaRepository<ApprovalDocument, Long> {
-	@Query("SELECT e FROM ApprovalDocument e WHERE LOWER(e.title) LIKE LOWER(CONCAT('%', :title, '%'))")
-	Page<ApprovalDocument> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+	
+	@Query("SELECT e FROM ApprovalDocument e WHERE LOWER(e.appDocTitle) LIKE LOWER(CONCAT('%', :title, '%'))")
+	Page<ApprovalDocument> findByAppDocTitleContainingIgnoreCase(String title, Pageable pageable);
+
 }

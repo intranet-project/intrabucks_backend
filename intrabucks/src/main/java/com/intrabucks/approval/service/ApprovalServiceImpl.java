@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovlaDocumentDTO;
+import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovalDocumentDTO;
 import com.intrabucks.approval.data.dto.reactdto.AttachedFile_AttachedFileDTO;
 import com.intrabucks.approval.data.dto.reactdto.DocumentType_DocumentTypeDTO;
 import com.intrabucks.approval.data.repository.ApprovalDocumentRepository;
@@ -130,11 +130,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 	/**전자결재 관련 코드*/
 	//전자결재 수행(Create)
 	@Override
-	public ApprovalDocument_ApprovlaDocumentDTO saveApproval(ApprovalDocument_ApprovlaDocumentDTO approvalDocumentDTO) {
+	public ApprovalDocument_ApprovalDocumentDTO saveApproval(ApprovalDocument_ApprovalDocumentDTO approvalDocumentDTO) {
 		
 		//사용자 입력값 db에 저장
 		ApprovalDocument approvalDocument = new ApprovalDocument();
-		
+		/**
 		approvalDocument.setApprovalPathString(approvalDocumentDTO.getApprovalPathString());
 		approvalDocument.setApprovalStage(approvalDocumentDTO.getApprovalStage());
 		approvalDocument.setContent(approvalDocumentDTO.getContent());
@@ -144,7 +144,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		approvalDocument.setDocumentType(approvalDocumentDTO.getDocumentType());
 		approvalDocument.setEmployee(approvalDocumentDTO.getEmployee());
 		approvalDocument.setTitle(approvalDocumentDTO.getTitle());
-		//approvalDocument.setUpdatedAt(approvalDocumentDTO.getUpdatedAt());
+		approvalDocument.setUpdatedAt(approvalDocumentDTO.getUpdatedAt());
 		
 		approvalDocumentRepository.save(approvalDocument);
 		
@@ -161,8 +161,8 @@ public class ApprovalServiceImpl implements ApprovalService{
 		saveApprovalDocumentDTO.setEmployee(approvalDocument.getEmployee());
 		saveApprovalDocumentDTO.setTitle(approvalDocument.getTitle());
 		saveApprovalDocumentDTO.setUpdatedAt(approvalDocument.getUpdatedAt());
-		
-		return saveApprovalDocumentDTO;
+		**/
+		return null;
 	}
 
 	
@@ -176,12 +176,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 	//전자결재 하나 확인하기 (작성자가 올린 기안 문서함 중 작성자가 하나 선택한 기안)
 
 	@Override
-	public ApprovalDocument_ApprovlaDocumentDTO checkApproval(Long approval_id) {
+	public ApprovalDocument_ApprovalDocumentDTO checkApproval(Long approval_id) {
 		
 		ApprovalDocument oneApproval = approvalDocumentRepository.getById(approval_id);
 		
-		ApprovalDocument_ApprovlaDocumentDTO oneApprovalDTO = new ApprovalDocument_ApprovlaDocumentDTO();
-				
+		ApprovalDocument_ApprovalDocumentDTO oneApprovalDTO = new ApprovalDocument_ApprovalDocumentDTO();
+				/**
 		if (oneApproval != null) {
 			oneApprovalDTO.setApprovalPathString(oneApproval.getApprovalPathString());
 			oneApprovalDTO.setApprovalStage(oneApproval.getApprovalStage());
@@ -194,15 +194,16 @@ public class ApprovalServiceImpl implements ApprovalService{
 			oneApprovalDTO.setTitle(oneApproval.getTitle());
 			oneApprovalDTO.setUpdatedAt(oneApproval.getUpdatedAt());
 		}
-		return oneApprovalDTO;
+		**/
+		return null;
 	}
 	
 	//전자결재 수정하기 _ 결재자가 결재하기 전에 수정 (결재자가 결재하기 전이라는 조건문 달아야함)
-	public ApprovalDocument_ApprovlaDocumentDTO updateApproval(Long approval_id, ApprovalDocument_ApprovlaDocumentDTO approvalDocumentDTO) {
+	public ApprovalDocument_ApprovalDocumentDTO updateApproval(Long approval_id, ApprovalDocument_ApprovalDocumentDTO approvalDocumentDTO) {
 		
 		//조회하기
 		ApprovalDocument oneApproval = approvalDocumentRepository.getById(approval_id);
-		
+		/**
 		//엔티티에 수정된 값 세팅
 		ApprovalDocument updateApprovalDocument = new ApprovalDocument();
 		if (oneApproval != null) {
@@ -230,8 +231,8 @@ public class ApprovalServiceImpl implements ApprovalService{
 		updateApprovalDocumentDTO.setEmployee(updateApprovalDocument.getEmployee());
 		updateApprovalDocumentDTO.setTitle(updateApprovalDocument.getTitle());
 		updateApprovalDocumentDTO.setUpdatedAt(updateApprovalDocument.getUpdatedAt());
-		
-		return updateApprovalDocumentDTO;
+		**/
+		return null;
 	
 	}
 	
