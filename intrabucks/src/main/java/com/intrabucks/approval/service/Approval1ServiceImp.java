@@ -134,9 +134,9 @@ public class Approval1ServiceImp implements Approval1Service {
 	        page = 0;
 	    }
 		
-		final int pageSize = 10;
+		final int pageSize = 5;
     	
-		pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "CreatedAt"));
+		pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "appDocCreatedAt"));
     	
     	Page<ApprovalDocument> approvalPage;
     	

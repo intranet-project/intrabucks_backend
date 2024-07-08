@@ -51,7 +51,7 @@ public class QuitterController {
 	public ResponseEntity<Page<Quitter_QuitterDTO>> getAllEntity(@RequestParam(required = false) String empName,
 			@RequestParam(required = false) Integer page, @RequestParam(defaultValue = "10") int size) {
 
-		int pageNumber = (page != null && page > 0) ? page - 1 : 0;
+		int pageNumber = (page != null && page > 0) ? page : 0;
 		PageRequest pageable = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "quitLeavingdate"));
 		Page<Quitter_QuitterDTO> quitters = quitterService.ListQuitter(empName, pageable);
 		return ResponseEntity.ok().body(quitters);
