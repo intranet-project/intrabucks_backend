@@ -56,7 +56,7 @@ public class EmployeeController {
 	public ResponseEntity<Page<Employee_EmployeeDTO>> getAllEmployees(@RequestParam(required = false) String empName,
 			@RequestParam(required = false) Integer page, @RequestParam(defaultValue = "10") int size) {
 
-		int pageNumber = (page != null && page > 0) ? page - 1 : 0;
+		int pageNumber = (page != null && page > 0) ? page : 0;
 		PageRequest pageable = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "empJoinDate"));
 		Page<Employee_EmployeeDTO> employees = employeeService.ListEmployee(empName, pageable);
 		return ResponseEntity.ok().body(employees);

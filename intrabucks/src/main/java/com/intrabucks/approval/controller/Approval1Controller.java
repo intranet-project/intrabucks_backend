@@ -96,9 +96,9 @@ public class Approval1Controller {
 	  /**전체문서목록조회*/	  
 	  @GetMapping("/select")
 		public ResponseEntity<Page<ApprovalDocument_ApprovalDocumentDTO>> getAllApproval(@RequestParam(required = false) String title,
-				@RequestParam(required = false) Integer page, @RequestParam(defaultValue = "10") int size) {
+				@RequestParam(required = false) Integer page, @RequestParam(defaultValue = "5") int size) {
 
-			int pageNumber = (page != null && page > 0) ? page - 1 : 0;
+			int pageNumber = (page != null && page > 0) ? page : 0;
 			PageRequest pageable = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.DESC, "empJoinDate"));
 			Page<ApprovalDocument_ApprovalDocumentDTO> ApprovalDocument = approval1Service.ListApproval(title, pageable);
 			return ResponseEntity.ok().body(ApprovalDocument);
