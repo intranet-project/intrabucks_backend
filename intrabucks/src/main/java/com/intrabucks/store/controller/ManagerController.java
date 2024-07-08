@@ -1,20 +1,18 @@
 package com.intrabucks.store.controller;
 
+import com.intrabucks.entity.Store;
+import com.intrabucks.entity.Voice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.intrabucks.store.data.dto.ManagerRequestStoreDTO;
 import com.intrabucks.store.data.reactdto.Manager_ManagerDTO;
 import com.intrabucks.store.data.reactdto.Store_StoreDTO;
 import com.intrabucks.store.service.ManagerService;
 import com.intrabucks.store.service.StoreService;
+
+import java.util.List;
 
 /**
  * 매장 관리자(Manager) 컨트롤러로, 매장 관리자에 대한 내용을 담고 있음
@@ -23,12 +21,21 @@ import com.intrabucks.store.service.StoreService;
  * 2024-07-01
  **/
 
+/**
+ * @author 최유빈
+ * @version 1.1 인트라넷 - 공홈 통신
+ * @since 2024-07-08
+ * */
+
 @RestController
 @RequestMapping("/api/v1/intrabucks/manager")
 public class ManagerController {
 
 	private final ManagerService managerService;
-	
+
+	@Autowired //1.1
+	private StoreService storeService;
+
 	@Autowired
 	public ManagerController(ManagerService managerService) {
 		this.managerService = managerService;
@@ -57,4 +64,12 @@ public class ManagerController {
 		Long managerId = this.managerService.editManager(managerDto);
 		return ResponseEntity.ok().body(managerId);
 	} // 관리자 정보 수정 (put)
+
+
+	// 1.1
+	/* 공홈에 업데이트 된 store정보 제공*/
+	@GetMapping("/getstore")
+	public List<Store> getStore() {
+		return storeService.getStoreList();
+	}
 }
