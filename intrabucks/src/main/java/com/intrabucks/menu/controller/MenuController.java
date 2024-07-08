@@ -2,6 +2,7 @@ package com.intrabucks.menu.controller;
 
 import java.util.List;
 
+import com.intrabucks.entity.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -64,4 +65,11 @@ public class MenuController {
     	return ResponseEntity.ok(result);
     	
     } // 메뉴 삭제
+
+	// 1.1
+	/* 공홈에 업데이트 된 메뉴정보 제공*/
+	@GetMapping("/getmenu")
+	public List<Menu> getMenu() {
+		return menuService.getMenuList();
+	}
 }

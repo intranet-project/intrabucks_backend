@@ -17,12 +17,12 @@ import org.springframework.web.client.RestTemplate;
 public class StoreServiceImpl implements StoreService {
 
 	private final StoreRepository storeRepository;
-	private final RestTemplate restTemplate;//1.1
+	private final RestTemplate restTemplate;// 1.1
 
 	@Autowired
 	public StoreServiceImpl(StoreRepository storeRepository, RestTemplate restTemplate) {
 		this.storeRepository = storeRepository;
-		this.restTemplate = restTemplate; //1.1
+		this.restTemplate = restTemplate; // 1.1
 	}
 
 	@Override
