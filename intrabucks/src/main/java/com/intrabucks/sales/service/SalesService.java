@@ -8,5 +8,5 @@ import com.intrabucks.sales.data.reactdto.Sales_SalesDTO;
 
 public interface SalesService {
 	public List<Sales> getSalesList(); // 전체조회
-	public Long createSales(Sales_SalesDTO salesDto) throws NoSuchElementException;// 수정
+	public Long createSales(Sales_SalesDTO salesDto);// 수정
 }

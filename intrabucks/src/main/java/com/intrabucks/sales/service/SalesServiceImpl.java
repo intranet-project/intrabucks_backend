@@ -1,7 +1,6 @@
 package com.intrabucks.sales.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +14,10 @@ import com.intrabucks.store.data.repository.StoreRepository;
 @Service
 public class SalesServiceImpl implements SalesService {
 	private final SalesRepository salesRepository;
-	private final StoreRepository storeRepository;
 	
 	@Autowired
-	public SalesServiceImpl(SalesRepository salesRepository, StoreRepository storeRepository) {
+	public SalesServiceImpl(SalesRepository salesRepository) {
 		this.salesRepository = salesRepository;
-		this.storeRepository = storeRepository;
 	}
 	
 	// 총 매출 내역
@@ -32,10 +29,8 @@ public class SalesServiceImpl implements SalesService {
 
 	// 매출 등록
 	@Override
-	public Long createSales(Sales_SalesDTO salesDto) throws NoSuchElementException {
-		Long storeId = salesDto.getStore().getStoreId();
-		Store store = this.storeRepository.findById(storeId)
-				.orElseThrow(() -> new IllegalArgumentException("Invalid Store Id: " + storeId));
+	public Long createSales(Sales_SalesDTO salesDto) {
+		Store store = salesDto.getStore();
 		
 		Sales sales = Sales.builder()
 				.store(store)
