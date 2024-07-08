@@ -1,26 +1,28 @@
 package com.intrabucks.store.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.intrabucks.entity.Stock;
 import com.intrabucks.entity.Store;
-import com.intrabucks.stock.data.reactdto.Stock_StockDTO;
 import com.intrabucks.store.data.reactdto.Store_StoreDTO;
-import com.intrabucks.store.data.repository.ManagerRepository;
 import com.intrabucks.store.data.repository.StoreRepository;
+import org.springframework.web.client.RestTemplate;
 
+/**
+ * @author 최유빈
+ * @version 1.1 인트라넷 - 공홈 통신
+ * @since 2024-07-08
+ * */
 @Service
 public class StoreServiceImpl implements StoreService {
 
 	private final StoreRepository storeRepository;
+	private final RestTemplate restTemplate;//1.1
 
 	@Autowired
-	public StoreServiceImpl(StoreRepository storeRepository) {
+	public StoreServiceImpl(StoreRepository storeRepository, RestTemplate restTemplate) {
 		this.storeRepository = storeRepository;
+		this.restTemplate = restTemplate; //1.1
 	}
 
 	@Override
