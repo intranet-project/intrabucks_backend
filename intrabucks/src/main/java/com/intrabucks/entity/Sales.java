@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,8 @@ import lombok.NoArgsConstructor;
  * @author 최유빈
  * @version 1.0
  * 2024-06-27
+ * @version 1.1 공홈 DB에서 전달하는 JSON 데이터 필드 매핑
+ * 2024-07-09
  * **/
 
 @Builder
@@ -39,9 +42,11 @@ public class Sales {
     private Long salesId; //매출 ID
     
     @ManyToOne
+    @JsonProperty("storeId") // 1.1
     @JoinColumn(name = "store_id", nullable = false)
     private Store store; // 매장 ID
-   
+
+    @JsonProperty("salesAmount") // 1.1
     @Column(name = "sales_total_amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal salesTotalAmount; // 매출 금액
    

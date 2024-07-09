@@ -36,17 +36,20 @@ public class VoiceServiceImpl implements VoiceService {
     @Autowired
     private StoreRepository storeRepository;
 
-    /** Voice 고객의 소리 */
+    /**
+     * Voice 고객의 소리
+     */
     /*공홈에서 정보를 가져와서 저장*/
     @Override
     public List<Voice> getVoice() {
-        String url2= "http://localhost:8000/api/v1/webbucks/customer/answer2";
+        String url2 = "http://localhost:8000/api/v1/webbucks/customer/answer2";
         // GET 요청 보내기
         ResponseEntity<Void> response2 = restTemplate.exchange(
                 url2,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<Void>() {}
+                new ParameterizedTypeReference<Void>() {
+                }
         );
 
         String url = "http://localhost:8000/api/v1/webbucks/customer/getvoice";
@@ -54,13 +57,14 @@ public class VoiceServiceImpl implements VoiceService {
                 url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<Voice>>() {}
+                new ParameterizedTypeReference<List<Voice>>() {
+                }
         );
         List<Voice> voices = response.getBody();
 
 
         voiceRepository.saveAll(voices);
-       return voiceRepository.findAll();
+        return voiceRepository.findAll();
         //return "Success";
     }
 
@@ -72,7 +76,10 @@ public class VoiceServiceImpl implements VoiceService {
 
 
     /* 고객의 소리 답변 Answer */
-   /**리액트에서 입력한 답변 저장*/
+
+    /**
+     * 리액트에서 입력한 답변 저장
+     */
 
     @Override
     public String saveAnswer(AnswerRequestDto answerRequestDto) {
@@ -92,21 +99,13 @@ public class VoiceServiceImpl implements VoiceService {
         return "success";
     }
 
-// ------------------------------
-
     @Override
     public List<Voice> getAnswer(long custId) {
         return voiceRepository.findByCustomerCustId(custId);
     }
+
     @Override
     public List<Voice> getAnswer2() {
         return voiceRepository.findAll();
     }
-
-
-    /*공홈으로 답변 전송*/
-//    @Override
-//    public String sendAnswer(long voiceId) {
-//        return "";
-//    }
 }
