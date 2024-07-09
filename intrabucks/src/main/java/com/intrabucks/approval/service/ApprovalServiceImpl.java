@@ -134,35 +134,37 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		//사용자 입력값 db에 저장
 		ApprovalDocument approvalDocument = new ApprovalDocument();
-		/**
-		approvalDocument.setApprovalPathString(approvalDocumentDTO.getApprovalPathString());
-		approvalDocument.setApprovalStage(approvalDocumentDTO.getApprovalStage());
-		approvalDocument.setContent(approvalDocumentDTO.getContent());
-		approvalDocument.setCreatedAt(approvalDocumentDTO.getCreatedAt());
-		approvalDocument.setDepartmentName(approvalDocumentDTO.getDepartmentName());
-		approvalDocument.setDocumentId(approvalDocumentDTO.getDocumentId());
-		approvalDocument.setDocumentType(approvalDocumentDTO.getDocumentType());
-		approvalDocument.setEmployee(approvalDocumentDTO.getEmployee());
-		approvalDocument.setTitle(approvalDocumentDTO.getTitle());
-		approvalDocument.setUpdatedAt(approvalDocumentDTO.getUpdatedAt());
+	
+		approvalDocument.setAppDocContent(approvalDocumentDTO.getAppDocContent());
+		approvalDocument.setAppDocCreatedAt(approvalDocumentDTO.getAppDocCreatedAt());
+		approvalDocument.setAppDocDepartment(approvalDocumentDTO.getAppDocDepartment());
+		approvalDocument.setAppDocDepartmentGrade(approvalDocumentDTO.getAppDocDepartmentGrade());
+		approvalDocument.setAppDocId(approvalDocumentDTO.getAppDocId());
+		approvalDocument.setAppDocPathString(approvalDocumentDTO.getAppDocPathString());
+		approvalDocument.setAppDocStage(approvalDocumentDTO.getAppDocStage());
+		approvalDocument.setAppDocTitle(approvalDocumentDTO.getAppDocTitle());
+		approvalDocument.setAppDocUpdatedAt(approvalDocumentDTO.getAppDocUpdatedAt());
+		approvalDocument.setDocumentType(approvalDocumentDTO.getDocTypeId());
+		approvalDocument.setEmployee(approvalDocumentDTO.getEmpId());
 		
 		approvalDocumentRepository.save(approvalDocument);
 		
 		//엔티티 -> dto
 		//엔티티 EMPLOYEE 부분 조금 더 줄일 수 있는데, 너무 늘려놔서 수정 요망
-		ApprovalDocument_ApprovlaDocumentDTO saveApprovalDocumentDTO = new ApprovalDocument_ApprovlaDocumentDTO();
-		saveApprovalDocumentDTO.setApprovalPathString(approvalDocument.getApprovalPathString());
-		saveApprovalDocumentDTO.setApprovalStage(approvalDocument.getApprovalStage());
-		saveApprovalDocumentDTO.setContent(approvalDocument.getContent());
-		saveApprovalDocumentDTO.setCreatedAt(approvalDocument.getCreatedAt());
-		saveApprovalDocumentDTO.setDepartmentName(approvalDocument.getDepartmentName());
-		saveApprovalDocumentDTO.setDocumentId(approvalDocument.getDocumentId());
-		saveApprovalDocumentDTO.setDocumentType(approvalDocument.getDocumentType());
-		saveApprovalDocumentDTO.setEmployee(approvalDocument.getEmployee());
-		saveApprovalDocumentDTO.setTitle(approvalDocument.getTitle());
-		saveApprovalDocumentDTO.setUpdatedAt(approvalDocument.getUpdatedAt());
-		**/
-		return null;
+		ApprovalDocument_ApprovalDocumentDTO saveApprovalDocumentDTO = new ApprovalDocument_ApprovalDocumentDTO();
+		saveApprovalDocumentDTO.setAppDocContent(approvalDocument.getAppDocContent());
+		saveApprovalDocumentDTO.setAppDocCreatedAt(approvalDocument.getAppDocCreatedAt());
+		saveApprovalDocumentDTO.setAppDocDepartment(approvalDocument.getAppDocDepartment());
+		saveApprovalDocumentDTO.setAppDocDepartmentGrade(approvalDocument.getAppDocDepartmentGrade());
+		saveApprovalDocumentDTO.setAppDocId(approvalDocument.getAppDocId());
+		saveApprovalDocumentDTO.setAppDocPathString(approvalDocument.getAppDocPathString());
+		saveApprovalDocumentDTO.setAppDocStage(approvalDocument.getAppDocStage());
+		saveApprovalDocumentDTO.setAppDocTitle(approvalDocument.getAppDocTitle());
+		saveApprovalDocumentDTO.setAppDocUpdatedAt(approvalDocument.getAppDocUpdatedAt());
+		saveApprovalDocumentDTO.setDocTypeId(approvalDocument.getDocumentType());
+		saveApprovalDocumentDTO.setEmpId(approvalDocument.getEmployee());
+		
+		return saveApprovalDocumentDTO;
 	}
 
 	
@@ -174,28 +176,29 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 	
 	//전자결재 하나 확인하기 (작성자가 올린 기안 문서함 중 작성자가 하나 선택한 기안)
-
 	@Override
 	public ApprovalDocument_ApprovalDocumentDTO checkApproval(Long approval_id) {
+		System.err.println("approval_id : " + approval_id);
 		
 		ApprovalDocument oneApproval = approvalDocumentRepository.getById(approval_id);
 		
 		ApprovalDocument_ApprovalDocumentDTO oneApprovalDTO = new ApprovalDocument_ApprovalDocumentDTO();
-				/**
+		
 		if (oneApproval != null) {
-			oneApprovalDTO.setApprovalPathString(oneApproval.getApprovalPathString());
-			oneApprovalDTO.setApprovalStage(oneApproval.getApprovalStage());
-			oneApprovalDTO.setContent(oneApproval.getContent());
-			oneApprovalDTO.setCreatedAt(oneApproval.getCreatedAt());
-			oneApprovalDTO.setDepartmentName(oneApproval.getDepartmentName());
-			oneApprovalDTO.setDocumentId(oneApproval.getDocumentId());
-			oneApprovalDTO.setDocumentType(oneApproval.getDocumentType());
-			oneApprovalDTO.setEmployee(oneApproval.getEmployee());
-			oneApprovalDTO.setTitle(oneApproval.getTitle());
-			oneApprovalDTO.setUpdatedAt(oneApproval.getUpdatedAt());
+			oneApprovalDTO.setAppDocContent(oneApproval.getAppDocContent());
+			oneApprovalDTO.setAppDocCreatedAt(oneApproval.getAppDocCreatedAt());
+			oneApprovalDTO.setAppDocDepartment(oneApproval.getAppDocDepartment());
+			oneApprovalDTO.setAppDocDepartmentGrade(oneApproval.getAppDocDepartmentGrade());
+			oneApprovalDTO.setAppDocId(oneApproval.getAppDocId());
+			oneApprovalDTO.setAppDocPathString(oneApproval.getAppDocPathString());
+			oneApprovalDTO.setAppDocStage(oneApproval.getAppDocStage());
+			oneApprovalDTO.setAppDocTitle(oneApproval.getAppDocTitle());
+			oneApprovalDTO.setAppDocUpdatedAt(oneApproval.getAppDocUpdatedAt());
+			oneApprovalDTO.setDocTypeId(oneApproval.getDocumentType());
+			oneApprovalDTO.setEmpId(oneApproval.getEmployee());
 		}
-		**/
-		return null;
+		
+		return oneApprovalDTO;
 	}
 	
 	//전자결재 수정하기 _ 결재자가 결재하기 전에 수정 (결재자가 결재하기 전이라는 조건문 달아야함)
