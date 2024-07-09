@@ -3,6 +3,15 @@ package com.intrabucks.approval.service;
 
 import java.io.IOException;
 import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +36,10 @@ import com.intrabucks.entity.DocumentType;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService{
+	
+	//추가
+	private static final Logger logger = LoggerFactory.getLogger(ApprovalServiceImpl.class);
+	
 	/**의존성 주입*/
 	@Autowired
     private	ApprovalRepository approvalRepository;
@@ -76,25 +89,37 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	/**첨부파일 관련 코드*/
-	//첨부파일 업로드
+	
+	// 파일이 저장될 경로
+    private static final String FILE_UPLOAD_PATH = "src/main/resources/data/files/";
+	
+    //첨부파일 업로드
 	@Override
 	public AttachedFile_AttachedFileDTO uploadFiles(Long approvalID, MultipartFile file) {
+		logger.info("받은 approvalID: {}", approvalID);
+        logger.info("받은 파일: {}", file);
+		
 		AttachedFile attachedFile = new AttachedFile();
 		
 		//ApprovalDocument 객체 조회
-		ApprovalDocument approvalDocument = approvalDocumentRepository.getById(approvalID);
+		ApprovalDocument approvalDocument = approvalDocumentRepository.findById(approvalID).orElseThrow(() -> new EntityNotFoundException("ApprovalDocument not found"));
 		
-		String result = "";
+		//String result = "";
 		
-		//첨부파일 DB 저장
+		// 첨부파일 DB 저장 및 파일 시스템에 저장
 		try {
-			attachedFile.setFileName(file.getName());
+			 // 파일 시스템에 저장할 경로와 파일명 설정
+			Path filePath = Paths.get(FILE_UPLOAD_PATH + file.getOriginalFilename());
+            Files.write(filePath, file.getBytes());
+
+			attachedFile.setFileName(file.getOriginalFilename());
 			attachedFile.setActualFileName(file.getOriginalFilename());
 			attachedFile.setDocument(approvalDocument);
 			attachedFile.setFileSize(file.getSize());
 			attachedFile.setFileData(file.getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException("파일 저장 중 오류 발생");
 		}
 		
 		AttachedFile saveAttachedFile = attachedFileRepository.save(attachedFile);

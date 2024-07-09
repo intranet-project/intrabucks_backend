@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,7 +55,7 @@ public class ApprovalController {
 
 	// 파일 업로드
 	@PostMapping("/uploadFile/{approvalID}")
-	public ResponseEntity<AttachedFile_AttachedFileDTO> uploadFiles(@RequestBody MultipartFile file, @PathVariable Long approvalID) {
+	public ResponseEntity<AttachedFile_AttachedFileDTO> uploadFiles(@RequestParam("file") MultipartFile file, @PathVariable Long approvalID) {
 		AttachedFile_AttachedFileDTO uploadFile = approvalService.uploadFiles(approvalID, file);
 		return ResponseEntity.ok(uploadFile);
 	}
