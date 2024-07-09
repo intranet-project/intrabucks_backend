@@ -18,7 +18,11 @@ import com.intrabucks.entity.Menu;
 import com.intrabucks.menu.data.reactdto.Menu_MenuDTO;
 import com.intrabucks.menu.service.MenuService;
 import com.intrabucks.store.data.reactdto.Manager_ManagerDTO;
-
+/**
+ * @author 최유빈
+ * @version 1.1 메뉴 등록시 공홈에 전송
+ * @since 2024-07-08
+ * **/
 @RestController
 @RequestMapping("/api/v1/intrabucks/menu")
 public class MenuController {
@@ -67,7 +71,6 @@ public class MenuController {
     } // 메뉴 삭제
 
 	// 1.1
-	/* 공홈에 업데이트 된 메뉴정보 제공*/
 	@GetMapping("/getmenu")
 	public List<Menu> getMenu() {
 		return menuService.getMenuList();
