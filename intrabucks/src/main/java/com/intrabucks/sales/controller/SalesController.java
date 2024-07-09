@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.intrabucks.entity.Sales;
 import com.intrabucks.sales.data.reactdto.Sales_SalesDTO;
 import com.intrabucks.sales.service.SalesService;
-
+/**
+ * @author 최유빈
+ * @version 1.1 총매출 조회(Post삭제)
+ * @since 2024-07-09
+ * **/
 @RestController
 @RequestMapping("/api/v1/intrabucks/sales")
 public class SalesController {
@@ -29,10 +33,10 @@ public class SalesController {
 		List<Sales> salesList = this.salesService.getSalesList();
 		return ResponseEntity.ok(salesList);
 	}
-	
-	@PostMapping("/create")
+	// 1.1
+	/*@PostMapping("/create")
 	public ResponseEntity<Long> createSales(@RequestBody Sales_SalesDTO salesDto) {
 		Long salesId = this.salesService.createSales(salesDto);
 		return ResponseEntity.ok().body(salesId);
-	}
+	}*/
 }
