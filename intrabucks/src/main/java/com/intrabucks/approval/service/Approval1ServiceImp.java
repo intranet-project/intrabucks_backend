@@ -1,20 +1,21 @@
 package com.intrabucks.approval.service;
 
 import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovalDocumentDTO;
-import com.intrabucks.approval.data.dto.reactdto.DocumentType_DocumentTypeDTO;
+import com.intrabucks.approval.data.dto.reactdto.AttachedFile_AttachedFileDTO;
 import com.intrabucks.approval.data.reactdto.Approval1_Approval1DTO;
 import com.intrabucks.approval.data.repository.ApprovalDocumentRepository;
+import com.intrabucks.approval.data.repository.AttachedFileRepository;
 import com.intrabucks.approval.data.repository.DocumentTypeRepository;
 import com.intrabucks.employee.data.reactdto.Employee_EmployeeDTO;
-import com.intrabucks.employee.data.repository.DepartmentRepository;
 import com.intrabucks.employee.data.repository.EmployeeRepository;
 import com.intrabucks.entity.ApprovalDocument;
-import com.intrabucks.entity.Department;
+import com.intrabucks.entity.AttachedFile;
 import com.intrabucks.entity.DocumentType;
 import com.intrabucks.entity.Employee;
 
-import java.sql.Date;
-import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,16 +33,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class Approval1ServiceImp implements Approval1Service {
 	
+	@Autowired
 	public EmployeeRepository employeeRepository;
-    public ApprovalDocumentRepository approvalDocumentRepository;
-	public DocumentTypeRepository documentTypeRepository;
+    
+	@Autowired
+	public ApprovalDocumentRepository approvalDocumentRepository;
 	
 	@Autowired
-	public Approval1ServiceImp(EmployeeRepository employeeRepository, ApprovalDocumentRepository approvalDocumentRepository, DocumentTypeRepository documentTypeRepository) {
-		this.employeeRepository = employeeRepository;
-		this.documentTypeRepository = documentTypeRepository; 
-		this.approvalDocumentRepository = approvalDocumentRepository ;
-	}
+	public DocumentTypeRepository documentTypeRepository;
+	
+	 @Autowired
+	 private AttachedFileRepository attachedFileRepository;
+
 
 	/**결재라인생성(등록)*/
 	@Override
@@ -201,7 +204,35 @@ public class Approval1ServiceImp implements Approval1Service {
 	  
 	
 	}
+	
+	private static final String FILE_UPLOAD_PATH = "src/main/resources/data/files/";
+	
+	//첨부파일 다운로드
+	@Override
+	public AttachedFile_AttachedFileDTO downloadFile(Long fileId) {
+		AttachedFile attachedFile = attachedFileRepository.findById(fileId).orElse(null);
 
+		if (attachedFile != null) {
+            String filePath = FILE_UPLOAD_PATH + attachedFile.getActualFileName();
+            try {
+                byte[] fileData = Files.readAllBytes(Paths.get(filePath));
+                return new AttachedFile_AttachedFileDTO(
+                    attachedFile.getFileId(),
+                    attachedFile.getFileName(),
+                    attachedFile.getActualFileName(),
+                    attachedFile.getFileSize(),
+                    attachedFile.getDocument(),
+                    fileData
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+	
 	
 	    
 }

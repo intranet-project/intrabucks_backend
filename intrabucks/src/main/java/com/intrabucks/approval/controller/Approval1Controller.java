@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovalDocumentDTO;
+import com.intrabucks.approval.data.dto.reactdto.AttachedFile_AttachedFileDTO;
 import com.intrabucks.approval.data.dto.reactdto.DocumentType_DocumentTypeDTO;
 import com.intrabucks.approval.data.reactdto.Approval1_Approval1DTO;
 import com.intrabucks.approval.service.Approval1Service;
@@ -36,7 +38,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 **/
 
 @RestController
-@RequestMapping("api/Approval1")
+//@RequestMapping("api/Approval1")
+@RequestMapping(value = "/api/v1/intrabucks/approval1")
 public class Approval1Controller {
 
 	@Autowired
@@ -110,4 +113,20 @@ public class Approval1Controller {
 			Long documentId = approval1Service.updateApproval(ApprovalDocument);
 			return ResponseEntity.ok().body(documentId);
 	  }
+	  
+		// 파일 다운로드
+		 @GetMapping("/download/{fileId}")
+		    public ResponseEntity<byte[]> downloadFile(@PathVariable Long fileId) {
+		        AttachedFile_AttachedFileDTO attachedFileDTO = approval1Service.downloadFile(fileId);
+
+		        if (attachedFileDTO != null && attachedFileDTO.getFileData() != null) {
+		            HttpHeaders headers = new HttpHeaders();
+		            headers.setContentDispositionFormData("attachment", attachedFileDTO.getActualFileName());
+		            headers.setContentLength(attachedFileDTO.getFileSize());
+
+		            return new ResponseEntity<>(attachedFileDTO.getFileData(), headers, HttpStatus.OK);
+		        } else {
+		            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		        }
+		    }
 }
