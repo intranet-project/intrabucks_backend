@@ -56,7 +56,6 @@ public class SalesServiceImpl implements SalesService {
 			sales.setSalesPri(dto.getSalesPri());
 			salesList.add(sales);
 		}
-
 		salesRepository.saveAll(salesList);
 		return salesRepository.findAll();
 
