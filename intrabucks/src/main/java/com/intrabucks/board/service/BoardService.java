@@ -2,15 +2,17 @@ package com.intrabucks.board.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.intrabucks.board.data.dto.reactdto.dto.Board_BoardDTO;
 import com.intrabucks.entity.Board;
 
 /**
- * 게시판 관리 기능 관련 Service로, 
+ * 게시판 관리 기능 관련 Service로, 파일 업로드 및 다운로드
  * 게시판 CRUD 기능 구현
- * @author 김아현
- * @version 1.0
- * 2024-07-04
+ * @author 구은재
+ * @version 2.0
+ * 2024-07-10
  **/
 
 
@@ -36,7 +38,13 @@ public interface BoardService {
 	
 	//게시판 삭제 
 	String deleteBoard(Long board_id);
-	   
+	
+	//파일 업로드
+	Board_BoardDTO saveBoard(Board_BoardDTO boardDto, MultipartFile file);
+	
+	//파일 첨부파일
+	byte[] downloadFile(Long boardId);
+	
 	}
 
 

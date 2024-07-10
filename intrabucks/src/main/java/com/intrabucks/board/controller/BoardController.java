@@ -3,28 +3,34 @@ package com.intrabucks.board.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.intrabucks.board.data.dto.reactdto.dto.Board_BoardDTO;
-import com.intrabucks.board.service.BoardService;
-import com.intrabucks.entity.Board;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.intrabucks.board.data.dto.reactdto.dto.Board_BoardDTO;
+import com.intrabucks.board.service.BoardService;
+import com.intrabucks.entity.Board;
+import com.intrabucks.entity.Department;
+import com.intrabucks.entity.Employee;
 
 
 /**
- * 게시판 관리 기능 관련 Controller로, 
+ * 게시판 관리 기능 관련 Controller로, 파일 업로드 및 다운로드
  * 게시판 CRUD 기능 구현
- * @author 김아현
- * @version 1.0
- * 2024-07-04
+ * @author 구은재
+ * @version 2.0
+ * 2024-07-10
  **/
 
 @RestController
@@ -83,8 +89,52 @@ public class BoardController {
 	   return ResponseEntity.ok(result);
    }
    
+   /**첨부파일 업로드&다운로드*/
    //첨부파일 업로드
+   @PostMapping("/uploadBoard")
+   public ResponseEntity<Board_BoardDTO> uploadFile(@RequestParam("file") MultipartFile file,
+                                                    @RequestParam("boardTitle") String boardTitle,
+                                                    @RequestParam("boardContent") String boardContent,
+                                                    @RequestParam("empEmail") String empEmail,
+                                                    @RequestParam("deptId") Long deptId) {
+
+       // 이메일과 부서 ID를 이용해 실제 Employee와 Department를 조회하는 코드가 필요합니다.
+       Employee employee = new Employee(); // 예시로 생성
+       employee.setEmpEmail(empEmail);
+
+       Department department = new Department(); // 예시로 생성
+       department.setDeptId(deptId);
+
+       // DTO 객체 생성 및 설정
+       Board_BoardDTO boardDto = new Board_BoardDTO();
+       boardDto.setBoardTitle(boardTitle);
+       boardDto.setBoardContent(boardContent);
+       boardDto.setEmployee(employee);
+       boardDto.setDepartment(department);
+
+       // 서비스 메소드를 통해 업로드 처리
+       Board_BoardDTO savedBoard = boardService.saveBoard(boardDto, file);
+
+       if (savedBoard != null) {
+           return ResponseEntity.ok(savedBoard);
+       } else {
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       }
+   }
    
+   
+   //첨부파일 다운로드
+   @GetMapping("/downloadBoard/{boardId}")
+   public ResponseEntity<byte[]> downloadFile(@PathVariable Long boardId) {
+       byte[] data = boardService.downloadFile(boardId);
+       if (data != null) {
+           return ResponseEntity.ok()
+                   .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                   .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"file\"")
+                   .body(data);
+       }
+       return ResponseEntity.notFound().build();
+   }
 
    
 

@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 
 
 /**
- * Board 기능 인트라넷에서 리액트로 API 사용을 목적으로 DTO 생성
- * @author 김아현
- * 2024.07.04
+ * Board 기능 인트라넷에서 리액트로 API 사용을 목적으로 DTO 생성, 파일 업로드 및 다운로드
+ * @author 구은재
+ * 2024.07.10
  * **/
 
 
