@@ -52,7 +52,7 @@ public class Approval1Controller {
 	//DTO로 결재자, 결재상태를 받아서 엔티티에 ID값으로 저장 
 	public ResponseEntity<String> createApproval1(@RequestBody Approval1_Approval1DTO Approval1DTO) {
 		System.out.println(Approval1DTO);
-		System.out.println(Approval1DTO.getApprovalSteps()[0].getDeptCode());
+		System.out.println(Approval1DTO.getApprovalSteps()[0].getEmpPosition());
 		String  approvalLine = approval1Service.createApproval1(Approval1DTO);
 		
 		return ResponseEntity.ok().body(approvalLine);

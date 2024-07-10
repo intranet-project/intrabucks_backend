@@ -19,5 +19,7 @@ public interface ApprovalDocumentRepository extends JpaRepository<ApprovalDocume
 	
 	@Query("SELECT e FROM ApprovalDocument e WHERE LOWER(e.appDocTitle) LIKE LOWER(CONCAT('%', :title, '%'))")
 	Page<ApprovalDocument> findByAppDocTitleContainingIgnoreCase(String title, Pageable pageable);
+	
+	
 
 }
