@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/**/menu/**").hasAnyRole("RD") // 메뉴
 		.antMatchers("/api/**/customer/**").hasAnyRole("CS", "MD") // CRM
 		// 전자결재
-		.anyRequest().permitAll().and() // 협업
+		.anyRequest().authenticated().and() // 협업
 		.exceptionHandling().accessDeniedHandler(accessDeniedHandler)
 		.authenticationEntryPoint(exceptionHandler).and()
 		.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
