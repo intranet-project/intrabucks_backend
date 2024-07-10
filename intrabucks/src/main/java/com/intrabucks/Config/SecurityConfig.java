@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.authorizeRequests()
 		.antMatchers("/api/**/main/**").permitAll()
-		.antMatchers("/api/**/department/**", "/api/**/employee/**", "/api/**/quitter/**").hasAnyRole("HR") // 인사
+		.antMatchers("/api/**/department/**", "/api/**/employee/**", "/api/**/quitter/**").hasAnyRole("HR", "EB") // 인사
 		.antMatchers("/api/**/sales/**").hasAnyRole("EB", "DM", "FD") // 매출
 		.antMatchers("/api/**/stock/**").hasAnyRole("EB", "DM", "LO") // 재고
 		.antMatchers("/api/**/store/**", "/api/**/manager/**").hasAnyRole("EB", "DM") // 매장
