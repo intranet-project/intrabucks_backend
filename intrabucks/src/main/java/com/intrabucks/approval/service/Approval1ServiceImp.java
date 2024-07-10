@@ -47,38 +47,39 @@ public class Approval1ServiceImp implements Approval1Service {
 
 
 	/**결재라인생성(등록)*/
-	@Override
-	public String createApproval1(Approval1_Approval1DTO approval1DTO) {
-	  StringBuilder approvalLineBuilder = new StringBuilder();
-	  
-	  for (Approval1_Approval1DTO.ApprovalStepDTO approvalStep : approval1DTO.getApprovalSteps()) {
-          if(approvalStep.getEmployee() != null) {
-        	  Employee employee = approvalStep.getEmployee();
-              String empId = employee.getEmpId().toString();
-              String empName = employee.getEmpName();
-             // String deptId =  approvalStep.getDeptCode() ;
-              String empPosition =  employee.getEmpPosition();
-              String approvalState = approvalStep.getApprovalState();
+	 @Override
+	 public String createApproval1(Approval1_Approval1DTO approval1DTO) {
+	     StringBuilder approvalLineBuilder = new StringBuilder();
 
-              approvalLineBuilder.append(empId).append(",").append(empName).append(",").append(empPosition).append(",").append(approvalState).append("//-//");
-          } else {
-        	  String empId = approvalStep.getEmpId().toString();
-              String empName = approvalStep.getEmpName();
-              //String deptId =  approvalStep.getDeptCode() ;
-              String empPosition =  approvalStep.getEmpPosition();
-              String approvalState = approvalStep.getApprovalState();
+	     for (Approval1_Approval1DTO.ApprovalStepDTO approvalStep : approval1DTO.getApprovalSteps()) {
+	         if (approvalStep.getEmployee() != null) {
+	             Employee employee = approvalStep.getEmployee();
+	             String empId = employee.getEmpId().toString();
+	             String empName = employee.getEmpName();
+	             String empPosition = employee.getEmpPosition();
+	             String approvalState = approvalStep.getApprovalState();
 
-              approvalLineBuilder.append(empId).append(",").append(empName).append(",").append(empPosition).append(",").append(approvalState).append("//-//");
-          }
-		  
-      }
+	             approvalLineBuilder.append(empId).append(",").append(empName).append(",").append(empPosition).append(",").append(approvalState).append("//-//");
+	         } else {
+	             String empId = approvalStep.getEmpId().toString();
+	             String empName = approvalStep.getEmpName();
+	             String empPosition = approvalStep.getEmpPosition();
+	             String approvalState = approvalStep.getApprovalState();
 
-      String approvalLine = approvalLineBuilder.toString();
-      System.out.println("생성된 결재 라인: " + approvalLine); // 콘솔에 출력
+	             approvalLineBuilder.append(empId).append(",").append(empName).append(",").append(empPosition).append(",").append(approvalState).append("//-//");
+	         }
+	     }
 
-      return approvalLine;
-  }
-	
+	     // 최종적으로 추가된 //-//를 제거
+	     String approvalLine = approvalLineBuilder.toString();
+	     if (approvalLine.endsWith("//-//")) {
+	         approvalLine = approvalLine.substring(0, approvalLine.length() - 5);
+	     }
+
+	     System.out.println("생성된 결재 라인: " + approvalLine); // 콘솔에 출력
+
+	     return approvalLine;
+	 }
 	
 	/**session으로 empId 조회*/
 	@Override

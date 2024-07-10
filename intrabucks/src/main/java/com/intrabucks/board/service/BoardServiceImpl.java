@@ -86,6 +86,19 @@ public class BoardServiceImpl implements BoardService {
 	// 게시판 수정
 	@Override
 	public Board_BoardDTO updateBoard(Long board_id, Board_BoardDTO board_BoardDTO) {
+		Board board = boardRepository.getById(board_id);
+
+		//dto 값 꺼내서 엔티티 세팅 후 저장
+		if (board != null) {
+			board.setBoardContent(board_BoardDTO.getBoardContent());
+			board.setBoardDate(board_BoardDTO.getBoardDate());
+			board.setBoardFile(board_BoardDTO.getBoardFile());
+			board.setBoardId(board_BoardDTO.getBoardId());
+			board.setBoardTitle(board_BoardDTO.getBoardTitle());
+			board.setDepartment(board_BoardDTO.getDepartment());
+			board.setEmployee(board_BoardDTO.getEmployee());
+		
+		}
 		return null;
 	}
 
