@@ -59,16 +59,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.authorizeRequests()
 		.antMatchers("/api/**/main/**").permitAll()
-		.antMatchers("/api/**/sales/**", "/api/**/store/**").hasRole("HR") // 인사(HR)
-		.antMatchers("/api/**/stock/**").hasRole("GA") // 매출(GA)
-		// 재고
-		// 매장(DM)
-		// 발주
-		// 메뉴(RD)
-		// CRM(CS)
-		// 협업
+		.antMatchers("/api/**/department/**", "/api/**/employee/**", "/api/**/quitter/**").hasRole("HR") // 인사
+		.antMatchers("/api/**/sales/**").hasAnyRole("EB", "DM", "FD") // 매출
+		.antMatchers("/api/**/stock/**").hasAnyRole("EB", "DM", "LO") // 재고
+		.antMatchers("/api/**/store/**").hasAnyRole("EB", "DM") // 매장
+		.antMatchers("/api/**/purchase/**").hasAnyRole("EB", "DM", "PD", "LO") // 발주
+		.antMatchers("/api/**/menu/**").hasAnyRole("RD") // 메뉴
+		.antMatchers("/api/**/customer/**").hasAnyRole("CS", "MD") // CRM
+		.antMatchers("/api/**/sales/**").hasAnyRole("EB", "DM", "FD")
 		// 전자결재
-		.anyRequest().authenticated().and()
+		.anyRequest().authenticated().and() // 협업
 		.exceptionHandling().accessDeniedHandler(accessDeniedHandler)
 		.authenticationEntryPoint(exceptionHandler).and()
 		.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);

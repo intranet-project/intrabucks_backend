@@ -30,7 +30,7 @@ import com.intrabucks.quitter.service.QuitterService;
 **/
 
 @RestController
-@RequestMapping("/api/employee")
+@RequestMapping("/api/v1/intrabucks/employee")
 @CrossOrigin(origins = "http://localhost:3000") // 클라이언트 애플리케이션의 주소
 public class EmployeeController {
 

@@ -28,7 +28,7 @@ import com.intrabucks.entity.Department;
  * **/
 
 @RestController
-@RequestMapping("api/department")
+@RequestMapping("/api/v1/intrabucks/department")
 public class DepartmentController {
 
 	private final DepartmentService departmentService;

@@ -27,7 +27,7 @@ import com.intrabucks.quitter.service.QuitterService;
 **/
 
 @RestController
-@RequestMapping("/api/quitter")
+@RequestMapping("/api/v1/intrabucks/quitter")
 public class QuitterController {
 
 	private  final QuitterService quitterService;
