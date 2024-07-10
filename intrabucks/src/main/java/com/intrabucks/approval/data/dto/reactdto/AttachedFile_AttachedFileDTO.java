@@ -16,6 +16,7 @@ public class AttachedFile_AttachedFileDTO {
     private String actualFileName;	//실제파일명
     private Long fileSize;	//파일크기
     private ApprovalDocument documentType;	//문서ID
+    private byte[] fileData;
 }
 
 
