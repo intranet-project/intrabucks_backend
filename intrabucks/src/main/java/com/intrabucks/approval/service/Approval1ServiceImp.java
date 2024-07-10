@@ -90,6 +90,7 @@ public class Approval1ServiceImp implements Approval1Service {
 		
 			//dto 객체로 변환
 			employeeDTO.setDeptCode(employee.getDepartment().getDeptCode());
+			employeeDTO.setDeptCode(employee.getDepartment().getDeptName());
 			employeeDTO.setEmpEmail(employee.getEmpEmail());
 			employeeDTO.setEmpName(employee.getEmpName());
 			employeeDTO.setEmpPosition(employee.getEmpPosition());
