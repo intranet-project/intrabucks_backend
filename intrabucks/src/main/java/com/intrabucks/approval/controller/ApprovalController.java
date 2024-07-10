@@ -1,9 +1,7 @@
 package com.intrabucks.approval.controller;
 
-import java.io.File;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,19 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovalDocumentDTO;
 import com.intrabucks.approval.data.dto.reactdto.AttachedFile_AttachedFileDTO;
 import com.intrabucks.approval.data.dto.reactdto.DocumentType_DocumentTypeDTO;
+import com.intrabucks.approval.service.Approval2Service;
 import com.intrabucks.approval.service.ApprovalService;
 import com.intrabucks.entity.ApprovalDocument;
-import com.intrabucks.entity.AttachedFile;
 import com.intrabucks.entity.DocumentType;
-
-import oracle.jdbc.proxy.annotation.Post;
 
 /**
  * 전자결재 기능 관련 Controller로, 문서 리스트, 문서 선택 등의 기능 구현
@@ -38,7 +33,8 @@ import oracle.jdbc.proxy.annotation.Post;
 public class ApprovalController {
 	@Autowired
 	private ApprovalService approvalService;
-
+	@Autowired
+	private Approval2Service approval2Service; //wch
 	// FORM lIST 띄우기
 	@GetMapping("/selectFormList")
 	public ResponseEntity<List<DocumentType>> selectFormList() {
@@ -55,7 +51,8 @@ public class ApprovalController {
 
 	// 파일 업로드
 	@PostMapping("/uploadFile/{approvalID}")
-	public ResponseEntity<AttachedFile_AttachedFileDTO> uploadFiles(@RequestParam("file") MultipartFile file, @PathVariable Long approvalID) {
+	public ResponseEntity<AttachedFile_AttachedFileDTO> uploadFiles(@RequestBody MultipartFile file, @PathVariable Long approvalID) {
+		System.err.println("");
 		AttachedFile_AttachedFileDTO uploadFile = approvalService.uploadFiles(approvalID, file);
 		return ResponseEntity.ok(uploadFile);
 	}
@@ -68,12 +65,13 @@ public class ApprovalController {
 	}
 
 	// 결재
-	@PostMapping("/saveApproval")
-	public ResponseEntity<ApprovalDocument_ApprovalDocumentDTO> saveApproval(
-			@RequestBody ApprovalDocument_ApprovalDocumentDTO approvalDocumentDTO) {
-		ApprovalDocument_ApprovalDocumentDTO approval = approvalService.saveApproval(approvalDocumentDTO);
-		return ResponseEntity.ok(approval);
-	}
+		@PostMapping("/saveApproval")
+		public ResponseEntity<ApprovalDocument_ApprovalDocumentDTO> saveApproval(
+				@RequestBody ApprovalDocument_ApprovalDocumentDTO approvalDocumentDTO) {
+			ApprovalDocument_ApprovalDocumentDTO approval = approvalService.saveApproval(approvalDocumentDTO);
+			approval2Service.saveApprovalUser(approval); //wch
+			return ResponseEntity.ok(approval);
+		}
 	
 	//결재문서 리스트 확인
 	@GetMapping("/selectApprovalList")

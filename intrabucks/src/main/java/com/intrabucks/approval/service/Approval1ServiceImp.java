@@ -53,17 +53,19 @@ public class Approval1ServiceImp implements Approval1Service {
         	  Employee employee = approvalStep.getEmployee();
               String empId = employee.getEmpId().toString();
               String empName = employee.getEmpName();
-              String deptId =  approvalStep.getDeptCode() ;
+             // String deptId =  approvalStep.getDeptCode() ;
+              String empPosition =  employee.getEmpPosition();
               String approvalState = approvalStep.getApprovalState();
 
-              approvalLineBuilder.append(empId).append(",").append(empName).append(",").append(deptId).append(",").append(approvalState).append("//-//");
+              approvalLineBuilder.append(empId).append(",").append(empName).append(",").append(empPosition).append(",").append(approvalState).append("//-//");
           } else {
         	  String empId = approvalStep.getEmpId().toString();
               String empName = approvalStep.getEmpName();
-              String deptId =  approvalStep.getDeptCode() ;
+              //String deptId =  approvalStep.getDeptCode() ;
+              String empPosition =  approvalStep.getEmpPosition();
               String approvalState = approvalStep.getApprovalState();
 
-              approvalLineBuilder.append(empId).append(",").append(empName).append(",").append(deptId).append(",").append(approvalState).append("//-//");
+              approvalLineBuilder.append(empId).append(",").append(empName).append(",").append(empPosition).append(",").append(approvalState).append("//-//");
           }
 		  
       }
