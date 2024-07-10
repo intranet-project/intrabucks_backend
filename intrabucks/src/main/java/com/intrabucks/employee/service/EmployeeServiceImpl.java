@@ -7,10 +7,12 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.intrabucks.employee.data.reactdto.Employee_EmployeeDTO;
@@ -35,6 +37,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public final DepartmentRepository departmentRepository;
 	public final QuitterRepository quitterRepository;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 	public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, QuitterRepository quitterRepository ) {
 		this.employeeRepository = employeeRepository;
 		this.departmentRepository = departmentRepository;
@@ -48,10 +53,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		String deptCode = employeeDTO.getDeptCode(); // 수정된 부분: deptCode 추출
         Department department = departmentRepository.findByDeptCode(deptCode)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Department Code: " + deptCode));
-		 
+		
 		Employee employee = new Employee();
         employee.setEmpName(employeeDTO.getEmpName());
-        employee.setEmpPassword(employeeDTO.getEmpPassword());
+        employee.setEmpPassword(passwordEncoder.encode(employeeDTO.getEmpPassword()));
         employee.setEmpEmail(employeeDTO.getEmpEmail());
         employee.setEmpPhone(employeeDTO.getEmpPhone());
         employee.setEmpAddress(employeeDTO.getEmpAddress());
@@ -135,7 +140,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Department Code: " + deptCode));
 		
         employee.setEmpName(employeeDTO.getEmpName());
-        employee.setEmpPassword(employeeDTO.getEmpPassword());
+        employee.setEmpPassword(passwordEncoder.encode(employeeDTO.getEmpPassword()));
         employee.setEmpEmail(employeeDTO.getEmpEmail());
         employee.setEmpPhone(employeeDTO.getEmpPhone());
         employee.setEmpAddress(employeeDTO.getEmpAddress());
