@@ -49,6 +49,8 @@ public class Approval2ServiceImpl implements Approval2Service {
 			approval.setEmployee(employee);
 			if ("기안자".equals(arr[3])) {
 				approval.setApprovalResult("승인");
+				Date date = new Date();
+				approval.setApprovalDate(date);
 			}
 			System.out.println(arr[3]+" : "+approval);
 			approvalRepository.save(approval);
@@ -67,7 +69,8 @@ public class Approval2ServiceImpl implements Approval2Service {
 						.approvalComment(approval.getApprovalComment())
 						.approvalDate(approval.getApprovalDate())
 						.approvalPosition(approval.getApprovalPosition())
-						.empId(approval.getEmployee().getEmpId()).build())
+						.empId(approval.getEmployee().getEmpId())
+						.empName(approval.getEmployee().getEmpName()).build())
 				.collect(Collectors.toList());
 		return (ArrayList<Approval_ApprovalDto>)approvalData;
 	}

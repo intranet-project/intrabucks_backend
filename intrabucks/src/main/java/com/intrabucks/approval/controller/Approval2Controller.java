@@ -33,7 +33,6 @@ public class Approval2Controller {
 	
 	@PutMapping("/updateUser")
 	public ResponseEntity<Approval_ApprovalDto> updateApprovalUserList(@RequestBody Approval_ApprovalDto approval_ApprovalDto) {
-		System.out.println("왜죠?");
 		Approval_ApprovalDto approval = approval2Service.updateApproval(approval_ApprovalDto);
 		
 		return ResponseEntity.ok().body(approval);
