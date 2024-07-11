@@ -42,7 +42,7 @@ public class VoiceServiceImpl implements VoiceService {
     /*공홈에서 정보를 가져와서 저장*/
     @Override
     public List<Voice> getVoice() {
-        String url2 = "http://localhost:8000/api/v1/webbucks/customer/answer2";
+        String url2 = "http://localhost:8000/api/v1/webbucks/customer/answerSyn";
         // GET 요청 보내기
         ResponseEntity<Void> response2 = restTemplate.exchange(
                 url2,
@@ -105,7 +105,7 @@ public class VoiceServiceImpl implements VoiceService {
     }
 
     @Override
-    public List<Voice> getAnswer2() {
+    public List<Voice> getAnswerSyn() {
         return voiceRepository.findAll();
     }
 }
