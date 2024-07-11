@@ -10,5 +10,5 @@ public interface VoiceService {
     List<Voice> selectAllVoice();
     String saveAnswer(AnswerRequestDto answer);// 답변 저장
     List<Voice> getAnswer(long custId);
-    public List<Voice> getAnswer2();
+    public List<Voice> getAnswerSyn();
 }

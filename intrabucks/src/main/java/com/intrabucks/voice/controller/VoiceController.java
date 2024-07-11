@@ -54,9 +54,9 @@ public class VoiceController {
     return voiceService.getAnswer(custId);
 }
     /* 공홈 DB에 변경값 저장을 위해 공홈 서버 호출*/
-    @GetMapping("/getanswer2")
+    @GetMapping("/getanswerSyn")
     public List<Voice> getAnswer2() {
-        return voiceService.getAnswer2();
+        return voiceService.getAnswerSyn();
     }
 
 }
