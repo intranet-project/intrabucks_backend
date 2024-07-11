@@ -31,10 +31,10 @@ public interface BoardService {
 	Board_BoardDTO selectOneBoard(Long board_id);
 
 	//게시판 부서별 리스트 조회     
-	Board_BoardDTO selectBoardOfDepartment(Long dept_id);
+	List<Board> selectBoardOfDepartment(Long dept_id);
 
 	//게시판 제목 검색
-	Board_BoardDTO searchBoard(String keyword);
+	List<Board> searchBoard(String keyword);
 	
 	//게시판 삭제 
 	String deleteBoard(Long board_id);

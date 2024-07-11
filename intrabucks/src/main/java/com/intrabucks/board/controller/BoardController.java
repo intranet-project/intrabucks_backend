@@ -62,24 +62,24 @@ public class BoardController {
    }
    
    //게시판 하나만 조회
-   @PostMapping("/selectOneBoard/{board_id}")
+   @GetMapping("/selectOneBoard/{board_id}")
    public ResponseEntity<Board_BoardDTO> selectOneBoard(@PathVariable Long board_id){
 	   Board_BoardDTO board = boardService.selectOneBoard(board_id);   
 	   return ResponseEntity.ok(board);
    }
    
    //게시판 부서별 리스트 조회   
-   @PostMapping("/selectBoardOfDepartment/{dept_id}")
-   public ResponseEntity<Board_BoardDTO> selectBoardOfDepartment(@PathVariable Long dept_id){
-	   Board_BoardDTO board = boardService.selectBoardOfDepartment(dept_id);
-	   return ResponseEntity.ok(board);
+   @GetMapping("/selectBoardOfDepartment/{dept_id}")
+   public ResponseEntity<List<Board>> selectBoardOfDepartment(@PathVariable Long dept_id){
+	   List<Board> selctOneDeptList= boardService.selectBoardOfDepartment(dept_id);
+	   return ResponseEntity.ok(selctOneDeptList);
    }
    
    //게시판 제목 검색
-   @PostMapping("/searchBoard/{keyword}")
-   public ResponseEntity<Board_BoardDTO> searchBoard(@PathVariable String keyword){
-	   Board_BoardDTO board = boardService.searchBoard(keyword);
-	   return ResponseEntity.ok(board);
+   @GetMapping("/searchBoard/{keyword}")
+   public ResponseEntity<List<Board>> searchBoard(@PathVariable String keyword){
+	   List<Board> boardSearchList = boardService.searchBoard(keyword);
+	   return ResponseEntity.ok(boardSearchList);
    }
    
    //게시판 삭제 
