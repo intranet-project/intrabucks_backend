@@ -28,7 +28,7 @@ public interface ApprovalService {
 	ApprovalDocument_ApprovalDocumentDTO saveApproval(ApprovalDocument_ApprovalDocumentDTO approvalDocumentDTO);
 	
 	//결재 문서 리스트
-	List<ApprovalDocument> selectApprovalList();
+	List<ApprovalDocument> selectApprovalList(String empEmail);
 	
 	//결재 문서 하나 확인하기
 	ApprovalDocument_ApprovalDocumentDTO checkApproval(Long approval_id);
