@@ -4,13 +4,22 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.nio.file.Path;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.intrabucks.board.data.dto.reactdto.dto.Board_BoardDTO;
 import com.intrabucks.board.data.repository.BoardRepository;
@@ -36,7 +45,10 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	private DepartmentRepository departmentRepository; 
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardServiceImpl.class);
 
+	
 	// 게시판 생성
 	@Override
 	public Board_BoardDTO createBoard(Board_BoardDTO board_BoardDTO) {
@@ -159,31 +171,75 @@ public class BoardServiceImpl implements BoardService {
 
 	/**파일 업로드&파일 다운로드*/
 	//파일 업로드
-	private static final String UPLOAD_DIR = "src/main/resources/data/Boardfiles/";
+//	private static final String UPLOAD_DIR = "src/main/resources/data/Boardfiles/";
+//	
+//	@Override
+//	public Board_BoardDTO saveBoard(Board_BoardDTO boardDto, MultipartFile file) {
+//		String fileName = file.getOriginalFilename();
+//        try {
+//            Files.copy(file.getInputStream(), Paths.get(UPLOAD_DIR + fileName));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Board board = new Board();
+//        board.setBoardTitle(boardDto.getBoardTitle());
+//        board.setBoardContent(boardDto.getBoardContent());
+//        board.setBoardDate(new Date());
+//        board.setBoardFile(fileName);
+//        board.setEmployee(boardDto.getEmployee());
+//        board.setDepartment(boardDto.getDepartment());
+//        
+//        board = boardRepository.save(board);
+//        return new Board_BoardDTO(board.getBoardId(), board.getBoardTitle(), board.getBoardContent(),
+//                            board.getEmployee(), board.getBoardDate(), 
+//                            board.getBoardFile(), board.getDepartment());
+//	}
 	
-	@Override
-	public Board_BoardDTO saveBoard(Board_BoardDTO boardDto, MultipartFile file) {
-		String fileName = file.getOriginalFilename();
-        try {
-            Files.copy(file.getInputStream(), Paths.get(UPLOAD_DIR + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	// 파일이 저장될 경로
+    private static final String FILE_UPLOAD_PATH = "src/main/resources/data/files/";
+	
+	 //첨부파일 업로드
+		@Override
+		public Board_BoardDTO uploadFiles(Long boardID, MultipartFile file) {
+			logger.info("받은 approvalID: {}", boardID);
+	        logger.info("받은 파일: {}", file);
+			
+	        Board_BoardDTO boardDTO = new Board_BoardDTO();
+			
+	        // 게시판 엔티티 조회
+	        Board board = boardRepository.findById(boardID)
+	                .orElseThrow(() -> new EntityNotFoundException("Board not found"));
+			
+			// 첨부파일 DB 저장 및 파일 시스템에 저장
+			try {
+				 // 파일 시스템에 저장할 경로와 파일명 설정
+				Path filePath = Paths.get(FILE_UPLOAD_PATH + file.getOriginalFilename());
+	            Files.write(filePath, file.getBytes());
 
-        Board board = new Board();
-        board.setBoardTitle(boardDto.getBoardTitle());
-        board.setBoardContent(boardDto.getBoardContent());
-        board.setBoardDate(new Date());
-        board.setBoardFile(fileName);
-        board.setEmployee(boardDto.getEmployee());
-        board.setDepartment(boardDto.getDepartment());
-        
-        board = boardRepository.save(board);
-        return new Board_BoardDTO(board.getBoardId(), board.getBoardTitle(), board.getBoardContent(),
-                            board.getEmployee(), board.getBoardDate(), 
-                            board.getBoardFile(), board.getDepartment());
-	}
-
+	         // Board 엔티티에 파일 정보 설정
+	            board.setBoardFile(file.getOriginalFilename());
+	            boardDTO.setBoardFile(file.getOriginalFilename()); // DTO에도 파일명 설정
+	            
+	         // BoardDTO 객체 설정
+	            board.setBoardTitle(board.getBoardTitle());
+	            board.setBoardContent(board.getBoardContent());
+	            board.setEmployee(board.getEmployee());
+	            board.setBoardDate(board.getBoardDate());
+	            board.setDepartment(board.getDepartment());
+	            
+	         // 파일 관련 정보 저장
+	            boardRepository.save(board);
+	            
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException("파일 저장 중 오류 발생");
+			}
+		
+			
+		    return boardDTO;
+		}
+/**
 	//파일 다운로드
 	@Override
 	public byte[] downloadFile(Long boardId) {
@@ -200,4 +256,11 @@ public class BoardServiceImpl implements BoardService {
 	        }
 	        return null;
 	    }
+	    */
+
+		@Override
+		public byte[] downloadFile(Long boardId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }

@@ -91,6 +91,7 @@ public class BoardController {
    
    /**첨부파일 업로드&다운로드*/
    //첨부파일 업로드
+   /**
    @PostMapping("/uploadBoard")
    public ResponseEntity<Board_BoardDTO> uploadFile(@RequestParam("file") MultipartFile file,
                                                     @RequestParam("boardTitle") String boardTitle,
@@ -121,6 +122,16 @@ public class BoardController {
            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
        }
    }
+   */
+   
+// 파일 업로드
+	@PostMapping("/uploadFile/{boardID}")
+	public ResponseEntity<Board_BoardDTO> uploadFiles(@RequestBody MultipartFile file, @PathVariable Long boardID) {
+		System.err.println("");
+		Board_BoardDTO uploadFile = boardService.uploadFiles(boardID, file);
+		return ResponseEntity.ok(uploadFile);
+	}
+
    
    
    //첨부파일 다운로드

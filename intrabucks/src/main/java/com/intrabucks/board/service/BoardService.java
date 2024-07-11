@@ -40,10 +40,13 @@ public interface BoardService {
 	String deleteBoard(Long board_id);
 	
 	//파일 업로드
-	Board_BoardDTO saveBoard(Board_BoardDTO boardDto, MultipartFile file);
+	//Board_BoardDTO saveBoard(Board_BoardDTO boardDto, MultipartFile file);
 	
 	//파일 첨부파일
 	byte[] downloadFile(Long boardId);
+
+	// 파일 업로드
+	Board_BoardDTO uploadFiles(Long boardID, MultipartFile file);
 	
 	}
 
