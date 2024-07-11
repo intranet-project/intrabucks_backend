@@ -21,7 +21,7 @@ public interface Approval1Service {
 	public String createApproval1(Approval1_Approval1DTO approval1DTO); // 결재라인 생성(등록)
 	public Employee_EmployeeDTO sessionEmployee(String empEmail); //session 정보로 empId조회
 	public ApprovalDocument_ApprovalDocumentDTO selectOneApproval(Long documentTypeId);  // 문서ID조회
-	public Page<ApprovalDocument_ApprovalDocumentDTO> ListApproval(String title, PageRequest pageable); // 문서전체조회
+	public Page<ApprovalDocument_ApprovalDocumentDTO> ListApproval(String title, PageRequest pageable, String empEmail); // 문서전체조회
 	public Long updateApproval(ApprovalDocument_ApprovalDocumentDTO approvalDocument); // 문서반려(수정)
 	public AttachedFile_AttachedFileDTO downloadFile(Long fileId); // 파일 다운로드
 	

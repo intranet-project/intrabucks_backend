@@ -1,5 +1,7 @@
 package com.intrabucks.approval.data.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +21,9 @@ public interface ApprovalDocumentRepository extends JpaRepository<ApprovalDocume
 	
 	@Query("SELECT e FROM ApprovalDocument e WHERE LOWER(e.appDocTitle) LIKE LOWER(CONCAT('%', :title, '%'))")
 	Page<ApprovalDocument> findByAppDocTitleContainingIgnoreCase(String title, Pageable pageable);
+
+	//jwt로 내 기안함 조회
+	List<ApprovalDocument> findAllByEmployeeEmpEmail(String empEmail);
 	
 	
 

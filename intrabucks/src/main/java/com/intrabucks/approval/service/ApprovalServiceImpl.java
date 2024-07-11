@@ -195,8 +195,8 @@ public class ApprovalServiceImpl implements ApprovalService{
 	
 	//전자결재 리스트 (작성자가 올린 기안 문서함)
 	@Override
-	public List<ApprovalDocument> selectApprovalList() {
-		List<ApprovalDocument> approvalDocumentList = approvalDocumentRepository.findAll();
+	public List<ApprovalDocument> selectApprovalList(String empEmail) {
+		List<ApprovalDocument> approvalDocumentList = approvalDocumentRepository.findAllByEmployeeEmpEmail(empEmail);
 		return approvalDocumentList;
 	}
 	

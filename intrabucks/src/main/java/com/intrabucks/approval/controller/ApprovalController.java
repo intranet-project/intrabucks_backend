@@ -2,6 +2,8 @@ package com.intrabucks.approval.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,7 @@ import com.intrabucks.approval.service.Approval2Service;
 import com.intrabucks.approval.service.ApprovalService;
 import com.intrabucks.entity.ApprovalDocument;
 import com.intrabucks.entity.DocumentType;
+import com.intrabucks.jwt.JwtService;
 
 /**
  * 전자결재 기능 관련 Controller로, 문서 리스트, 문서 선택 등의 기능 구현
@@ -35,6 +38,9 @@ public class ApprovalController {
 	private ApprovalService approvalService;
 	@Autowired
 	private Approval2Service approval2Service; //wch
+	@Autowired
+	private JwtService jwtService;
+	
 	// FORM lIST 띄우기
 	@GetMapping("/selectFormList")
 	public ResponseEntity<List<DocumentType>> selectFormList() {
@@ -65,8 +71,8 @@ public class ApprovalController {
 	}
 
 	// 결재
-		@PostMapping("/saveApproval")
-		public ResponseEntity<ApprovalDocument_ApprovalDocumentDTO> saveApproval(
+	@PostMapping("/saveApproval")
+	public ResponseEntity<ApprovalDocument_ApprovalDocumentDTO> saveApproval(
 				@RequestBody ApprovalDocument_ApprovalDocumentDTO approvalDocumentDTO) {
 			ApprovalDocument_ApprovalDocumentDTO approval = approvalService.saveApproval(approvalDocumentDTO);
 			approval2Service.saveApprovalUser(approval); //wch
@@ -75,8 +81,10 @@ public class ApprovalController {
 	
 	//결재문서 리스트 확인
 	@GetMapping("/selectApprovalList")
-	public ResponseEntity<List<ApprovalDocument>> selectApprovalList(){
-		List<ApprovalDocument> approvalDocumentList = approvalService.selectApprovalList();
+	public ResponseEntity<List<ApprovalDocument>> selectApprovalList(HttpServletRequest request){
+        //아이디
+		String id = jwtService.getAuthUser(request);
+		List<ApprovalDocument> approvalDocumentList = approvalService.selectApprovalList(id);
 		return ResponseEntity.ok(approvalDocumentList);
 	}
 	

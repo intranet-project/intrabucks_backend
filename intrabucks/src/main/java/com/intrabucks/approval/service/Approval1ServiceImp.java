@@ -133,9 +133,9 @@ public class Approval1ServiceImp implements Approval1Service {
 
 	/**문서전체조회*/
 	@Override
-	public Page<ApprovalDocument_ApprovalDocumentDTO> ListApproval(String title, PageRequest pageable) {
+	public Page<ApprovalDocument_ApprovalDocumentDTO> ListApproval(String title, PageRequest pageable, String empEmail) {
 	
-
+		//페이징
 		int page = pageable.getPageNumber();
 	    if (page < 0) {
 	        page = 0;
