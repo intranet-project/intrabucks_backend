@@ -3,6 +3,7 @@ package com.intrabucks.store.service;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.intrabucks.employee.data.repository.EmployeeRepository;
@@ -23,6 +24,9 @@ public class ManagerServiceImpl implements ManagerService {
    private EmployeeRepository employeeRepository;
    
    @Autowired
+   PasswordEncoder passwordEncoder;
+   
+   @Autowired
    public ManagerServiceImpl(StoreRepository storeRepository, ManagerRepository managerRepository, EmployeeRepository employeeRepository) {
       this.storeRepository = storeRepository;
       this.managerRepository = managerRepository;
@@ -36,7 +40,7 @@ public class ManagerServiceImpl implements ManagerService {
       // 혹시 사원정보 바뀌었을 경우 교체
       Employee emp = manager.getEmployee();
       manager.setManagerName(emp.getEmpName());
-      manager.setManagerPassword(emp.getEmpPassword());
+      manager.setManagerPassword(passwordEncoder.encode(emp.getEmpPassword()));
       manager.setManagerEmail(emp.getEmpEmail());
       this.managerRepository.save(manager);
       Manager_ManagerDTO managerDto = new Manager_ManagerDTO();
@@ -47,7 +51,7 @@ public class ManagerServiceImpl implements ManagerService {
    @Override
    public Long createStore(ManagerRequestStoreDTO managerStoreDto) throws NoSuchElementException {
       String name = managerStoreDto.getManagerName();
-      String password = managerStoreDto.getManagerPassword();
+      String password = passwordEncoder.encode(managerStoreDto.getManagerPassword());
       String email = managerStoreDto.getManagerEmail();
       Employee employee = this.employeeRepository.findByEmpNameAndEmpPasswordAndEmpEmail(name, password, email).orElseThrow();
       
@@ -76,7 +80,7 @@ public class ManagerServiceImpl implements ManagerService {
       Manager manager = this.managerRepository.findById(managerDto.getManagerId()).orElseThrow();
 
       String name = managerDto.getManagerName();
-      String password = managerDto.getManagerPassword();
+      String password = passwordEncoder.encode(managerDto.getManagerPassword());
       String email = managerDto.getManagerEmail();
       Employee employee = this.employeeRepository.findByEmpNameAndEmpPasswordAndEmpEmail(name, password, email).orElseThrow();
       
