@@ -1,7 +1,6 @@
 package com.intrabucks.approval.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,24 +9,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovalDocumentDTO;
-import com.intrabucks.approval.data.dto.reactdto.AttachedFile_AttachedFileDTO;
-import com.intrabucks.approval.data.dto.reactdto.DocumentType_DocumentTypeDTO;
-import com.intrabucks.approval.data.reactdto.Approval1_Approval1DTO;
-import com.intrabucks.approval.service.Approval1Service;
-import com.intrabucks.employee.data.reactdto.Employee_EmployeeDTO;
-import com.intrabucks.entity.DocumentType;
-import com.intrabucks.quitter.data.reactdto.Quitter_QuitterDTO;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovalDocumentDTO;
+import com.intrabucks.approval.data.dto.reactdto.AttachedFile_AttachedFileDTO;
+import com.intrabucks.approval.data.reactdto.Approval1_Approval1DTO;
+import com.intrabucks.approval.service.Approval1Service;
+import com.intrabucks.employee.data.reactdto.Employee_EmployeeDTO;
+import com.intrabucks.jwt.JwtService;
 
 
 /**
@@ -46,8 +42,12 @@ public class Approval1Controller {
 	private final Approval1Service approval1Service;
 	
 	@Autowired
-	public Approval1Controller(Approval1Service approval1Service) {
+	private final JwtService jwtService;
+	
+	@Autowired
+	public Approval1Controller(Approval1Service approval1Service, JwtService jwtService) {
 		this.approval1Service = approval1Service;
+		this.jwtService = jwtService;
 	}
 
 	/*결재라인 생성(등록)*/
@@ -66,7 +66,8 @@ public class Approval1Controller {
 	  public ResponseEntity<Employee_EmployeeDTO> getSession(HttpServletRequest request) {
 	        System.out.println("***********************************************************************");
 		// 세션 없이 "id", "jisoo@example.com"으로만 테스트
-		    String id = "seongjin@example.com";
+	        String id = jwtService.getAuthUser(request);
+		    // String id = "seongjin@example.com";
 		    Employee_EmployeeDTO employee = approval1Service.sessionEmployee(id);
 		    return ResponseEntity.ok(employee);
 		  
