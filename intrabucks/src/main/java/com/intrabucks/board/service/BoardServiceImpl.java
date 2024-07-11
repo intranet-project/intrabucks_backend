@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.intrabucks.board.data.dto.reactdto.dto.Board_BoardDTO;
 import com.intrabucks.board.data.repository.BoardRepository;
+import com.intrabucks.employee.data.repository.DepartmentRepository;
 import com.intrabucks.entity.Board;
+import com.intrabucks.entity.Department;
 
 
 
@@ -30,6 +33,9 @@ import com.intrabucks.entity.Board;
 public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private DepartmentRepository departmentRepository; 
 
 	// 게시판 생성
 	@Override
@@ -88,8 +94,11 @@ public class BoardServiceImpl implements BoardService {
 	public Board_BoardDTO updateBoard(Long board_id, Board_BoardDTO board_BoardDTO) {
 		Board board = boardRepository.getById(board_id);
 
+		Board_BoardDTO boardDTO = new Board_BoardDTO();
+		
 		//dto 값 꺼내서 엔티티 세팅 후 저장
 		if (board != null) {
+			//게시판 업데이트
 			board.setBoardContent(board_BoardDTO.getBoardContent());
 			board.setBoardDate(board_BoardDTO.getBoardDate());
 			board.setBoardFile(board_BoardDTO.getBoardFile());
@@ -97,30 +106,55 @@ public class BoardServiceImpl implements BoardService {
 			board.setBoardTitle(board_BoardDTO.getBoardTitle());
 			board.setDepartment(board_BoardDTO.getDepartment());
 			board.setEmployee(board_BoardDTO.getEmployee());
-		
+			
+			//레포지터리 적용
+			Board boardSave = boardRepository.save(board);
+			
+			boardDTO.setBoardContent(boardSave.getBoardContent());
+			boardDTO.setBoardDate(boardSave.getBoardDate());
+			boardDTO.setBoardFile(boardSave.getBoardFile());
+			boardDTO.setBoardId(boardSave.getBoardId());
+			boardDTO.setBoardTitle(boardSave.getBoardTitle());
+			boardDTO.setDepartment(boardSave.getDepartment());
+			boardDTO.setEmployee(boardSave.getEmployee());
 		}
-		return null;
+		
+		return boardDTO;
 	}
 
 	// 게시판 상세보기
 	@Override
 	public Board_BoardDTO selectOneBoard(Long board_id) {
-		// TODO Auto-generated method stub
-		return null;
+		Board board = boardRepository.getById(board_id);
+		
+		Board_BoardDTO boardDTO = new Board_BoardDTO();
+		
+		boardDTO.setBoardContent(board.getBoardContent());
+		boardDTO.setBoardDate(board.getBoardDate());
+		boardDTO.setBoardFile(board.getBoardFile());
+		boardDTO.setBoardId(board.getBoardId());
+		boardDTO.setBoardTitle(board.getBoardTitle());
+		boardDTO.setDepartment(board.getDepartment());
+		boardDTO.setEmployee(board.getEmployee());
+
+		
+		return boardDTO;
 	}
 
 	// 게시판 부서별 조회
 	@Override
-	public Board_BoardDTO selectBoardOfDepartment(Long dept_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Board> selectBoardOfDepartment(Long dept_id) {
+		
+		List<Board> BoardList = boardRepository.findByDepartment(dept_id);
+		
+		return BoardList;
 	}
 
 	// 검색
 	@Override
-	public Board_BoardDTO searchBoard(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Board> searchBoard(String keyword) {
+	    List<Board> boardList = boardRepository.findByBoardTitleContaining(keyword);
+	    return boardList;
 	}
 
 	/**파일 업로드&파일 다운로드*/
