@@ -24,4 +24,5 @@ public class Approval_ApprovalDto {
     private Date approvalDate;	// 결재일자
     private String approvalPosition; // 직위
     private Long empId;	//직원ID
+    private String empName;
 }
