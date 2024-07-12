@@ -27,13 +27,13 @@ public class Board_BoardDTO {
 	
 	private String boardContent; //글 내용
 	
-	private Employee employee; //작성자 이메일 FK
+	//private Employee employee; //작성자 이메일 FK
 	
 	private Date boardDate; //게시일자
 
 	private String boardFile; //첨부파일
 
-	private Department department; //부서 FK
+	//private Department department; //부서 FK
 	
 
 }

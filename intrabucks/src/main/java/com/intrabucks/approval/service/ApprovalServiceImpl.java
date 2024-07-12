@@ -3,6 +3,7 @@ package com.intrabucks.approval.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -16,15 +17,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovalDocumentDTO;
+import com.intrabucks.approval.data.dto.reactdto.Approval_ApprovalDto;
 import com.intrabucks.approval.data.dto.reactdto.AttachedFile_AttachedFileDTO;
 import com.intrabucks.approval.data.dto.reactdto.DocumentType_DocumentTypeDTO;
 import com.intrabucks.approval.data.repository.ApprovalDocumentRepository;
 import com.intrabucks.approval.data.repository.ApprovalRepository;
 import com.intrabucks.approval.data.repository.AttachedFileRepository;
 import com.intrabucks.approval.data.repository.DocumentTypeRepository;
+import com.intrabucks.employee.data.repository.EmployeeRepository;
+import com.intrabucks.entity.Approval;
 import com.intrabucks.entity.ApprovalDocument;
 import com.intrabucks.entity.AttachedFile;
 import com.intrabucks.entity.DocumentType;
+import com.intrabucks.entity.Employee;
 
 /**
  * 전자결재 기능 관련 Service로, 문서 리스트, 문서 선택 등의 기능 구현
@@ -52,6 +57,9 @@ public class ApprovalServiceImpl implements ApprovalService{
 	
 	@Autowired
 	private ApprovalDocumentRepository approvalDocumentRepository;
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	
 	/**HTML 폼 관련 코드*/
 	//폼 리스트 뽑기
@@ -231,35 +239,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		//조회하기
 		ApprovalDocument oneApproval = approvalDocumentRepository.getById(approval_id);
-		/**
-		//엔티티에 수정된 값 세팅
-		ApprovalDocument updateApprovalDocument = new ApprovalDocument();
-		if (oneApproval != null) {
-			updateApprovalDocument.setApprovalPathString(approvalDocumentDTO.getApprovalPathString());
-			updateApprovalDocument.setApprovalStage(approvalDocumentDTO.getApprovalStage());
-			updateApprovalDocument.setContent(approvalDocumentDTO.getContent());
-			updateApprovalDocument.setCreatedAt(approvalDocumentDTO.getCreatedAt());
-			updateApprovalDocument.setDepartmentName(approvalDocumentDTO.getDepartmentName());
-			updateApprovalDocument.setDocumentId(approvalDocumentDTO.getDocumentId());
-			updateApprovalDocument.setDocumentType(approvalDocumentDTO.getDocumentType());
-			updateApprovalDocument.setEmployee(approvalDocumentDTO.getEmployee());
-			updateApprovalDocument.setTitle(approvalDocumentDTO.getTitle());
-			updateApprovalDocument.setUpdatedAt(approvalDocumentDTO.getUpdatedAt());
-		}
-		
-		//엔티티 -> dto로 객체 변환
-		ApprovalDocument_ApprovlaDocumentDTO updateApprovalDocumentDTO = new ApprovalDocument_ApprovlaDocumentDTO();
-		updateApprovalDocumentDTO.setApprovalPathString(updateApprovalDocument.getApprovalPathString());
-		updateApprovalDocumentDTO.setApprovalStage(updateApprovalDocument.getApprovalStage());
-		updateApprovalDocumentDTO.setContent(updateApprovalDocument.getContent());
-		updateApprovalDocumentDTO.setCreatedAt(updateApprovalDocument.getCreatedAt());
-		updateApprovalDocumentDTO.setDepartmentName(updateApprovalDocument.getDepartmentName());
-		updateApprovalDocumentDTO.setDocumentId(updateApprovalDocument.getDocumentId());
-		updateApprovalDocumentDTO.setDocumentType(updateApprovalDocument.getDocumentType());
-		updateApprovalDocumentDTO.setEmployee(updateApprovalDocument.getEmployee());
-		updateApprovalDocumentDTO.setTitle(updateApprovalDocument.getTitle());
-		updateApprovalDocumentDTO.setUpdatedAt(updateApprovalDocument.getUpdatedAt());
-		**/
 		return null;
 	
 	}
@@ -278,6 +257,39 @@ public class ApprovalServiceImpl implements ApprovalService{
 		}
 		
 		return result;	
+	}
+
+	//전자결재 리스트 (결재함)
+	@Override
+	public List<Approval> selectReadApprovalList(String empEmail) {
+		//이메일로 사람 조회
+		Employee emp = employeeRepository.findByEmpEmail(empEmail);
+		List<Approval> approvalList = null;
+		if (emp != null) {
+			//해당 사람의 id 값으로 approval 조회
+			approvalList = approvalRepository.findAllByEmployee(emp);
+		}
+		return approvalList;
+	}
+
+	//전자결재 상세보기 (결재함)
+	@Override
+	public Approval_ApprovalDto selectReadApprovalOne(Long id) {
+		Approval approval = approvalRepository.getById(id);
+		
+		Approval_ApprovalDto approvalDTO = new Approval_ApprovalDto();
+		if (approval != null) {
+			approvalDTO.setApprovalId(approval.getApprovalId());
+			approvalDTO.setApprovalStep(approval.getApprovalStep());
+			approvalDTO.setApprovalType(approval.getApprovalType());
+			approvalDTO.setApprovalResult(approval.getApprovalResult());
+			approvalDTO.setApprovalComment(approval.getApprovalComment());
+			approvalDTO.setApprovalDate(approval.getApprovalDate());
+			approvalDTO.setApprovalPosition(approval.getApprovalPosition());
+			approvalDTO.setEmpId(approval.getEmployee().getEmpId());
+			approvalDTO.setEmpName(approval.getEmployee().getEmpName());
+		}
+		return approvalDTO;
 	}
 
 }
