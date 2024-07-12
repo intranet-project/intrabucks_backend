@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.intrabucks.approval.data.dto.reactdto.ApprovalDocument_ApprovalDocumentDTO;
+import com.intrabucks.approval.data.dto.reactdto.Approval_ApprovalDto;
 import com.intrabucks.approval.data.dto.reactdto.AttachedFile_AttachedFileDTO;
 import com.intrabucks.approval.data.dto.reactdto.DocumentType_DocumentTypeDTO;
 import com.intrabucks.approval.service.Approval2Service;
 import com.intrabucks.approval.service.ApprovalService;
+import com.intrabucks.entity.Approval;
 import com.intrabucks.entity.ApprovalDocument;
 import com.intrabucks.entity.DocumentType;
 import com.intrabucks.jwt.JwtService;
@@ -79,7 +81,7 @@ public class ApprovalController {
 			return ResponseEntity.ok(approval);
 		}
 	
-	//결재문서 리스트 확인
+	//결재문서 리스트 확인 (기안 문서)
 	@GetMapping("/selectApprovalList")
 	public ResponseEntity<List<ApprovalDocument>> selectApprovalList(HttpServletRequest request){
         //아이디
@@ -88,11 +90,28 @@ public class ApprovalController {
 		return ResponseEntity.ok(approvalDocumentList);
 	}
 	
-	//결재문서 확인
+	//결재문서 확인 (기안 문서)
 	@GetMapping("/checkApproval/{approval_id}")
 	public ResponseEntity<ApprovalDocument_ApprovalDocumentDTO> checkApproval(@PathVariable Long approval_id){
 		ApprovalDocument_ApprovalDocumentDTO oneApproval = approvalService.checkApproval(approval_id);
 		return ResponseEntity.ok(oneApproval);
 	}
+	
+	//결재문서 리스트 확인 (받은 결재함)
+	@GetMapping("/selectReadApprovalList")
+	public ResponseEntity<List<Approval>> selectReadApprovalList(HttpServletRequest request){
+        //아이디
+		String id = jwtService.getAuthUser(request);
+		List<Approval> approvalList = approvalService.selectReadApprovalList(id);
+		return ResponseEntity.ok(approvalList);
+	}
+	
+	//결재문서 리스트 확인 (받은 결재함)
+		@GetMapping("/selectReadApprovalOne/{id}")
+		public ResponseEntity<Approval_ApprovalDto> selectReadApprovalOne(Long id){
+			Approval_ApprovalDto approval= approvalService.selectReadApprovalOne(id);
+			return ResponseEntity.ok(approval);
+		}
+	
 
 }

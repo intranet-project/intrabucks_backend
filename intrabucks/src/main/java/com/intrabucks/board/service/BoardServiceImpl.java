@@ -55,13 +55,13 @@ public class BoardServiceImpl implements BoardService {
 
 		Board board = new Board();
 
+		//board.setDepartment(board_BoardDTO.getDepartment());
 		board.setBoardContent(board_BoardDTO.getBoardContent());
 		board.setBoardDate(board_BoardDTO.getBoardDate());
 		board.setBoardFile(board_BoardDTO.getBoardFile());
 		board.setBoardId(board_BoardDTO.getBoardId());
 		board.setBoardTitle(board_BoardDTO.getBoardTitle());
-		board.setDepartment(board_BoardDTO.getDepartment());
-		board.setEmployee(board_BoardDTO.getEmployee());
+		//board.setEmployee(board_BoardDTO.getEmployee());
 
 		boardRepository.save(board);
 
@@ -72,8 +72,8 @@ public class BoardServiceImpl implements BoardService {
 		saveBoardDto.setBoardFile(board.getBoardFile());
 		saveBoardDto.setBoardId(board.getBoardId());
 		saveBoardDto.setBoardTitle(board.getBoardTitle());
-		saveBoardDto.setDepartment(board.getDepartment());
-		saveBoardDto.setEmployee(board.getEmployee());
+		//saveBoardDto.setDepartment(board.getDepartment());
+		//saveBoardDto.setEmployee(board.getEmployee());
 
 		return saveBoardDto;
 	}
@@ -116,8 +116,8 @@ public class BoardServiceImpl implements BoardService {
 			board.setBoardFile(board_BoardDTO.getBoardFile());
 			board.setBoardId(board_BoardDTO.getBoardId());
 			board.setBoardTitle(board_BoardDTO.getBoardTitle());
-			board.setDepartment(board_BoardDTO.getDepartment());
-			board.setEmployee(board_BoardDTO.getEmployee());
+			//board.setDepartment(board_BoardDTO.getDepartment());
+			//board.setEmployee(board_BoardDTO.getEmployee());
 			
 			//레포지터리 적용
 			Board boardSave = boardRepository.save(board);
@@ -127,8 +127,8 @@ public class BoardServiceImpl implements BoardService {
 			boardDTO.setBoardFile(boardSave.getBoardFile());
 			boardDTO.setBoardId(boardSave.getBoardId());
 			boardDTO.setBoardTitle(boardSave.getBoardTitle());
-			boardDTO.setDepartment(boardSave.getDepartment());
-			boardDTO.setEmployee(boardSave.getEmployee());
+			//boardDTO.setDepartment(boardSave.getDepartment());
+			//boardDTO.setEmployee(boardSave.getEmployee());
 		}
 		
 		return boardDTO;
@@ -146,8 +146,8 @@ public class BoardServiceImpl implements BoardService {
 		boardDTO.setBoardFile(board.getBoardFile());
 		boardDTO.setBoardId(board.getBoardId());
 		boardDTO.setBoardTitle(board.getBoardTitle());
-		boardDTO.setDepartment(board.getDepartment());
-		boardDTO.setEmployee(board.getEmployee());
+		//boardDTO.setDepartment(board.getDepartment());
+		//boardDTO.setEmployee(board.getEmployee());
 
 		
 		return boardDTO;
