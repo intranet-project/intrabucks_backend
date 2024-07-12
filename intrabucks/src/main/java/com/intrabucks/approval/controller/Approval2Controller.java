@@ -15,7 +15,7 @@ import com.intrabucks.approval.data.dto.reactdto.Approval_ApprovalDto;
 import com.intrabucks.approval.service.Approval2Service;
 
 @RestController
-@RequestMapping(value = "/api/v1/approval")
+@RequestMapping(value = "/api/v1/intrabucks/approval")
 public class Approval2Controller {
 	
 	@Autowired
