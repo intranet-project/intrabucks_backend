@@ -49,7 +49,7 @@ public class SalesServiceImpl implements SalesService {
 
 		for (Sales_SalesDTO dto : salesDTOList) {
 			Sales sales = new Sales();
-			Store store = storeRepository.findById(dto.getStoreId())
+			Store store = this.storeRepository.findById(dto.getStoreId())
 					.orElseThrow(() -> new RuntimeException("Store not found"));
 			sales.setStore(store);
 			sales.setSalesTotalAmount(dto.getSalesAmount());

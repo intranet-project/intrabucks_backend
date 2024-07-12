@@ -64,8 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/**/stock/**").hasAnyRole("EB", "DM", "LO") // 재고
 		.antMatchers("/api/**/store/**", "/api/**/manager/**").hasAnyRole("EB", "DM") // 매장
 		.antMatchers("/api/**/purchase/**").hasAnyRole("EB", "DM", "PD", "LO") // 발주
-		.antMatchers("/api/**/menu/**").hasAnyRole("RD") // 메뉴
-		.antMatchers("/api/**/customer/**").hasAnyRole("CS", "MD") // CRM
+		.antMatchers("/api/**/menu/**").hasAnyRole("EB", "RD") // 메뉴
+		.antMatchers("/api/**/customer/**").hasAnyRole("EB", "CS", "MD") // CRM
 		// 전자결재
 		.anyRequest().authenticated().and() // 협업
 		.exceptionHandling().accessDeniedHandler(accessDeniedHandler)

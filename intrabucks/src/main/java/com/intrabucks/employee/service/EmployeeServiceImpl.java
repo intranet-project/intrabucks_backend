@@ -37,8 +37,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public final DepartmentRepository departmentRepository;
 	public final QuitterRepository quitterRepository;
 
-	//@Autowired
-	//PasswordEncoder passwordEncoder;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, QuitterRepository quitterRepository ) {
 		this.employeeRepository = employeeRepository;
@@ -56,8 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		Employee employee = new Employee();
         employee.setEmpName(employeeDTO.getEmpName());
-//        employee.setEmpPassword(passwordEncoder.encode(employeeDTO.getEmpPassword()));
-        employee.setEmpPassword(employeeDTO.getEmpPassword());
+        employee.setEmpPassword(passwordEncoder.encode(employeeDTO.getEmpPassword()));
+//        employee.setEmpPassword(employeeDTO.getEmpPassword());
         employee.setEmpEmail(employeeDTO.getEmpEmail());
         employee.setEmpPhone(employeeDTO.getEmpPhone());
         employee.setEmpAddress(employeeDTO.getEmpAddress());
@@ -141,8 +141,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Department Code: " + deptCode));
 		
         employee.setEmpName(employeeDTO.getEmpName());
-//        employee.setEmpPassword(passwordEncoder.encode(employeeDTO.getEmpPassword()));
-        employee.setEmpPassword(employeeDTO.getEmpPassword());
+        employee.setEmpPassword(passwordEncoder.encode(employeeDTO.getEmpPassword()));
+//        employee.setEmpPassword(employeeDTO.getEmpPassword());
         employee.setEmpEmail(employeeDTO.getEmpEmail());
         employee.setEmpPhone(employeeDTO.getEmpPhone());
         employee.setEmpAddress(employeeDTO.getEmpAddress());
