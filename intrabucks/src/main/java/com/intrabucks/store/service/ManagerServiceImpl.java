@@ -53,7 +53,7 @@ public class ManagerServiceImpl implements ManagerService {
       String name = managerStoreDto.getManagerName();
       String password = passwordEncoder.encode(managerStoreDto.getManagerPassword());
       String email = managerStoreDto.getManagerEmail();
-      Employee employee = this.employeeRepository.findByEmpNameAndEmpPasswordAndEmpEmail(name, password, email).orElseThrow();
+      Employee employee = this.employeeRepository.findByEmpEmail(email);
       
       Store store = Store.builder()
             .storeName(managerStoreDto.getStoreName())
@@ -82,7 +82,7 @@ public class ManagerServiceImpl implements ManagerService {
       String name = managerDto.getManagerName();
       String password = passwordEncoder.encode(managerDto.getManagerPassword());
       String email = managerDto.getManagerEmail();
-      Employee employee = this.employeeRepository.findByEmpNameAndEmpPasswordAndEmpEmail(name, password, email).orElseThrow();
+      Employee employee = this.employeeRepository.findByEmpEmail(email);
       
       manager.setManagerName(name);
       manager.setManagerPassword(password);

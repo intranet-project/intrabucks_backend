@@ -46,7 +46,6 @@ public class SalesServiceImpl implements SalesService {
 
 		List<Sales_SalesDTO> salesDTOList = response.getBody();
 		List<Sales> salesList = new ArrayList<>();
-
 		for (Sales_SalesDTO dto : salesDTOList) {
 			Sales sales = new Sales();
 			Store store = this.storeRepository.findById(dto.getStoreId())
