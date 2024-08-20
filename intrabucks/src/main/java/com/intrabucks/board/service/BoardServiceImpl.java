@@ -58,6 +58,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Board_BoardDTO createBoard(Board_BoardDTO board_BoardDTO) {
 
+
 	    Board board = new Board();
 	    
 	    // email로 직원 조회 후, 직원이 있으면 해당 부서 조회하여 부서 정보 획득
@@ -93,6 +94,7 @@ public class BoardServiceImpl implements BoardService {
 	    saveBoardDto.setBoardId(board.getBoardId());
 	    saveBoardDto.setBoardTitle(board.getBoardTitle());
 	    saveBoardDto.setEmployee(board.getEmployee());
+
 
 	    return saveBoardDto;
 	}
@@ -136,6 +138,7 @@ public class BoardServiceImpl implements BoardService {
 			board.setBoardTitle(board_BoardDTO.getBoardTitle());
 			//board.setDepartment(board_BoardDTO.getDepartment());
 			board.setEmployee(board_BoardDTO.getEmployee());
+
 			
 			//레포지터리 적용
 			Board boardSave = boardRepository.save(board);
@@ -147,6 +150,7 @@ public class BoardServiceImpl implements BoardService {
 			boardDTO.setBoardTitle(boardSave.getBoardTitle());
 			//boardDTO.setDepartment(boardSave.getDepartment());
 			boardDTO.setEmployee(boardSave.getEmployee());
+
 		}
 		
 		return boardDTO;
@@ -166,6 +170,8 @@ public class BoardServiceImpl implements BoardService {
 		boardDTO.setBoardTitle(board.getBoardTitle());
 		//boardDTO.setDepartment(board.getDepartment());
 		boardDTO.setEmployee(board.getEmployee());
+
+	
 
 		
 		return boardDTO;
