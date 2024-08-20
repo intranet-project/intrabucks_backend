@@ -2,6 +2,8 @@ package com.intrabucks.board.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import com.intrabucks.board.service.BoardService;
 import com.intrabucks.entity.Board;
 import com.intrabucks.entity.Department;
 import com.intrabucks.entity.Employee;
+import com.intrabucks.jwt.JwtService;
 
 
 /**
@@ -39,10 +42,12 @@ public class BoardController {
    
    @Autowired
    private BoardService boardService;
+  
    
    //게시판 작성
    @PostMapping("/createBoard")
    public ResponseEntity<Board_BoardDTO> createBoard(@RequestBody Board_BoardDTO board_BoardDTO){
+	  
 	   Board_BoardDTO board = boardService.createBoard(board_BoardDTO);
 	   return ResponseEntity.ok(board);
    }

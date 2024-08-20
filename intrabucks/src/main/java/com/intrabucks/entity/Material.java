@@ -35,7 +35,7 @@ public class Material {
     @Column(name = "material_manager", nullable = false, length = 20)
     private String materialManager; // 담당자명
 
-    @Column(name = "material_contact", nullable = false, length = 12)
+    @Column(name = "material_contact", nullable = false)
     private String materialContact; // 연락처
 
     @Column(name = "material_price", nullable = false)
