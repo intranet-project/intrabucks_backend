@@ -30,4 +30,10 @@ public interface StockService {
 	
 	//재고 item 삭제 
 	String deleteOneStock(Long stock_id);
+	
+	//재고명 검색
+	List<Stock> selectStockListByProduct(String keyword);
+	
+	//매장명 검색
+	List<Stock> selectStockListByStore(String keyword);
 }
