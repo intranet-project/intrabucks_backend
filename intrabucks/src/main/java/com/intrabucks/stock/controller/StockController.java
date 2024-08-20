@@ -83,4 +83,20 @@ public class StockController {
     	
     }
  
+    //재고명 검색하기
+    @GetMapping("/selectStockListByProduct/{keyword}")
+    public ResponseEntity<List<Stock>> selectStockListByProduct(@PathVariable String keyword){
+    	List<Stock> selectList = stockService.selectStockListByProduct(keyword);
+		return ResponseEntity.ok(selectList);
+    }
+    
+    //매장명 검색하기
+    @GetMapping("/selectStockListByStore/{keyword}")
+    public ResponseEntity<List<Stock>> selectStockListByStore(@PathVariable String keyword){
+    	List<Stock> selectList = stockService.selectStockListByStore(keyword);
+		return ResponseEntity.ok(selectList);
+    }
+   
+    //엑셀 다운로드
+    
 }

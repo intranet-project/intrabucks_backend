@@ -33,7 +33,7 @@ public class Board_BoardDTO {
 
 	private String boardFile; //첨부파일
 
-	private Department department; //부서 FK
+	//private Department department; //부서 FK
 	
 
 }

@@ -101,6 +101,7 @@ public class StockServiceImpl implements StockService{
 		return stockOneItem;
 	}
 
+	//재고 내역 1개 삭제
 	@Override
 	public String deleteOneStock(Long stock_id) {
 		
@@ -116,6 +117,20 @@ public class StockServiceImpl implements StockService{
 		}
 		
 		return result;
+	}
+
+	//재고명으로 검색
+	@Override
+	public List<Stock> selectStockListByProduct(String keyword) {
+		List<Stock> selectList = stockRepository.findByMaterialMaterialNameContaining(keyword);
+		return selectList;
+	}
+
+	//매장명으로 검색
+	@Override
+	public List<Stock> selectStockListByStore(String keyword) {
+		List<Stock> selectList = stockRepository.findByStoreStoreNameContaining(keyword);
+		return selectList;
 	}
 	
 	

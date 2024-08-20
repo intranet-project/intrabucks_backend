@@ -43,7 +43,9 @@ public class BoardController {
    //게시판 작성
    @PostMapping("/createBoard")
    public ResponseEntity<Board_BoardDTO> createBoard(@RequestBody Board_BoardDTO board_BoardDTO){
+	   
 	   Board_BoardDTO board = boardService.createBoard(board_BoardDTO);
+	   
 	   return ResponseEntity.ok(board);
    }
    
